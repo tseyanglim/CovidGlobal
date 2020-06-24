@@ -1,0 +1,18 @@
+{
+	"model": "PolicyResponseFunction.mdl", 
+	"data": [
+		"CovidModelInputs - ConstantData.vdf"
+		], 
+	"payoff": "", 
+	"sensitivity": "", 
+	"optparm": "", 
+	"changes": [], 
+	"savelist": "", 
+	"senssavelist": "",
+	"submodparams": [
+		"Dread Factor in Risk Perception", "Discount Rate Annual", 
+		"Time to Upgrade Risk", "Time to Downgrade Risk", "Min Contact Fraction", 
+		"Sensitivity of Contact Reduction to Utility", "Fractional Value of Limited Activities"
+		], 
+	"timelimit": 60
+	}

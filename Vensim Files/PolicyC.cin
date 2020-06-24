@@ -1,0 +1,5 @@
+INITIAL TIME=0
+FINAL TIME=522
+Response Policy Time On=260
+Response Policy Weight[scuP]=1
+Sensitivity of Contact Reduction to Utility Policy=8

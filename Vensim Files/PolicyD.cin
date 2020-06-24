@@ -1,0 +1,7 @@
+INITIAL TIME=0
+FINAL TIME=522
+Weight Max in Test Goal=0.2
+New Testing Time=260
+Response Policy Time On=260
+Response Policy Weight[scuP]=0.2
+Sensitivity of Contact Reduction to Utility Policy=8

@@ -1,0 +1,10 @@
+*P
+NBLLFlow[Rgn,Series]/1
+*PF
+Excess Death Rate Error[Rgn]/-1
+*P
+SeriesErrorTerm[Rgn,Series]/-1
+*PF
+PriorErrs[Rgn,Priors]/-1
+*P
+InpAveErr/-1

@@ -1,0 +1,21 @@
+{
+	"datalist": {
+		"constant": "ConstantData", 
+		"flow": "FlowData", 
+		"form": "FormattedData", 
+		"test": "TestData"
+		},
+	"vdfname": "CovidModelInputs - ",
+	"vensimpath": "C:/Program Files (x86)/Vensim_v7/vensim.exe",
+	"smoothing": true,
+	"smparams": {
+		"mintestpoints": 6,
+		"skiplist": ["Brazil"],
+		"nrows": 199,
+		"windowlength": 11,
+		"datathreshold": 5,
+		"borrowlength": 7,
+		"smoothfactor": 0.67,
+		"distlength": 14
+		}
+	}

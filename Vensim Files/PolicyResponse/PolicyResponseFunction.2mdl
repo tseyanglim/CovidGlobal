@@ -1,0 +1,330 @@
+{UTF-8}
+Indicated Risk of Life Loss[Rgn]=
+	min ( 1, Perceived Hazard of Infection[Rgn] 
+	                  * Dread Factor in Risk Perception[Rgn] 
+	                  * PseudoCFR 
+	                  / Discount Rate per Day )
+	~	dmnl
+	~	Perceived expected oss of days of life, per day, due to the epidemic
+	|
+
+Test Input Step Size=
+	10^(-integer(Time/Step Frequency)*Step Frequency/Step Frequency)*MaxStepSize
+	~	 [0,0.001]
+	~		|
+
+MaxStepSize=
+	0.0003
+	~	
+	~		|
+
+Step Frequency=
+	250
+	~	
+	~		|
+
+Activities Allowed by Government[Rgn]  = 1
+	~	dmnl [0,1,0.01]
+	~	Activities government(s) in the Region allow under Covid response \
+		policies. 1 = no restrictions; 0 = full mandatory lockdown with all people \
+		to remain in their homes at all times (essential personnel excepted).
+	|
+
+Constant Data File 
+     :IS: 'CovidModelInputs - ConstantData.vdf'
+	~	dmnl
+	~		|
+
+Contacts Relative to Normal[Rgn]  = 
+        min ( Voluntary Reduction in Contacts[Rgn] , 
+             Activities Allowed by Government[Rgn] )
+	~	dmnl
+	~		|
+
+Days per Year  = 365
+	~	Day/Year
+	~		|
+
+Discount Rate Annual  = 0.03
+	~	1/Year [1e-05,0.2]
+	~		|
+
+Discount Rate per Day  = 
+        INITIAL( Discount Rate Annual 
+                  / Days per Year  )
+	~	1/Day
+	~		|
+
+Dread Factor in Risk Perception[Rgn]=
+	10
+	~	dmnl [0,1000]
+	~		|
+
+F[Rgn]  = 
+        Utility from Normal Activities[Rgn] 
+             / ( Utility from Limited Activities[Rgn] 
+                  + Utility from Normal Activities[Rgn] )
+	~	dmnl
+	~		|
+
+F0[Rgn]  = 
+        INITIAL( F[Rgn]  )
+	~	dmnl
+	~		|
+
+Fractional Value of Limited Activities  = 0.5
+	~	dmnl [0,1,0.01]
+	~		|
+
+Min Contact Fraction[Rgn]=
+	0.04
+	~	dmnl
+	~		|
+
+Perceived Hazard of Infection[Rgn]=
+	Test Input Base Perceived Hazard of Infection + (1-Test Input Base Perceived Hazard of Infection\
+		) * Test Input Step Size*PULSE TRAIN(Test Input Start Time,Test Input Duration , Step Frequency\
+		 , 1000 )
+	~	1/Day
+	~	PULSE(Test Input Start Time, Test Input Duration)
+	|
+
+Perceived Risk of Life Loss[Rgn]= INTEG (
+	 ( Indicated Risk of Life Loss[Rgn] 
+	                  - Perceived Risk of Life Loss[Rgn] ) 
+	                  / if then else ( Indicated Risk of Life Loss[Rgn] 
+	                            > Perceived Risk of Life Loss[Rgn] , 
+	                       Time to Upgrade Risk[Rgn] , 
+	                       Time to Downgrade Risk[Rgn] ),
+		 
+		Indicated Risk of Life Loss[Rgn])
+	~	dmnl
+	~		|
+
+PseudoCFR
+	~	dmnl
+	~		|
+
+Rgn:
+	Albania, Argentina, Armenia, Australia, Austria, Azerbaijan, Bahrain, Bangladesh, Belarus\
+		, Belgium, Bolivia, Bosnia, Bulgaria, Canada, Chile, Colombia, Croatia, Cuba, Denmark\
+		, Ecuador, ElSalvador, Estonia, Finland, France, Germany, Ghana, Greece, Hungary, Iceland\
+		, India, Indonesia, Iran, Ireland, Israel, Italy, Japan, Kazakhstan, Kenya, Kyrgyzstan\
+		, Latvia, Lithuania, Malaysia, Mexico, Morocco, Netherlands, NewZealand, Nigeria, NorthMacedonia\
+		, Norway, Pakistan, Panama, Peru, Philippines, Poland, Portugal, Qatar, Romania, Russia\
+		, SaudiArabia, Senegal, Serbia, Singapore, Slovakia, Slovenia, SouthAfrica, SouthKorea\
+		, Spain, Sweden, Switzerland, Thailand, Tunisia, Turkey, UAE, UK, Ukraine, USA
+	~	
+	~	Iran, Italy, USA, SouthKorea, France, Spain, Germany, Switzerland, UK \
+		Australia, Austria, Belgium, Brazil, Canada, France, Germany, Iran, \
+		Ireland, Israel,Italy, Netherlands, Norway, Portugal, Russia, SouthKorea, \
+		Spain, Sweden, Switzerland, Turkey, UK, USA Australia, Austria, Belgium, \
+		Brazil, Canada, Ecuador, France, Germany, India, Iran, Ireland, Israel, \
+		Italy, Japan, Mexico, Netherlands, Norway, Peru, Portugal, Russia, \
+		Singapore, SouthKorea, Spain, Sweden, Switzerland, Turkey, UK, USA
+	|
+
+Sensitivity of Contact Reduction to Utility[Rgn]=
+	15
+	~	dmnl
+	~		|
+
+Test Input Base Perceived Hazard of Infection=
+	0
+	~	dmnl
+	~		|
+
+Test Input Duration=
+	25
+	~	Day
+	~		|
+
+Test Input Start Time=
+	10
+	~	Day
+	~		|
+
+Time to Downgrade Risk[Rgn]=
+	60
+	~	Day
+	~		|
+
+Time to Upgrade Risk[Rgn]=
+	10
+	~	Day
+	~		|
+
+Utility from Limited Activities[Rgn]  = 
+        exp ( Sensitivity of Contact Reduction to Utility[Rgn] 
+                  * Fractional Value of Limited Activities )
+	~	dmnl
+	~		|
+
+Utility from Normal Activities[Rgn]  = 
+        exp ( Sensitivity of Contact Reduction to Utility[Rgn] 
+                  * ( 1
+                       - Perceived Risk of Life Loss[Rgn] ) )
+	~	dmnl
+	~		|
+
+Voluntary Reduction in Contacts[Rgn]=
+	F[Rgn] 
+	             / F0[Rgn] 
+	             * ( 1
+	                  - Min Contact Fraction[Rgn] ) 
+	             + Min Contact Fraction[Rgn]
+	~	dmnl
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 750
+	~	Day
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Day
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 1
+	~	Day [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.25
+	~	Day [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Indicated Risk of Life Loss,629,490,61,18,8,3,0,0,0,0,0,0
+10,2,Perceived Risk of Life Loss,825,490,67,31,3,131,0,0,0,0,0,0
+1,3,1,2,0,0,0,0,0,128,0,-1--1--1,,1|(717,490)|
+10,4,Time to Upgrade Risk,825,363,51,18,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,5,4,2,0,0,0,0,0,64,0,-1--1--1,,1|(825,413)|
+10,6,Discount Rate Annual,681,264,52,18,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+10,7,Min Contact Fraction,1321,484,44,18,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0
+10,8,Time to Downgrade Risk,822,580,61,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,9,8,2,0,0,0,0,0,64,0,-1--1--1,,1|(822,548)|
+10,11,Perceived Hazard of Infection,417,490,66,18,8,3,0,0,0,0,0,0
+10,13,F,1185,594,7,10,8,3,0,0,0,0,0,0
+10,14,Utility from Limited Activities,1065,672,63,18,8,3,0,0,0,0,0,0
+10,15,Utility from Normal Activities,1062,490,62,18,8,3,0,0,0,0,0,0
+10,16,Sensitivity of Contact Reduction to Utility,1061,590,77,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,17,14,13,1,0,0,0,0,128,0,-1--1--1,,1|(1149,636)|
+1,18,15,13,1,0,0,0,0,128,0,-1--1--1,,1|(1166,554)|
+10,19,Fractional Value of Limited Activities,1066,778,69,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,20,19,14,0,0,0,0,0,128,0,-1--1--1,,1|(1065,731)|
+1,21,16,15,0,0,0,0,0,128,0,-1--1--1,,1|(1061,547)|
+1,22,16,14,0,0,0,0,0,128,0,-1--1--1,,1|(1062,624)|
+10,23,Activities Allowed by Government,1493,702,65,18,8,3,0,0,0,0,0,0
+10,24,Contacts Relative to Normal,1502,592,65,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||255-0-0
+1,25,23,24,1,0,0,0,0,128,0,-1--1--1,,1|(1505,598)|
+1,26,2,15,0,0,0,0,0,128,0,-1--1--1,,1|(939,490)|
+10,27,F0,1317,676,12,10,8,3,0,0,0,0,0,0
+10,28,Voluntary Reduction in Contacts,1321,590,46,27,8,3,0,0,0,0,0,0
+1,29,28,24,0,0,0,0,0,128,0,-1--1--1,,1|(1395,590)|
+10,30,Discount Rate per Day,685,360,52,18,8,3,0,0,0,0,0,0
+1,31,30,1,0,0,0,0,0,128,0,-1--1--1,,1|(659,418)|
+1,32,6,30,0,0,0,0,0,128,1,-1--1--1,,1|(682,305)|
+10,33,Days per Year,798,272,52,10,8,131,0,0,0,0,0,0
+1,34,33,30,0,0,0,0,0,128,1,-1--1--1,,1|(752,307)|
+1,35,11,1,0,0,0,0,0,128,0,-1--1--1,,1|(518,490)|
+10,36,Dread Factor in Risk Perception,461,594,59,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,37,36,1,0,0,0,0,0,64,0,-1--1--1,,1|(538,545)|
+1,38,27,28,0,0,0,0,0,128,0,-1--1--1,,1|(1317,648)|
+1,39,13,28,0,0,0,0,0,128,0,-1--1--1,,1|(1226,592)|
+1,40,7,28,0,0,0,0,0,128,0,-1--1--1,,1|(1321,525)|
+1,41,13,27,0,0,0,0,0,128,1,-1--1--1,,1|(1242,629)|
+10,42,PseudoCFR,638,652,46,10,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||128-0-128
+1,43,42,1,0,0,0,0,0,128,0,-1--1--1,,1|(634,581)|
+10,49,Constant Data File,427,136,58,18,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,52,Time,631,301,29,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+12,54,0,178,178,154,154,6,135,0,1,-1,0,0,0,255-0-0,0-0-0,|12||0-0-0
+3.	Behavioral and policy response function (to be built; may be done in current model or in a stand-alone derivative): Changes in contact rate for a select group of countries (~5) in response to a step function with 3-4 weeks of peak transmission and back to none.
+10,55,Test Input Base Perceived Hazard of Infection,227,441,75,27,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||255-0-255
+10,56,Test Input Start Time,231,497,74,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||255-0-255
+10,57,Test Input Duration,238,549,35,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||255-0-255
+1,58,55,11,0,0,0,0,0,128,0,-1--1--1,,1|(319,464)|
+1,59,56,11,0,0,0,0,0,128,0,-1--1--1,,1|(321,493)|
+1,60,57,11,0,0,0,0,0,128,0,-1--1--1,,1|(310,525)|
+12,61,0,1162,232,229,171,3,188,0,0,1,0,0,0
+Contacts_&_Perceived_Haz
+12,62,0,1616,232,217,171,3,188,0,0,1,0,0,0
+Contacts_x_Perceived_Haz
+10,63,Test Input Step Size,431,384,55,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||255-0-255
+1,64,63,11,0,0,0,0,0,64,0,-1--1--1,,1|(424,430)|
+10,65,FINAL TIME,268,362,53,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,66,65,63,0,0,0,0,0,64,0,-1--1--1,,1|(341,371)|
+10,67,MaxStepSize,521,346,49,10,8,3,0,0,-1,0,0,0
+1,68,67,63,0,0,0,0,0,64,0,-1--1--1,,1|(491,358)|
+10,69,Time,367,311,29,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,70,69,63,0,0,0,0,0,64,0,-1--1--1,,1|(390,338)|
+10,71,Step Frequency,559,408,57,10,8,3,0,0,-1,0,0,0
+1,72,71,11,0,0,0,0,0,64,0,-1--1--1,,1|(501,441)|
+1,73,71,63,0,0,0,0,0,128,0,-1--1--1,,1|(502,397)|
+///---\\\
+:GRAPH Contacts_&_Perceived_Haz
+:TITLE Contacts & Perceived Hazard
+:SCALE
+:VAR Contacts Relative to Normal
+:SCALE
+:VAR Perceived Hazard of Infection
+
+:GRAPH Contacts_x_Perceived_Haz
+:TITLE Contacts x Perceived Hazard
+:X-AXIS Perceived Hazard of Infection
+:X-MIN 0
+:X-MAX 1
+:SCALE
+:VAR Contacts Relative to Normal
+:L<%^E!@
+1:PolicyResponsebs3.vdf
+1:PolicyResponseLowDread.vdf
+9:PolicyResponsebs3
+10:BS_main_3.out
+13:CovidModelInputs - ConstantData.vdf
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+4:Time
+5:Contacts Relative to Normal[Rgn]
+35:Date
+36:YYYY-MM-DD
+37:2019
+38:10
+39:15
+40:4
+41:0
+42:1
+24:0
+25:750
+26:750
+57:1
+54:0
+55:0
+59:0
+56:0
+58:0
+44:65001
+46:0
+45:1
+49:0
+50:0
+51:
+52:
+53:
+43:PolicyResponse
+47:PolicyResponse
+48:
+6:UK

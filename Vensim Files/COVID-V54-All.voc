@@ -1,0 +1,56 @@
+:OPTIMIZER=Powell
+:SENSITIVITY=Off
+:MULTIPLE_START=RRandom
+:RANDOM_NUMBER=Default
+:SEED=1
+:OUTPUT_LEVEL=On
+:TRACE=Off
+:MAX_ITERATIONS=1000
+:RESTART_MAX=20
+:PASS_LIMIT=2
+:FRACTIONAL_TOLERANCE=1e-05
+:TOLERANCE_MULTIPLIER=21
+:ABSOLUTE_TOLERANCE=1
+:SCALE_ABSOLUTE=1
+:VECTOR_POINTS=25
+:MCINITMETHOD=1
+:MCPAYOFFTYPE=0
+:MCRECORD=0
+:MCSCHEDULE=0
+:MCLIMIT=5000
+:MCBURNIN=800
+:MCNCHAINS=2
+:MCOUTLIER=0.05
+:MCGAMMA=0.2
+:MCEPSILON=0.01
+:MCDELTA=0.0001
+:MCJUMP=0.05
+:MCUPDATEPAIRS=2
+:MCXOVER=0.2
+:MCTEMP=1
+:MCFTEMP=1
+:MCCOOLING=1000
+1e-6<=Sensitivity to Weather<=3
+0.001<=dalp<=1
+0.001<=ialp<=1
+1e-06<=InputAve[PriorEndoAve]<=500
+0.001<=alpR[Rgn]<=1
+1e-6<=Base Fatality Rate for Unit Acuity[Rgn] <=0.01
+0.0001<=Baseline Daily Fraction Susceptible Seeking Tests[Rgn]<=0.01
+1e-6<=Confirmation Impact on Contact[Rgn]<=0.5
+2<=Covid Acuity Relative to Flu[Rgn]<=10
+0.1<=Dread Factor in Risk Perception[Rgn]<=4000
+1e-6<=Impact of Population Density on Hospital Availability[Rgn]<=1
+0.1<=Impact of Treatment on Fatality Rate[Rgn]<=0.8
+0.4<=Max COVID Hospitalization Fraction Tested[Rgn]<=0.8
+1e-06<=Min Contact Fraction[Rgn]<=0.4
+1e-6<=Multiplier Recent Infections to Test[Rgn]<=300
+1e-6<=Multiplier Transmission Risk For Asymptomatic[Rgn]<=1
+50<=Patient Zero Arrival Time[Rgn] <=160
+0.05<=Reference Force of Infection[Rgn] <=1.5
+1e-6<=Sensitivity of Fatality Rate to Acuity[Rgn]<=5
+1<=Sensitivity of Contact Reduction to Utility[Rgn] <=50
+10<=Time to Downgrade Risk[Rgn]<=200
+1<=Time to Upgrade Risk[Rgn]<=50
+0.4<=Total Asymptomatic Fraction[Rgn]<=0.7
+1e-6<=Weight on Reported Probability of Infection[Rgn]<=1
