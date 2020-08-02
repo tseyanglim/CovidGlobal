@@ -1,0 +1,54 @@
+{
+	"baserunname": "KSyn", 
+	"simsettings": {
+		"model": "CovidGlobal-Disaggregate-V56_EstimSynth.mdl", 
+		"data": [
+			"CovidModelInputs - TestData.vdf", 
+			"CovidModelInputs - FormattedData.vdf", 
+			"CovidModelInputs - FlowData.vdf", 
+			"CovidModelInputs - ConstantData.vdf",
+			"SyntheticData-V56-K-Update.vdf"
+			], 
+		"payoff": "PayoffFlowV54-Policy.vpd", 
+		"sensitivity": "", 
+		"optparm": "COVID-V56-All.voc", 
+		"changes": ["InitialInput2.out"], 
+		"savelist": "VarsToSaveV56.lst", 
+		"senssavelist": "VarsToSaveV56-short.lst"
+		},
+	"vensimpath": "C:/Users/Public/CovidProject/Toolbox/Vengine20200603/Vensim - vengine.exe", 
+	"countrylist": [
+		"Albania","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahrain","Bangladesh","Belarus","Belgium",
+		"Bolivia","Bosnia","Bulgaria","Canada","Chile","Colombia","CostaRica","Croatia","Cuba","Cyprus",
+		"CzechRepublic","Denmark","Ecuador","ElSalvador","Estonia","Ethiopia","Finland","France","Germany","Ghana",
+		"Greece","Hungary","Iceland","India","Indonesia","Iran","Ireland","Israel","Italy","Japan",
+		"Kazakhstan","Kenya","Kuwait","Kyrgyzstan","Latvia","Lithuania","Luxembourg","Malaysia","Maldives","Mexico",
+		"Morocco","Nepal","Netherlands","NewZealand","Nigeria","NorthMacedonia","Norway","Pakistan","Panama","Paraguay",
+		"Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","SaudiArabia","Senegal",
+		"Serbia","Singapore","Slovakia","Slovenia","SouthAfrica","SouthKorea","Spain","Sweden","Switzerland","Thailand",
+		"Tunisia","Turkey","UAE","UK","Ukraine","USA"
+		],
+	"droplist": {},
+	"genparams": ["dalp", "ialp","InputAve","Sensitivity to Weather"],
+	"scenariolist": ["Base.cin", "PolicyA.cin", "PolicyB.cin", "PolicyC.cin", "PolicyD.cin"],
+	"submodlist": [],
+	"sensvars": [],
+	"mccores": 1,
+	"mcsettings": {
+		"OPTIMIZER": "Off", 
+		"SENSITIVITY": "PAYOFF MCMC", 
+		"MULTIPLE_START": "RRandom", 
+		"RESTART_MAX": 1,
+		"FRACTIONAL_TOLERANCE": 1e-5,
+		"MCLIMIT": 1000000,
+		"MCINITMETHOD": 3,
+		"MCTEMP":1,
+		"MCBURNIN": 600000,
+		"MCNCHAINS": 2
+		},
+	"fractolfactor": 100,
+	"samplefrac": 0.002,
+	"threshold": 20, 
+	"iterlimit": 0,
+	"timelimit": 300
+	}

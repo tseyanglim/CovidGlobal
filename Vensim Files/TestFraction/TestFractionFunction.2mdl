@@ -1,0 +1,752 @@
+{UTF-8}
+Infection Input=
+	50
+	~	
+	~		|
+
+Test Input=
+	50
+	~	
+	~		|
+
+Average Fraction Infections Identified=
+	sum(Fraction Infections Identified[Rgn!])/ELMCOUNT(Rgn)
+	~	dmnl
+	~		|
+
+Testing Capacity Net of Post Mortem Tests[Rgn]=
+	Test Input Testing Capacity*Initial Population[Rgn]/100000
+	~	Person/Day
+	~		|
+
+Infection Rate[Rgn]=
+	Test Input Infection Rate*Initial Population[Rgn]/100000
+	~	Person/Day
+	~		|
+
+Fraction Infections Identified[Rgn]=
+	Positive Candidates Interested in Testing Poisson Subset[Rgn] 
+	             * ( 1
+	                  - Fraction Interseted not Correctly Tested[Rgn] )/Infection Rate[Rgn\
+		]
+	~	dmnl
+	~		|
+
+a[Rgn]  = 
+        XIDZ ( Potential Test Demand from Susceptible Population[Rgn] , 
+             Positive Candidates Interested in Testing Poisson Subset Adj[Rgn] , 
+             1)
+	~	dmnl
+	~	The coefficient for the first order term for Y=exp(-lambda(1-alpha))
+	|
+
+Additional Asymptomatic Relative to Symptomatic[Rgn]=
+	ZIDZ(Total Asymptomatic Fraction[Rgn]-exp ( - Covid Acuity[Rgn] ),1-Total Asymptomatic Fraction\
+		[Rgn])
+	~	dmnl
+	~	This is the solution to (x+p0)/(x+p0+p_rest)=T, where x is the additional \
+		asymptomatic as a fraction of symptomatic, p0 is probability of 0 given \
+		the poisson portion, and p_rest is the remainder of the poisson \
+		probablities, so p0+p_rest=1; T is the total asymptomatic fraction.
+	|
+
+Average Acuity of Correctly Tested[Rgn]  = 
+        Covid Acuity[Rgn] 
+             * XIDZ ( ( 1
+                       - Prob Missing Symptm[Rgn] 
+                            * Fraction Interested not Tested[Rgn] 
+                                 ^ 2) , 
+                  1
+                       - Fraction Interested not Tested[Rgn] , 
+                  2
+                       * Prob Missing Symptm[Rgn] )
+	~	dmnl
+	~	Averange number of symptoms among those tested. This is calculated by the \
+		following two equations: a=f*y+(1-f)*x, where a is the average acuity, y \
+		is average acuity among those not tested, x is average acuity among those \
+		tested, and f is fraction not tested. y=f*a*e (e being prob missing \
+		symptom) based on Rahmandad and Hu 2010, equation 2 (corrected version). \
+		Putting these together we find this equation. The last part of XIDZ uses \
+		L'Hopital's rule to calculate the ratio.
+	|
+
+b[Rgn]  = 
+        ZIDZ ( Testing on Living[Rgn] 
+                  - Positive Candidates Interested in Testing Poisson Subset Adj[Rgn]\
+		 
+                  - Potential Test Demand from Susceptible Population[Rgn] , 
+             Positive Candidates Interested in Testing Poisson Subset Adj[Rgn] )
+	~	dmnl
+	~	Equation coefficients for solving the equation that changes testing \
+		threshold (for ignoring/attending to symptoms) to match test supply with \
+		demand.
+	|
+
+cft[Rgn,p2]  = 
+        lnymix[Rgn,p2] ~~|
+cft[Rgn,p3]  = 
+        lnymix[Rgn,p3] 
+             - lnymix[Rgn,p2] ~~|
+cft[Rgn,p4]  = 
+        ( ln ( min ( 100, 
+                  Max ( 1e-06, 
+                       ZIDZ ( lnymix[Rgn,p4] 
+                                 - lnymix[Rgn,p2] , 
+                            lnymix[Rgn,p3] 
+                                 - lnymix[Rgn,p2] ) 
+                            / ln ( 2) ) ) ) )
+	~	dmnl
+	~		|
+
+Constant Data File 
+     :IS: 'CovidModelInputs - ConstantData.vdf'
+	~	dmnl
+	~		|
+
+Covid Acuity[Rgn]=
+	Flu Acuity 
+	             * Covid Acuity Relative to Flu[Rgn]
+	~	dmnl
+	~		|
+
+Covid Acuity Relative to Flu[Rgn]=
+	6
+	~	dmnl
+	~		|
+
+expnt : (p2-p4)
+	~	
+	~		|
+
+Extrapolated Estimator[Rgn]  = 
+        if then else ( Covid Acuity Relative to Flu[Rgn] 
+                  > 1, 
+             cft[Rgn,p2] 
+                  + cft[Rgn,p3] 
+                       * ( Covid Acuity Relative to Flu[Rgn] 
+                            - 1) 
+                            ^ cft[Rgn,p4] , 
+             lnymix[Rgn,p2] )
+	~	dmnl
+	~	Extrapolating to other values of ration in symptoms using the equation \
+		form: a(P-1)^b+c=lnymix. a,b,c are found solving for P values of 1,2, and \
+		3. Note that lnymix is itself a transformation of Probability of Missing \
+		Syptm
+	|
+
+Flu Acuity  = 1
+	~	dmnl
+	~		|
+
+Flu Acuity Relative to Covid[Rgn]=
+	Flu Acuity 
+	             / Covid Acuity[Rgn]
+	~	dmnl
+	~		|
+
+Fraction Interested not Tested[Rgn]=
+	1-ZIDZ(Total Test on Covid Patients[Rgn],Positive Candidates Interested in Testing Poisson Subset\
+		[Rgn])
+	~	dmnl
+	~	The fraction of covid positive, poisson part, that is not tested given the \
+		Prob Missing Symptm.This is calculated using the equation 2 in Rahmandad \
+		and Hu 2010, where "Fraction not tested" is equal to "P(TestPass)" given \
+		the different meanings of testing (one is testing to find defects, where \
+		passing means you did not catch errors in tasks and let it go; the other \
+		is missing symptoms in tests which lead to "TestPass" when somebody is not \
+		tested at all.
+	|
+
+Fraction Interseted not Correctly Tested[Rgn]  = 
+        1
+             - ( 1
+                  - Fraction Interested not Tested[Rgn] ) 
+                  * Sensitivity of COVID Test
+	~	dmnl
+	~	Fraction of those with covid-19 not correctly tested due to test supply \
+		limits or test sensitivity problems. This equations assumes test \
+		sensitivity is independent of acuity. Thus "(1-exp ( Covid Acuity * ( Prob \
+		Missing Symptm[Rgn] - 1) )" is fraction not tested due to test treshold, 1 \
+		minus that are those tested, and sensitivity determines the fraction of \
+		those tests that are reliable/correct (focus is on false negatives, as RNA \
+		based tests have very low false positivies).
+	|
+
+Fraction of Additional Symptomatic[Rgn]=
+	Additional Asymptomatic Relative to Symptomatic[Rgn]/(1+Additional Asymptomatic Relative to Symptomatic\
+		[Rgn])
+	~	dmnl
+	~		|
+
+Fraction Seeking Test[Rgn]=
+	1
+	~	dmnl
+	~	min ( 1, Perceived Risk of Life Loss[Rgn] / Cost of Test Compared to Life Value )
+		
+		( 1
+		             - exp ( - Perceived Risk of Life Loss[Rgn] 
+		                       * Sensitivity of Test Demand To Perceived Risk ) )
+	|
+
+Incubation Period  = 5.6
+	~	Day
+	~		|
+
+Indicated fraction negative demand tested[Rgn]=
+	1-exp ( Flu Acuity 
+	                  * ( Prob Missing Symptm[Rgn] 
+	                       - 1) )
+	~	dmnl
+	~		|
+
+Indicated fraction positive demand tested[Rgn]=
+	1-exp ( Covid Acuity[Rgn] 
+	                  * ( Prob Missing Symptm[Rgn] 
+	                       - 1) )
+	~	dmnl
+	~		|
+
+Initial Population[Rgn]  = GET VDF CONSTANTS(Constant Data File , 
+                'DataConstants[Rgn]', 
+                1)
+	~	Person
+	~	99,1;99,1;
+	|
+
+lnymix[Rgn,expnt]  = 
+        - ln ( Max ( 1e-06, 
+                  1
+                       - Ymix[Rgn,expnt] ) )
+	~	dmnl
+	~		|
+
+lnymix 0[Rgn,expnt]  = 
+        - ln ( Max ( 1e-06, 
+                  1
+                       - Ymix[Rgn,expnt] ) )
+	~	dmnl
+	~		|
+
+Multiplier Recent Infections to Test[Rgn]=
+	45
+	~	dmnl
+	~		|
+
+Onset to Detection Time  = 5
+	~	Day
+	~		|
+
+Poisson Subset Reaching Test Gate[Rgn]=
+	Reaching Testing Gate[Rgn]/(1+Additional Asymptomatic Relative to Symptomatic[Rgn])
+	~	Person/Day
+	~		|
+
+Positive Candidates Interested in Testing Poisson Subset[Rgn]=
+	Poisson Subset Reaching Test Gate[Rgn]*Fraction Seeking Test[Rgn]
+	~	Person/Day
+	~	The max(0.001*...,) is included for robustness of testing sector.
+	|
+
+Positive Candidates Interested in Testing Poisson Subset Adj[Rgn]  = 
+        Max ( 0.001
+                  * Potential Test Demand from Susceptible Population[Rgn] , 
+             Positive Candidates Interested in Testing Poisson Subset[Rgn] )
+	~	Person/Day
+	~		|
+
+Positive Tests of Infected[Rgn]=
+	Positive Candidates Interested in Testing Poisson Subset[Rgn] 
+	             * ( 1
+	                  - Fraction Interseted not Correctly Tested[Rgn] )
+	~	Person/Day
+	~		|
+
+Potential Test Demand from Susceptible Population[Rgn]=
+	Initial Population[Rgn] 
+	             * Reference Daily Fraction Susceptible Seeking Tests[Rgn] 
+	             *  Fraction Seeking Test[Rgn] 
+	             + Multiplier Recent Infections to Test[Rgn] * Recent Detected Infections\
+		[Rgn]^Sensitivity of Test Demand To Perceived Risk[Rgn]
+	~	Person/Day
+	~		|
+
+Prob Missing Symptm[Rgn]  = 
+        Max ( 0, 
+             ln ( Y[Rgn] ) 
+                  / Flu Acuity 
+                  + 1)
+	~	dmnl
+	~	The probability of missing symptoms in testing, assuming a poisson \
+		distribution for symptoms with the given mean for flu and covid19, to \
+		match test supply and demand. This is coming from the solution to the \
+		extrapolated Prob Missing Sympms which used the reverse of this \
+		transformation, i.e. y=exp(-acuity*(1-Pmissing)) and extrapolates that \
+		using y(p)=a+b*p^c, measured for 3 values of p=1,2 and 3 to estimate a,b, \
+		and c.
+	|
+
+Reaching Testing Gate[Rgn]= 
+	DELAY N(Infection Rate[Rgn], (Incubation Period + Onset to Detection Time)/2 , Infection Rate\
+		[Rgn], 2)
+	~	Person/Day
+	~		|
+
+Recent Detected Infections[Rgn]=
+	SMOOTHI(Positive Tests of Infected[Rgn],Time to Respond with Tests,0)
+	~	Person/Day
+	~		|
+
+Reference Daily Fraction Susceptible Seeking Tests[Rgn]=
+	0.001
+	~	1/Day
+	~		|
+
+Rgn:
+	Albania, Argentina, Armenia, Australia, Austria, Azerbaijan, Bahrain, Bangladesh, Belarus\
+		, Belgium, Bolivia, Bosnia, Bulgaria, Canada, Chile, Colombia, CostaRica, Croatia, \
+		Cuba, CzechRepublic, Denmark, Ecuador, ElSalvador, Estonia, Ethiopia, Finland, France\
+		, Germany, Ghana, Greece, Hungary, Iceland, India, Indonesia, Iran, Ireland, Israel\
+		, Italy, Japan, Kazakhstan, Kenya, Kuwait, Kyrgyzstan, Latvia, Lithuania, Luxembourg\
+		, Malaysia, Maldives, Mexico, Morocco, Nepal, Netherlands, NewZealand, Nigeria, NorthMacedonia\
+		, Norway, Pakistan, Panama, Paraguay, Peru, Philippines, Poland, Portugal, Qatar, Romania\
+		, Russia, SaudiArabia, Senegal, Serbia, Singapore, Slovakia, Slovenia, SouthAfrica,\
+		 SouthKorea, Spain, Sweden, Switzerland, Thailand, Tunisia, Turkey, UAE, UK, Ukraine\
+		, USA
+	~	
+	~	Iran, Italy, USA, SouthKorea, France, Spain, Germany, Switzerland, UK \
+		Australia, Austria, Belgium, Brazil, Canada, France, Germany, Iran, \
+		Ireland, Israel,Italy, Netherlands, Norway, Portugal, Russia, SouthKorea, \
+		Spain, Sweden, Switzerland, Turkey, UK, USA Australia, Austria, Belgium, \
+		Brazil, Canada, Ecuador, France, Germany, India, Iran, Ireland, Israel, \
+		Italy, Japan, Mexico, Netherlands, Norway, Peru, Portugal, Russia, \
+		Singapore, SouthKorea, Spain, Sweden, Switzerland, Turkey, UK, USA
+	|
+
+Sensitivity of COVID Test  = 0.7
+	~	dmnl
+	~		|
+
+Sensitivity of Test Demand To Perceived Risk[Rgn]=
+	1
+	~	dmnl
+	~		|
+
+Symptomatic Fraction in Poisson[Rgn]= INITIAL(
+	1
+	             - exp ( - Covid Acuity[Rgn] ))
+	~	dmnl
+	~		|
+
+Symptomatic Fraction Negative[Rgn]= INITIAL(
+	1
+	             - exp ( - Flu Acuity ))
+	~	dmnl
+	~		|
+
+t3[Rgn]  = 
+        ( -9
+             * b[Rgn] 
+             + 1.7321
+                  * Sqrt ( 4
+                            * a[Rgn] 
+                                 ^ 3
+                            + 27
+                                 * b[Rgn] 
+                                      ^ 2) ) 
+             ^ ( 1
+                  / 3)
+	~	dmnl
+	~		|
+
+Test Input Infection Rate=
+	0.001*exp(Infection Input/10)
+	~	Person/year [0,100]
+	~	Tests per 100K people per day
+	|
+
+Test Input Testing Capacity=
+	0.001*exp(Test Input/10)
+	~	Person/Day [0,100]
+	~		|
+
+Testing Demand[Rgn]=
+	Positive Candidates Interested in Testing Poisson Subset[Rgn] 
+	             * Symptomatic Fraction in Poisson[Rgn] 
+	             + Potential Test Demand from Susceptible Population[Rgn] 
+	                  *Symptomatic Fraction Negative[Rgn]
+	~	Person/Day
+	~		|
+
+Testing on Living[Rgn]  = 
+        min ( Testing Capacity Net of Post Mortem Tests[Rgn] , 
+             Testing Demand[Rgn] )
+	~	Person/Day
+	~		|
+
+Tests on Negative Patients[Rgn]=
+	Testing on Living[Rgn]*ZIDZ(Indicated fraction negative demand tested[Rgn]*Potential Test Demand from Susceptible Population\
+		[Rgn],Indicated fraction negative demand tested[Rgn]*Potential Test Demand from Susceptible Population\
+		[Rgn]+Indicated fraction positive demand tested[Rgn]*Positive Candidates Interested in Testing Poisson Subset\
+		[Rgn])
+	~	Person/Day
+	~		|
+
+Time to Respond with Tests=
+	5
+	~	Day
+	~		|
+
+Total Asymptomatic Fraction[Rgn]=
+	0.5
+	~	dmnl
+	~	Asymptomatic Fractio of COVID patients
+	|
+
+Total Test on Covid Patients[Rgn]=
+	Max(0,min(Positive Candidates Interested in Testing Poisson Subset[Rgn],Testing on Living\
+		[Rgn]-Tests on Negative Patients[Rgn]))
+	~	Person/Day
+	~		|
+
+TstSts : Tested,Notest
+	~	
+	~		|
+
+Y[Rgn]  = 
+        min ( 1, 
+             Max ( 1e-06, 
+                  1
+                       - exp ( - Extrapolated Estimator[Rgn] ) ) )
+	~	dmnl
+	~	Max(1e-06,if then else(Exponent Symptm Density<=2,Ymix[Rgn,p2],if then \
+		else(Exponent Symptm Density<=3,Ymix[Rgn,p2]*(3-Exponent Symptm \
+		Density)+Ymix[Rgn,p3]*(Exponent Symptm Density-2),if then else(Exponent \
+		Symptm Density<=4,Ymix[Rgn,p3]*(4-Exponent Symptm \
+		Density)+Ymix[Rgn,p4]*(Exponent Symptm Density-3),Ymix[Rgn,p4]))))
+	|
+
+Ymix[Rgn,p2]  = 
+        - b[Rgn] 
+             / ( 1
+                  + a[Rgn] ) ~~|
+Ymix[Rgn,p3]  = 
+        ( Sqrt ( a[Rgn] 
+                  ^ 2
+                  - 4
+                       * b[Rgn] ) 
+             - a[Rgn] ) 
+             / 2 ~~|
+Ymix[Rgn,p4]  = 
+        ( -0.87358
+             * a[Rgn] ) 
+             / t3[Rgn] 
+             + 0.38157
+                  * t3[Rgn]
+	~	dmnl
+	~	solution to the equation for relative symptom levels of 1,2, and 3 between \
+		corona and common flu. These are used to in/extrapolate for other values
+	|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 80
+	~	Day
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 50
+	~	Day
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 1
+	~	Day [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.25
+	~	Day [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,70,0
+12,1,0,444,325,131,131,6,135,0,3,-1,0,0,0,255-0-0,0-0-0,|12||255-0-0,0,0,0,0,0,0
+1.	Screening function (to be built; requires a new model to calculate): a contour plot showing fraction of covid-positive tested as a function of 1) fraction of population covid positive and 2) Test rate
+10,2,Potential Test Demand from Susceptible Population,1816,501,84,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,3,Fraction Seeking Test,1808,614,49,18,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,4,3,2,0,0,0,0,0,128,0,-1--1--1,,1|(1810,568)|
+10,5,Reference Daily Fraction Susceptible Seeking Tests,2021,627,75,27,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,6,5,2,0,0,0,0,0,128,0,-1--1--1,,1|(1924,567)|
+10,7,Sensitivity of Test Demand To Perceived Risk,1853,269,83,27,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,8,Covid Acuity,1677,327,46,10,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,9,Flu Acuity,1564,375,36,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,10,Covid Acuity Relative to Flu,1226,524,57,18,8,130,0,1,0,0,0,0,128-128-128,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,11,a,952,593,7,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,12,b,956,390,7,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,13,t3,1082,590,9,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,14,11,13,0,0,0,0,0,64,0,-1--1--1,,1|(1009,591)|
+1,15,12,13,1,0,0,0,0,64,0,-1--1--1,,1|(1112,437)|
+10,16,Y,1118,784,7,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,17,Prob Missing Symptm,789,792,49,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,18,Testing on Living,1495,518,39,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,19,Positive Candidates Interested in Testing Poisson Subset,1619,608,74,27,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,20,Fraction Interseted not Correctly Tested,958,1050,73,18,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,21,Average Acuity of Correctly Tested,1059,824,65,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,22,17,21,1,0,0,0,0,128,0,-1--1--1,,1|(950,752)|
+10,23,Ymix,952,645,19,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,24,11,23,0,0,0,0,0,64,0,-1--1--1,,1|(952,612)|
+1,25,12,23,1,0,0,0,0,64,0,-1--1--1,,1|(780,525)|
+1,26,13,23,1,0,0,0,0,64,0,-1--1--1,,1|(1040,621)|
+1,27,3,19,0,0,0,0,0,128,0,-1--1--1,,1|(1732,611)|
+10,28,lnymix,973,719,23,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,29,23,73,1,0,0,0,0,64,0,-1--1--1,,1|(947,672)|
+10,30,Extrapolated Estimator,1112,704,47,18,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,31,30,16,0,0,0,0,0,64,0,-1--1--1,,1|(1114,741)|
+1,32,10,30,0,0,0,0,0,64,0,-1--1--1,,1|(1172,608)|
+1,33,28,30,0,0,0,0,0,64,0,-1--1--1,,1|(1023,713)|
+10,34,Testing Demand,1628,498,60,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,35,34,18,0,0,0,0,0,128,0,-1--1--1,,1|(1557,508)|
+1,36,2,34,0,0,0,0,0,64,0,-1--1--1,,1|(1716,499)|
+1,37,19,34,0,0,0,0,0,64,0,-1--1--1,,1|(1623,551)|
+10,38,Reaching Testing Gate,1112,241,47,18,8,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,39,Testing Capacity Net of Post Mortem Tests,1435,447,78,18,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,40,39,18,0,0,0,0,0,128,0,-1--1--1,,1|(1460,477)|
+10,41,Testing on Living,1018,354,43,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,42,41,12,1,0,0,0,0,128,0,-1--1--1,,1|(966,365)|
+10,43,Potential Test Demand from Susceptible Population,872,518,89,27,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,44,43,12,1,0,0,0,0,128,0,-1--1--1,,1|(908,449)|
+10,45,Covid Acuity,938,856,55,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,46,45,21,1,0,0,0,0,128,0,-1--1--1,,1|(993,870)|
+10,47,Flu Acuity,610,742,45,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,48,47,17,1,0,0,0,0,128,0,-1--1--1,,1|(705,772)|
+10,49,Y,778,691,16,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,50,49,17,1,0,0,0,0,128,0,-1--1--1,,1|(786,734)|
+1,51,43,11,1,0,0,0,0,128,0,-1--1--1,,1|(908,565)|
+10,52,Covid Acuity Relative to Flu,1732,164,52,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,53,Positive Candidates Interested in Testing Poisson Subset,614,1118,79,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,54,Flu Acuity Relative to Covid,1455,317,62,18,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,55,Total Asymptomatic Fraction,1542,148,72,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,56,Symptomatic Fraction in Poisson,1727,395,71,18,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,57,8,58,0,0,0,0,0,128,0,-1--1--1,,1|(1632,299)|
+10,58,Additional Asymptomatic Relative to Symptomatic,1549,248,84,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,59,56,34,0,0,0,0,0,128,0,-1--1--1,,1|(1678,445)|
+1,60,8,56,0,0,0,0,0,128,1,-1--1--1,,1|(1694,351)|
+10,61,Sensitivity of COVID Test,800,1077,46,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,62,61,20,0,0,0,0,0,64,0,-1--1--1,,1|(858,1067)|
+10,63,Fraction Interested not Tested,963,957,68,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,64,63,20,0,0,0,0,0,64,0,-1--1--1,,1|(961,996)|
+1,65,63,21,0,0,0,0,0,128,0,-1--1--1,,1|(1006,896)|
+10,66,cft,1035,763,10,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,67,28,66,1,0,0,0,0,128,0,-1--1--1,,1|(990,740)|
+1,68,66,30,0,0,0,0,0,128,0,-1--1--1,,1|(1060,743)|
+1,69,9,8,0,0,0,0,0,128,0,-1--1--1,,1|(1613,353)|
+1,70,52,8,0,0,0,0,0,128,0,-1--1--1,,1|(1705,242)|
+1,71,8,54,0,0,0,0,0,128,0,-1--1--1,,1|(1580,322)|
+1,72,9,54,0,0,0,0,0,128,0,-1--1--1,,1|(1523,353)|
+10,73,lnymix 0,912,699,30,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,74,23,28,0,0,0,0,0,64,0,-1--1--1,,1|(960,675)|
+10,75,Positive Candidates Interested in Testing Poisson Subset Adj,1026,507,74,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,76,75,12,0,0,0,0,0,64,0,-1--1--1,,1|(989,445)|
+1,77,75,11,0,0,0,0,0,64,0,-1--1--1,,1|(985,553)|
+1,78,19,75,1,0,0,0,0,64,0,-1--1--1,,1|(1314,610)|
+1,79,43,75,0,0,0,0,0,128,0,-1--1--1,,1|(949,512)|
+10,80,Total Test on Covid Patients,768,947,54,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,81,Tests on Negative Patients,580,935,65,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,82,Testing on Living,500,1069,43,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,83,Indicated fraction negative demand tested,631,853,64,27,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,84,17,83,0,0,0,0,0,128,0,-1--1--1,,1|(725,816)|
+1,85,47,83,0,0,0,0,0,128,0,-1--1--1,,1|(616,782)|
+1,86,83,81,0,0,0,0,0,128,0,-1--1--1,,1|(606,892)|
+10,87,Potential Test Demand from Susceptible Population,434,992,89,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,88,87,81,0,0,0,0,0,128,0,-1--1--1,,1|(511,961)|
+1,89,81,80,0,0,0,0,0,128,0,-1--1--1,,1|(672,940)|
+1,90,82,80,0,0,0,0,0,128,0,-1--1--1,,1|(627,1010)|
+1,91,80,63,0,0,0,0,0,128,0,-1--1--1,,1|(851,950)|
+1,92,53,63,0,0,0,0,0,128,0,-1--1--1,,1|(791,1035)|
+1,93,53,80,0,0,0,0,0,128,0,-1--1--1,,1|(689,1033)|
+10,94,Indicated fraction positive demand tested,787,865,62,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,95,45,94,0,0,0,0,0,128,0,-1--1--1,,1|(873,859)|
+1,96,17,94,0,0,0,0,0,128,0,-1--1--1,,1|(788,817)|
+1,97,94,81,0,0,0,0,0,128,0,-1--1--1,,1|(685,898)|
+1,98,53,81,0,0,0,0,0,128,0,-1--1--1,,1|(597,1028)|
+10,99,Symptomatic Fraction Negative,1584,431,65,18,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,100,99,34,0,0,0,0,0,128,0,-1--1--1,,1|(1604,462)|
+10,101,Testing on Living,430,891,43,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,102,101,81,0,0,0,0,0,128,0,-1--1--1,,1|(488,907)|
+10,103,Recent Detected Infections,2012,245,57,32,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,104,Time to Respond with Tests,2133,175,63,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,105,104,103,0,0,0,0,0,64,0,-1--1--1,,1|(2090,199)|
+1,106,103,2,0,0,0,0,0,128,0,-1--1--1,,1|(1916,369)|
+10,107,Multiplier Recent Infections to Test,2067,322,61,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,108,107,2,0,0,0,0,0,64,0,-1--1--1,,1|(1953,402)|
+1,109,120,2,0,0,0,0,0,64,0,-1--1--1,,1|(1942,496)|
+1,110,55,58,0,0,0,0,0,128,0,-1--1--1,,1|(1544,186)|
+1,111,7,2,0,0,0,0,0,128,0,-1--1--1,,1|(1835,378)|
+10,112,Poisson Subset Reaching Test Gate,1221,336,73,18,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,113,112,19,1,0,0,0,0,128,0,-1--1--1,,1|(1341,487)|
+10,114,Fraction of Additional Symptomatic,1407,186,48,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,115,58,114,0,0,0,0,0,128,0,-1--1--1,,1|(1477,216)|
+10,116,Positive Tests of Infected,1963,165,57,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,117,116,103,0,0,0,0,0,128,0,-1--1--1,,1|(1979,191)|
+10,118,Test Input Testing Capacity,1376,379,64,18,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-255,0,0,0,0,0,0
+1,119,118,39,0,0,0,0,0,128,0,-1--1--1,,1|(1400,407)|
+10,120,Initial Population,2030,495,59,10,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,121,Constant Data File,2174,529,58,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,122,121,120,0,0,0,0,0,64,0,-1--1--1,,1|(2100,512)|
+1,123,9,99,0,0,0,0,0,128,1,-1--1--1,,1|(1569,392)|
+11,124,1036,966,244,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,125,Infection Rate,966,262,49,10,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,126,Onset to Detection Time,1151,138,56,18,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,127,Incubation Period,1008,128,37,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,128,125,38,0,0,0,0,0,128,0,-1--1--1,,1|(1033,252)|
+1,129,127,38,0,0,0,0,0,128,0,-1--1--1,,1|(1054,179)|
+1,130,126,38,0,0,0,0,0,128,0,-1--1--1,,1|(1134,183)|
+1,131,58,112,1,0,0,0,0,0,0,-1--1--1,,1|(1383,292)|
+1,132,38,112,0,0,0,0,0,0,0,-1--1--1,,1|(1160,283)|
+10,133,Test Input Infection Rate,802,191,50,18,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-0-255,0,0,0,0,0,0
+1,134,133,125,0,0,0,0,0,128,0,-1--1--1,,1|(886,227)|
+12,135,0,1536,948,265,229,3,188,0,0,2,0,0,0,0,0,0,0,0,0
+Fraction Infections Identified,Graph
+1,136,120,125,0,0,0,0,0,64,0,-1--1--1,,1|(1504,379)|
+1,137,120,39,0,0,0,0,0,128,0,-1--1--1,,1|(1748,472)|
+10,138,Fraction Infections Identified,1167,1004,70,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||255-0-0,0,0,0,0,0,0
+1,139,20,138,0,0,0,0,0,64,0,-1--1--1,,1|(1057,1028)|
+1,140,125,138,0,0,0,0,0,64,0,-1--1--1,,1|(1063,622)|
+1,141,19,138,0,0,0,0,0,64,0,-1--1--1,,1|(1393,805)|
+10,142,Average Fraction Infections Identified,1161,1104,70,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||255-0-0,0,0,0,0,0,0
+1,143,138,142,0,0,0,0,0,128,0,-1--1--1,,1|(1164,1047)|
+10,144,Infection Input,745,116,49,10,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,145,144,133,0,0,0,0,0,64,0,-1--1--1,,1|(765,143)|
+10,146,Test Input,1283,409,35,10,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,147,146,118,0,0,0,0,0,64,0,-1--1--1,,1|(1310,400)|
+///---\\\
+:L<%^E!@
+9:TestSens
+10:A_main_4.out
+18:TestFractionFunction.vsc
+20:TestFractionFunction.lst
+15:0,0,0,0,0,0
+19:70,0
+27:0,
+34:0,
+4:Time
+5:Test Input Testing Capacity
+35:Date
+36:YYYY-MM-DD
+37:2019
+38:10
+39:15
+40:4
+41:0
+42:1
+72:0
+73:0
+76:0
+77:0
+78:0
+79:0
+80:0
+81:0
+24:50
+25:80
+26:80
+60:
+61:65001
+62:1
+63:1
+64:0
+65:1
+66:0
+67:0
+68:0
+69:0
+70:1
+75:
+43:
+6:Albania
+6:Argentina
+6:Armenia
+6:Australia
+6:Austria
+6:Azerbaijan
+6:Bahrain
+6:Bangladesh
+6:Belarus
+6:Belgium
+6:Bolivia
+6:Bosnia
+6:Bulgaria
+6:Canada
+6:Chile
+6:Colombia
+6:CostaRica
+6:Croatia
+6:Cuba
+6:Denmark
+6:Ecuador
+6:ElSalvador
+6:Estonia
+6:Ethiopia
+6:Finland
+6:France
+6:Germany
+6:Ghana
+6:Greece
+6:Hungary
+6:Iceland
+6:India
+6:Indonesia
+6:Iran
+6:Ireland
+6:Israel
+6:Italy
+6:Japan
+6:Kazakhstan
+6:Kenya
+6:Latvia
+6:Lithuania
+6:Malaysia
+6:Mexico
+6:Morocco
+6:Nepal
+6:Netherlands
+6:NewZealand
+6:Nigeria
+6:NorthMacedonia
+6:Norway
+6:p2
+6:Pakistan
+6:Panama
+6:Paraguay
+6:Peru
+6:Philippines
+6:Poland
+6:Portugal
+6:Qatar
+6:Romania
+6:Russia
+6:SaudiArabia
+6:Senegal
+6:Serbia
+6:Singapore
+6:Slovakia
+6:Slovenia
+6:SouthAfrica
+6:SouthKorea
+6:Spain
+6:Sweden
+6:Switzerland
+6:Tested
+6:Thailand
+6:Tunisia
+6:Turkey
+6:UAE
+6:UK
+6:USA

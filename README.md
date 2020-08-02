@@ -11,8 +11,12 @@ Contains the Python code used for data pre-processing and model estimation, in .
 ### Data
 Contains Vensim data files (.vdf) used in model estimation, as well as the raw .csv files assembled from various sources ([JHU CSSE](https://github.com/CSSEGISandData/COVID-19), [OWID](https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv), [World Bank](https://databank.worldbank.org/home.aspx), etc.) that are fed into the data pre-processing algorithm.
 
+### Pre-Print (20200624) Version
+Archived version of repo containing files used in the pre-print version of the paper ([SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3635047), [MedRxiv](https://www.medrxiv.org/content/10.1101/2020.06.24.20139451v1)), released 24 June 2020.
+
 ### Results
-Contains output files from the model estimation presented in the paper, as well as Matlab code used for graphing of results.
+Contains output files from the model estimation presented in the paper, as well as Matlab code used for graphing of results and output files from various robustness and sensitivity analyses.
 
 ### Vensim Files
 Contains the main Vensim model file (.mdl) and other supplementary Vensim files used for model estimation (e.g. optimization control, payoff definition, savelist files, and so on). Also includes two sub-models used for further analysis.
+

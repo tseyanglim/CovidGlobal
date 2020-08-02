@@ -1,0 +1,66 @@
+{
+	"baserunname": "K", 
+	"simsettings": {
+		"model": "CovidGlobal-Disaggregate-V56.mdl", 
+		"data": [
+			"CovidModelInputs - TestData.vdf", 
+			"CovidModelInputs - FormattedData.vdf", 
+			"CovidModelInputs - FlowData.vdf", 
+			"CovidModelInputs - ConstantData.vdf"
+			], 
+		"payoff": "PayoffFlowV54-Policy.vpd", 
+		"sensitivity": "", 
+		"optparm": "COVID-V56-All.voc", 
+		"changes": ["InitialInput2.out"], 
+		"savelist": "VarsToSaveV56.lst", 
+		"senssavelist": "VarsToSaveV56-short.lst"
+		},
+	"vensimpath": "C:/Users/Public/CovidProject/Toolbox/Vengine20200603/Vensim - vengine.exe", 
+	"countrylist": [
+		"Albania","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahrain","Bangladesh","Belarus","Belgium",
+		"Bolivia","Bosnia","Bulgaria","Canada","Chile","Colombia","CostaRica","Croatia","Cuba","Cyprus",
+		"CzechRepublic","Denmark","Ecuador","ElSalvador","Estonia","Ethiopia","Finland","France","Germany","Ghana",
+		"Greece","Hungary","Iceland","India","Indonesia","Iran","Ireland","Israel","Italy","Japan",
+		"Kazakhstan","Kenya","Kuwait","Kyrgyzstan","Latvia","Lithuania","Luxembourg","Malaysia","Maldives","Mexico",
+		"Morocco","Nepal","Netherlands","NewZealand","Nigeria","NorthMacedonia","Norway","Pakistan","Panama","Paraguay",
+		"Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","SaudiArabia","Senegal",
+		"Serbia","Singapore","Slovakia","Slovenia","SouthAfrica","SouthKorea","Spain","Sweden","Switzerland","Thailand",
+		"Tunisia","Turkey","UAE","Uganda","UK","Ukraine","USA"
+		],
+	"droplist": {
+		"pop": ["India", "USA", "Indonesia", "Pakistan", "Nigeria"], 
+		"inf": ["USA", "Mexico", "Iran", "Peru", "Indonesia"], 
+		"rep": ["USA", "Russia", "India", "UK", "Spain"]
+		},
+	"genparams": ["dalp", "ialp","InputAve","Sensitivity to Weather"],
+	"scenariolist": ["Base.cin", "PolicyA.cin", "PolicyB.cin", "PolicyC.cin", "PolicyD.cin"],
+	"submodlist": ["PolicyResponse", "TestFraction"],
+	"sensvars": [
+		["Max Time Data Used", 247], 
+		["StdScale", 0.5], ["StdScale", 2], 
+		["Onset to Detection Delay", 4.75], ["Onset to Detection Delay", 5.25], 
+		["Relative Risk of Transmission by Presymptomatic", 0.95], ["Relative Risk of Transmission by Presymptomatic", 1.05], 
+		["Sensitivity of COVID Test", 0.665], ["Sensitivity of COVID Test", 0.735], 
+		["Hospitalized Resolution Time", 19], ["Hospitalized Resolution Time", 21], 
+		["Incubation Period", 5.32], ["Incubation Period", 5.88], 
+		["Post-Detection Phase Resolution Time", 9.5], ["Post-Detection Phase Resolution Time", 10.5]
+		],
+	"mccores": 1,
+	"mcsettings": {
+		"OPTIMIZER": "Off", 
+		"SENSITIVITY": "PAYOFF MCMC", 
+		"MULTIPLE_START": "RRandom", 
+		"RESTART_MAX": 1,
+		"FRACTIONAL_TOLERANCE": 1e-5,
+		"MCLIMIT": 1000000,
+		"MCINITMETHOD": 3,
+		"MCTEMP":1,
+		"MCBURNIN": 600000,
+		"MCNCHAINS": 2
+		},
+	"fractolfactor": 100,
+	"samplefrac": 0.002,
+	"threshold": 20, 
+	"iterlimit": 3,
+	"timelimit": 300
+	}
