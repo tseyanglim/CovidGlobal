@@ -1,5 +1,5 @@
 # CovidGlobal
-Code & model files for Rahmandad, Lim & Sterman (2020), Estimating the global spread of COVID-19
+Code & model files for Rahmandad, Lim & Sterman (2020), Estimating COVID-19 under-reporting across 86 nations: implications for projections and control (formerly: Estimating the global spread of COVID-19)
 
 For any questions please contact [Tse Yang Lim](mailto:tylim@mit.edu)
 
@@ -15,7 +15,7 @@ Contains Vensim data files (.vdf) used in model estimation, as well as the raw .
 Archived version of repo containing files used in the pre-print version of the paper ([SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3635047), [MedRxiv](https://www.medrxiv.org/content/10.1101/2020.06.24.20139451v1)), released 24 June 2020.
 
 ### Results
-Contains output files from the model estimation presented in the paper, as well as Matlab code used for graphing of results and output files from various robustness and sensitivity analyses.
+Contains output files from the model estimation presented in the paper, as well as Matlab code used for graphing of results, and output files from various robustness and sensitivity analyses (including additional sensitivity analysis results accompanying Supplement S7).
 
 ### Vensim Files
 Contains the main Vensim model file (.mdl) and other supplementary Vensim files used for model estimation (e.g. optimization control, payoff definition, savelist files, and so on). Also includes two sub-models used for further analysis.
