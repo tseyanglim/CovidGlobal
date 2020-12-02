@@ -18,5 +18,5 @@ Archived version of repo containing files used in the first submission of the pa
 Contains output files from the model estimation presented in the paper, as well as Matlab code used for graphing of results, and output files from various robustness and sensitivity analyses (including synthetic data validation accompanying Supplement S3, out-of-sample validation results accompanying Supplement S6, and additional sensitivity analysis results accompanying Supplement S7).
 
 ### Vensim Files
-Contains the main Vensim model file (.mdl) and other supplementary Vensim files used for model estimation (e.g. optimization control, payoff definition, savelist files, and so on). Also includes two sub-models used for further analysis.
+Contains the main Vensim model file (.mdl) and other supplementary Vensim files used for model estimation (e.g. optimization control, payoff definition, savelist files, and so on), as well as models used for synthetic data analysis (Supplement S3).
 
