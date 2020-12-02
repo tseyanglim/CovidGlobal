@@ -11,7 +11,7 @@ WARNING: THIS VERSION REQUIRES VENGINE TO RUN!
 		iii) payoff, sensitivity, optparm, savelist, senssavelist - the relevant Vensim control files (.vpd, .vsc, .voc, .lst, and .lst respectively)
 		iv) changes - a Python-format list of changes files to load (e.g. .cin, .out)
 	c) vensimpath - filepath to your Vensim .exe - MAKE SURE TO UPDATE THIS
-	d) countrylist - a Python-list-format list of subscript elements (countries) for the [Rgn] subscript
+	d) countrylist - a Python-format list of subscript elements (countries) for the [Rgn] subscript
 	e) droplist - a Python-format dictionary of subsets of [Rgn] elements (countries) to remove from the main countrylist for sub-sample analysis, with each key being the name of a subset and value being a Python-format list of [Rgn] elements (the sub-sample analysis is run on remaining countries, i.e. these should be lists of countries to remove)
 	f) genparams - a Python-format list of strings, used to identify lines in the first changes .out file to keep for initial country calibrations; typically this should be (as the name implies) the names of the general parameters
 	g) scenariolist - a Python-format list of .cin files to use for scenario analysis at the end of the calibration process - note that by default the first scenario in the list is also used to run projections for sensitivity and sub-sample analyses

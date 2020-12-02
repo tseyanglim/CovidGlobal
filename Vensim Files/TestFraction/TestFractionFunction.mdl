@@ -304,14 +304,15 @@ Reference Daily Fraction Susceptible Seeking Tests[Rgn]=
 Rgn:
 	Albania, Argentina, Armenia, Australia, Austria, Azerbaijan, Bahrain, Bangladesh, Belarus\
 		, Belgium, Bolivia, Bosnia, Bulgaria, Canada, Chile, Colombia, CostaRica, Croatia, \
-		Cuba, Cyprus, CzechRepublic, Denmark, Ecuador, ElSalvador, Estonia, Ethiopia, Finland\
-		, France, Germany, Ghana, Greece, Hungary, Iceland, India, Indonesia, Iran, Ireland\
-		, Israel, Italy, Japan, Kazakhstan, Kenya, Kuwait, Kyrgyzstan, Latvia, Lithuania, Luxembourg\
-		, Malaysia, Maldives, Mexico, Morocco, Nepal, Netherlands, NewZealand, Nigeria, NorthMacedonia\
+		Cuba, Cyprus, CzechRepublic, Denmark, DominicanRepublic, Ecuador, ElSalvador, Estonia\
+		, Ethiopia, Finland, France, Germany, Ghana, Greece, Hungary, Iceland, India, Indonesia\
+		, Iran, Iraq, Ireland, Israel, Italy, Jamaica, Japan, Kazakhstan, Kenya, Kuwait, Kyrgyzstan\
+		, Latvia, Libya, Lithuania, Luxembourg, Madagascar, Malawi, Malaysia, Maldives, Malta\
+		, Mexico, Morocco, Mozambique, Nepal, Netherlands, NewZealand, Nigeria, NorthMacedonia\
 		, Norway, Pakistan, Panama, Paraguay, Peru, Philippines, Poland, Portugal, Qatar, Romania\
 		, Russia, Rwanda, SaudiArabia, Senegal, Serbia, Singapore, Slovakia, Slovenia, SouthAfrica\
-		, SouthKorea, Spain, Sweden, Switzerland, Thailand, Tunisia, Turkey, UAE, Uganda, UK\
-		, Ukraine, USA
+		, SouthKorea, Spain, SriLanka, Sweden, Switzerland, Thailand, Togo, Tunisia, Turkey\
+		, UAE, UK, Ukraine, Uruguay, USA, Zambia
 	~	
 	~	Iran, Italy, USA, SouthKorea, France, Spain, Germany, Switzerland, UK \
 		Australia, Austria, Belgium, Brazil, Canada, France, Germany, Iran, \
@@ -628,8 +629,10 @@ Fraction Infections Identified,Graph
 1,147,146,118,0,0,0,0,0,64,0,-1--1--1,,1|(1310,400)|
 ///---\\\
 :L<%^E!@
-9:TestSens
+9:B_TestFraction_sens
 10:A_main_4.out
+13:CovidModelInputs - ConstantData.vdf
+17:TestFractionFunction.lst
 18:TestFractionFunction.vsc
 20:TestFractionFunction.lst
 15:0,0,0,0,0,0
@@ -646,14 +649,6 @@ Fraction Infections Identified,Graph
 40:4
 41:0
 42:1
-72:0
-73:0
-76:0
-77:0
-78:0
-79:0
-80:0
-81:0
 24:50
 25:80
 26:80
@@ -668,8 +663,6 @@ Fraction Infections Identified,Graph
 68:0
 69:0
 70:1
-75:
-43:
 6:Albania
 6:Argentina
 6:Armenia
