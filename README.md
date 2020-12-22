@@ -14,6 +14,9 @@ Contains Vensim data files (.vdf) used in model estimation, as well as the raw .
 ### Initial Submission (20200803) Version
 Archived version of repo containing files used in the first submission of the paper, as of 03 August 2020, as well as the pre-print version of the paper ([SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3635047), [MedRxiv](https://www.medrxiv.org/content/10.1101/2020.06.24.20139451v1)), released 24 June 2020. Note: files for the updated pre-print are in the current repo version.
 
+### Online Simulator Files
+Contains updated model version and data files used in the [online simulator](https://exchange.iseesystems.com/public/mitsdl/covidglobal/index.html). The simulator uses an updated model accounting for vaccination, as well as simplified data files. Updated data inputs used to estimate the model are in `Model Input Data`; estimated values fed into the simulator are in `Simulator Input Data`.
+
 ### Results
 Contains output files from the model estimation presented in the paper, as well as Matlab code used for graphing of results, and output files from various robustness and sensitivity analyses (including synthetic data validation accompanying Supplement S3, out-of-sample validation results accompanying Supplement S6, and additional sensitivity analysis results accompanying Supplement S7).
 

@@ -1,0 +1,4683 @@
+{UTF-8}
+MinTimeDwngRisk=
+	5
+	~	Day
+	~		|
+
+Reported Hazard of Death[Rgn]=
+	SimFlowOverTime[Rgn,Death]
+	             / Population[Rgn]
+	~	1/Day
+	~		|
+
+Vaccination On[Rgn]=
+	if then else(Time < Vaccine Start Time[Rgn],0,1)
+	~	dmnl
+	~		|
+
+Time to Downgrade Risk With Vaccine[Rgn]=
+	Time to Downgrade Risk Net[Rgn]*(1-(1-SuscFrac[Rgn])*Vaccination On[Rgn])+(1-SuscFrac\
+		[Rgn])*Vaccination On[Rgn]*MinTimeDwngRisk
+	~	Day
+	~		|
+
+Vaccination[Rgn]=
+	Vaccination On[Rgn]*min(Total Vaccination Rate[Rgn]*(1-Fraction Infected[Rgn]),Susceptible\
+		[Rgn]
+	/Min Vaccination Time)
+	~	Person/Day
+	~		|
+
+Vaccination Period[Rgn]=
+	150
+	~	Day
+	~		|
+
+Min Vaccination Time=
+	10
+	~	Day
+	~		|
+
+Total Asymptomatic Fraction Net[Rgn]=
+	Additional Asymptomatic Fraction Init[Rgn]+exp(-Covid Acuity[Rgn])*(1-Additional Asymptomatic Fraction Init\
+		[Rgn])
+	~	dmnl
+	~	Asymptomatic Fractio of COVID patients
+	|
+
+Sympthoms in Susceptible[Rgn]= INTEG (
+	-Sympthom Reduction by Infectioun[Rgn]-Sympthom Reduction by Vaccination[Rgn],
+		Susceptible[Rgn]*(1-Additional Asymptomatic Fraction Init[Rgn])*Covid Acuity Relative to Flu Init Net\
+		[Rgn])
+	~	
+	~		|
+
+Additional Asymptomatic Fraction Init[Rgn]=
+	Additional Asymptomatic Relative to Symptomatic Init[Rgn]/(1+Additional Asymptomatic Relative to Symptomatic Init\
+		[Rgn])
+	~	dmnl
+	~		|
+
+Additional Asymptomatic Relative to Symptomatic Init[Rgn]= INITIAL(
+	ZIDZ(Total Asymptomatic Fraction Init Net[Rgn]-exp ( - Covid Acuity Relative to Flu Init Net\
+		[Rgn]*Flu Acuity ),1-Total Asymptomatic Fraction Init Net[Rgn]))
+	~	dmnl
+	~	This is the solution to (x+p0)/(x+p0+p_rest)=T, where x is the additional \
+		asymptomatic as a fraction of symptomatic, p0 is probability of 0 given \
+		the poisson portion, and p_rest is the remainder of the poisson \
+		probablities, so p0+p_rest=1; T is the total asymptomatic fraction.
+	|
+
+Potential Test Demand from Susceptible Population[Rgn]=
+	( Susceptible[Rgn] 
+	                  + Recovered Unconfirmed[Rgn]+Cumulative Recovered at Hospitals[Rgn\
+		,Notest] ) 
+	             *(Baseline Daily Fraction Susceptible Seeking Tests[Rgn] 
+	             *  Fraction Seeking Test[Rgn] 
+	             +Multiplier Recent Infections to Test[Rgn]/Population[Rgn]*Recent Detected Infections\
+		[Rgn])
+	~	Person/Day
+	~		|
+
+Vaccine Start Time[Rgn]=
+	800
+	~	Day
+	~		|
+
+Average Acuity in Susceptible[Rgn]=
+	ZIDZ(Sympthoms in Susceptible[Rgn],Susceptible[Rgn])
+	~	dmnl
+	~		|
+
+Total Asymptomatic Fraction Init Net[Rgn]= INITIAL(
+	Total Asymptomatic Fraction[Rgn]*(1-SW Gen[TtAsyFr])+SW Gen[TtAsyFr]*InputAve[TtAsyFr\
+		])
+	~	dmnl
+	~	Asymptomatic Fractio of COVID patients
+	|
+
+Total Vaccination Rate[Rgn]= INITIAL(
+	Initial Population[Rgn]/Vaccination Period[Rgn])
+	~	Person/Day
+	~		|
+
+SuscFrac[Rgn]=
+	Susceptible[Rgn]/Population[Rgn]
+	~	dmnl
+	~		|
+
+Vaccinated[Rgn]= INTEG (
+	Vaccination[Rgn],
+		0)
+	~	Person
+	~		|
+
+Sympthom Reduction by Infectioun[Rgn]=
+	Average Acuity in Susceptible[Rgn]*Infection Rate[Rgn]
+	~	Person/Day
+	~		|
+
+True Hazard of death[Rgn]=
+	Death Rate[Rgn]
+	             / Population[Rgn]
+	~	1/Day
+	~		|
+
+Sympthom Reduction by Vaccination[Rgn]=
+	Vaccination[Rgn]*Average Acuity in Susceptible[Rgn]*Vaccination Priority Multiplier
+	~	Person/Day
+	~		|
+
+PopulationCheck[Rgn]=
+	+ Recovered Unconfirmed[Rgn] 
+	             + Confirmed Recovered[Rgn] 
+	+sum(Cumulative Recovered at Hospitals[Rgn,TstSts!])
+	+Different Infectious Counted[Rgn]
+	+Susceptible[Rgn]
+	~	Person
+	~		|
+
+Vaccination Priority Multiplier=
+	1.5
+	~	dmnl
+	~		|
+
+Covid Acuity Relative to Flu Init Net[Rgn]= INITIAL(
+	Covid Acuity Relative to Flu[Rgn]*(1-SW Gen[Acty])+SW Gen[Acty]*InputAve[Acty])
+	~	dmnl
+	~		|
+
+RandFlowTime=
+	1000
+	~	Day
+	~		|
+
+SwitchRandFlowTime=
+	if then else(SwitchRandFlow=1,min(Max Time Data Used,RandFlowTime),1000)
+	~	Day
+	~	The day at which we switch from expected to random counts
+	|
+
+SwitchRandFlow=
+	0
+	~	dmnl
+	~		|
+
+Cumulative Deaths of Confirmed[Rgn]= INTEG (
+	SimFlowOverTime[Rgn,Death],
+		0)
+	~	Person
+	~		|
+
+Min Fatality Multiplier=
+	0.1
+	~	dmnl
+	~		|
+
+Time variant change in fatality[Rgn]=
+	Max(Min Fatality Multiplier,(Max(Baseline Cumulative Cases for Learning,Cumulative Cases\
+		[Rgn]/Initial Population[Rgn])/Baseline Cumulative Cases for Learning
+	)^(-Learning and Death Reduction Rate[Rgn]))
+	~	dmnl
+	~		|
+
+DeathFractionCounted[Rgn]=
+	ZIDZ(DataCmltDeath[Rgn],Cumulative Deaths[Rgn])
+	~	dmnl
+	~		|
+
+SimFlowOverTime[Rgn,UsedSeries]=
+	if then else(SwitchRandFlowTime<Time,RANDOM NEGATIVE BINOMIAL(-1, 1e+06, successP[Rgn\
+		,UsedSeries], numTrial[Rgn,UsedSeries], 0, 1, NSeed),Mu[Rgn,UsedSeries])
+	~	Day/Person
+	~		|
+
+NSeed=
+	1
+	~	dmnl
+	~		|
+
+numTrial[Rgn,UsedSeries]= INITIAL(
+	Max(1.01,1/alp[Rgn,UsedSeries]))
+	~	dmnl
+	~		|
+
+UsedSeries:
+	Infection, Death
+	~	
+	~		|
+
+successP[Rgn,UsedSeries]=
+	1/(1+alp[Rgn,UsedSeries]*Mu[Rgn,UsedSeries])
+	~	dmnl
+	~		|
+
+InfectionUFractionCounted[Rgn]=
+	ZIDZ(DataCmltInfection[Rgn],Cumulative Cases[Rgn])
+	~	dmnl
+	~		|
+
+DataLimitFromTime[Rgn]=
+	if then else(Time>StopDataUseTime[Rgn],0,1)
+	~	dmnl
+	~		|
+
+lastTestData[Rgn]= INITIAL(
+	GET DATA Last TIME( DataTestRate[Rgn]))
+	~	Day
+	~		|
+
+StopDataUseTime[Rgn]= INITIAL(
+	min(lastTestData[Rgn],Max Time Data Used))
+	~	Day
+	~		|
+
+Recorded Deaths[Rgn]=
+	Post Mortem Test Rate[Rgn] 
+	             + Deaths of Confirmed[Rgn]+Hospitalized Infectious Deaths[Rgn,Tested]
+	~	Person/Day
+	~		|
+
+Impact of Adherence Fatigue[Rgn]=
+	Recent Relative Contacts[Rgn]^(Strength of Adherence Fatigue[Rgn]*if then else(Time to Stop Adherence Fatigue\
+		>Time,1,SWadhFtg))
+	~	dmnl
+	~		|
+
+Time to Stop Adherence Fatigue=
+	1000
+	~	Day
+	~		|
+
+Different Infectious Counted[Rgn]=
+	"Pre-Symptomatic Infected"[Rgn]            
+	             + Infected pre Detection[Rgn] 
+	             + (Additional Asymptomatic Post Detection[Rgn] + "Poisson Not-tested Asymptomatic"\
+		[Rgn])
+	             + (Infectious not Tested or in Hospitals Poisson[Rgn] -"Poisson Not-tested Asymptomatic"\
+		[Rgn])
+	             + Infectious Confirmed Not Hospitalized[Rgn]                   
+	             + sum ( Hospitalized Infectious[Rgn,TstSts!] )
+	~	Person
+	~		|
+
+Fraction Infected[Rgn]=
+	Cumulative Cases[Rgn]/Initial Population[Rgn]
+	~	dmnl
+	~		|
+
+SWadhFtg=
+	0
+	~	dmnl
+	~		|
+
+TimeVar Impact of Treatment on Fatality[Rgn]=
+	Impact of Treatment on Fatality Rate[Rgn]*Time variant change in fatality[Rgn]
+	~	dmnl
+	~		|
+
+PriorCounts[PriorEndoAve]= INITIAL(
+	if then else(PriorEndoAve<26,1,0))
+	~	dmnl
+	~		|
+
+Recent Relative Contacts[Rgn]= 
+	SMOOTHI(Contacts Relative to Normal[Rgn], Adherence Fatigue Time, 1)
+	~	dmnl
+	~		|
+
+Dread Factor in Risk Perception Net[Rgn]=
+	if then else(Response Policy Time On<Time,Dread Factor Policy*Response Policy Weight\
+		[dfcP]+(1-Response Policy Weight[dfcP
+	])*Dread Factor in Risk Perception[Rgn],Dread Factor in Risk Perception[Rgn])*Impact of Adherence Fatigue\
+		[Rgn]
+	~	dmnl
+	~		|
+
+Sensitivity of Contact Reduction to Utility Net[Rgn]=
+	if then else(Response Policy Time On<Time,Sensitivity of Contact Reduction to Utility Policy\
+		*Response Policy Weight[scuP
+	]+(1-Response Policy Weight[scuP])*Sensitivity of Contact Reduction to Utility[Rgn],\
+		Sensitivity of Contact Reduction to Utility[Rgn])/Impact of Adherence Fatigue[Rgn]
+	~	dmnl
+	~		|
+
+Baseline Cumulative Cases for Learning=
+	0.005
+	~	dmnl
+	~	The fraction of population who should be hospitalized for COVID before we \
+		start to see notable learning
+	|
+
+Adherence Fatigue Time=
+	100
+	~	Day
+	~		|
+
+Strength of Adherence Fatigue[Rgn]=
+	0
+	~	dmnl
+	~		|
+
+Learning and Death Reduction Rate[Rgn1]=
+	0
+	~	dmnl
+	~		|
+
+StdScale=
+	1
+	~	dmnl
+	~		|
+
+InpAveErr= INITIAL(
+	sum(InpAveErrCmp[PriorEndoAve!]*PriorCounts[PriorEndoAve!]))
+	~	
+	~		|
+
+InpAveErrCmp[PriorEndoAve]= INITIAL(
+	(abs(CalcAve[PriorEndoAve]-InputAve[PriorEndoAve])/Max(1e-06,CalcAve[PriorEndoAve])*\
+		SW EndoAve))
+	~	
+	~		|
+
+PriorEndoAve:
+	UpAdj,DwnAdj,RFI, RfSkTs, WRpPIn,MInfTs, MnCnFrc, SnCnRdUt,CfImCn,ImPDnHs,ImTrFt,DrdFac\
+		, MxHsFr, BsFtRt,SnsWth,Acty,SnFtAc, TtAsyFr,ObsImp,ChrImp,LivImp,MTrAsym,HspLrng, \
+		AdhrFtg
+	~	
+	~		|
+
+Sensitivity to Weather Net[Rgn]= INITIAL(
+	Sensitivity to Weather*(1-SW Gen[SnsWth])+SW Gen[SnsWth]*InputAve[SnsWth])
+	~	dmnl
+	~		|
+
+Sens Liver Impact=
+	1e-06
+	~	dmnl
+	~		|
+
+Sens Chronic Impact=
+	1e-06
+	~	dmnl
+	~		|
+
+Sens Chronic Impact Net[Rgn]= INITIAL(
+	Sens Chronic Impact*(1-SW Gen[ChrImp])+SW Gen[ChrImp]*InputAve[ChrImp])
+	~	dmnl
+	~		|
+
+Sens Obesity Impact Net[Rgn]= INITIAL(
+	Sens Obesity Impact*(1-SW Gen[ObsImp])+SW Gen[ObsImp]*InputAve[ObsImp])
+	~	dmnl
+	~		|
+
+Sens Liver Impact Net[Rgn]= INITIAL(
+	Sens Liver Impact*(1-SW Gen[LivImp])+SW Gen[LivImp]*InputAve[LivImp])
+	~	dmnl
+	~		|
+
+Sens Obesity Impact=
+	1e-06
+	~	dmnl
+	~		|
+
+Sensitivity to Weather=
+	0.76
+	~	dmnl
+	~		|
+
+MeanLiver=
+	GET VDF CONSTANTS(Constant Data File , 
+	                'MeanLiver', 
+	                1)
+	~	dmnl
+	~		|
+
+MeanObesity=
+	GET VDF CONSTANTS(Constant Data File , 
+	                'MeanObesity', 
+	                1)
+	~	dmnl
+	~		|
+
+Chronic Impact on Fatality[Rgn]= INITIAL(
+	(Chronic Death Rate[Rgn]/MeanChronic)^Sens Chronic Impact Net[Rgn])
+	~	dmnl
+	~		|
+
+MeanChronic=
+	GET VDF CONSTANTS(Constant Data File , 
+	                'MeanChronic', 
+	                1)
+	~	dmnl
+	~		|
+
+Liver Disease Impact on Fatality[Rgn]= INITIAL(
+	(Liver Disease Rate[Rgn]/MeanLiver)^Sens Liver Impact Net[Rgn])
+	~	dmnl
+	~		|
+
+Obesity Impact on Fatality[Rgn]= INITIAL(
+	(Obesity Rates[Rgn]/MeanObesity)^Sens Obesity Impact Net[Rgn])
+	~	dmnl
+	~		|
+
+Time to Adjust Testing=
+	30
+	~	Day
+	~		|
+
+Final Test Rate Per Capita[Rgn]= INITIAL(
+	Current Test Rate per Capita[Rgn]+Weight Max in Test Goal*(Max Test Rate per Capita-\
+		Current Test Rate per Capita[Rgn]))
+	~	1/Day
+	~		|
+
+Max Test Rate per Capita=
+	0.001
+	~	1/Day
+	~		|
+
+New Testing Time=
+	1000
+	~	Day
+	~		|
+
+External Test Rate[Rgn]=
+	Population[Rgn]*Policy Test Rate[Rgn]
+	~	Person/Day
+	~		|
+
+Weight Max in Test Goal=
+	0
+	~	dmnl
+	~		|
+
+Current Test Rate per Capita[Rgn]= INITIAL(
+	if then else(DataLastTestRate[Rgn]=:NA:,0,DataLastTestRate[Rgn]/Population[Rgn]))
+	~	1/Day
+	~		|
+
+DataLastTestRate[Rgn]= INITIAL(
+	GET DATA AT TIME(DataTestRate[Rgn],  min(LastTestDate[Rgn],New Testing Time)))
+	~	Person/Day
+	~	min(LastTestDate[Rgn],New Testing Time)
+	|
+
+Policy Test Rate[Rgn]=
+	if then else(Time<New Testing Time,Current Test Rate per Capita[Rgn],Final Test Rate Per Capita\
+		[Rgn])
+	~	1/Day
+	~		|
+
+Max Time Data Used=
+	550
+	~	Day
+	~		|
+
+DataIncluded[Rgn]=
+	if then else(Max(Cumulative Deaths[Rgn],Max(Cumulative Confirmed Cases[Rgn],DataCmltInfection\
+		[Rgn]))>ThrsInc[Rgn],1,0)*DataLimitFromTime[Rgn]
+	~	dmnl
+	~		|
+
+Symptomatic Infected to Testing[Rgn]=
+	Positive Testing of Infected Untreated[Rgn]+Hospital Admission Infectious[Rgn,Tested\
+		]
+	~	Person/Day
+	~		|
+
+Infectious Contacts[Rgn]=
+	( "Pre-Symptomatic Infected"[Rgn] 
+	             * Transmission Multiplier Presymptomatic[Rgn] 
+	             + Infected pre Detection[Rgn] 
+	                  * Transmission Multiplier Pre Detection[Rgn] 
+	             + (Additional Asymptomatic Post Detection[Rgn] + "Poisson Not-tested Asymptomatic"\
+		[Rgn])
+	                  * Baseline Risk of Transmission by Asymptomatic[Rgn] 
+	             + (Infectious not Tested or in Hospitals Poisson[Rgn] -"Poisson Not-tested Asymptomatic"\
+		[Rgn])
+	                  * Baseline Transmission Multiplier for Untested Symptomatic 
+	             + Infectious Confirmed Not Hospitalized[Rgn] 
+	                  * Transmission Multiplier for Confirmed[Rgn] 
+	             + sum ( Hospitalized Infectious[Rgn,TstSts!] 
+	                       * Transmission Multiplier for Hospitalized[Rgn,TstSts!] ) ) 
+	             * Reference Force of Infection[Rgn] 
+	             * Contacts Relative to Normal[Rgn]
+	~	Person/Day
+	~		|
+
+Transmission Multiplier Presymptomatic[Rgn]= INITIAL(
+	(Baseline Transmission Multiplier for Untested Symptomatic *Relative Risk of Transmission by Presymptomatic\
+		)  
+	                  * ( 1 - Total Asymptomatic Fraction Net[Rgn] ) 
+	                  + Total Asymptomatic Fraction Net[Rgn]
+	                       * Baseline Risk of Transmission by Asymptomatic[Rgn]*Relative Risk of Transmission by Presymptomatic\
+		)
+	~	dmnl
+	~	This is transmission multiplier for pre-symptomatic relative to \
+		asymptomatic (set to 1 as baseline).
+	|
+
+Transmission Multiplier for Confirmed[Rgn]= INITIAL(
+	Baseline Transmission Multiplier for Untested Symptomatic
+	             * Confirmation Impact on Contact[Rgn])
+	~	dmnl
+	~		|
+
+Transmission Multiplier for Hospitalized[Rgn,TstSts]= INITIAL(
+	Baseline Transmission Multiplier for Untested Symptomatic
+	             * Relative Risk of Transmission by Hospitalized 
+	             * if then else ( TstSts
+	                       = 1, 
+	                  Confirmation Impact on Contact[Rgn] , 
+	                  1))
+	~	dmnl
+	~		|
+
+Relative Risk of Transmission by Presymptomatic=
+	1
+	~	dmnl
+	~		|
+
+"Poisson Not-tested Asymptomatic"[Rgn]=
+	Infectious not Tested or in Hospitals Poisson[Rgn]*exp(-Average Acuity Not Hospitalized Poisson\
+		[Rgn,Notest])
+	~	Person
+	~		|
+
+Global IFR=
+	ZIDZ(Global Deaths,Global Cases-sum(Different Infectious Counted[Rgn!]))
+	~	dmnl
+	~		|
+
+ActiveAve[PriorEndoAve]= INITIAL(
+	InputAve[PriorEndoAve]*(1-SW EndoAve)+SW EndoAve*CalcAve[PriorEndoAve]) ~~|
+ActiveAve[PMT]=
+	InputAve[PMT]
+	~	
+	~		|
+
+SW EndoAve= INITIAL(
+	if then else(ELMCOUNT(Rgn)>1,1,0))
+	~	dmnl
+	~		|
+
+CalcAve[Priors]= INITIAL(
+	sum(RegionalInputs[Priors,Rgn!])/ELMCOUNT(Rgn))
+	~	
+	~		|
+
+Multiplier Transmission Risk for Asymptomatic[Rgn]=
+	0.3
+	~	dmnl
+	~		|
+
+Baseline Transmission Multiplier for Untested Symptomatic=
+	1
+	~	dmnl
+	~		|
+
+SW Gen[PriorGen]=
+	0
+	~	dmnl
+	~		|
+
+Sensitivity of Fatality Rate to Acuity[Rgn]=
+	2
+	~	dmnl
+	~		|
+
+Total Asymptomatic Fraction[Rgn]=
+	0.5
+	~	dmnl
+	~		|
+
+Covid Acuity Relative to Flu[Rgn]=
+	6
+	~	dmnl
+	~		|
+
+Base Fatality Rate for Unit Acuity[Rgn]=
+	0.0006
+	~	dmnl
+	~		|
+
+Rgn:
+	Australia, Austria, Bahrain, Bangladesh, Belarus, Belgium, Bolivia, Bulgaria, Canada\
+		, Chile, Colombia, CostaRica, Croatia, Cuba, Cyprus, CzechRepublic, Denmark, DominicanRepublic\
+		, Ecuador, ElSalvador, Estonia, Ethiopia, Finland, France, Germany, Ghana, Greece, \
+		Hungary, Iceland, India, Indonesia, Iran, Iraq, Ireland, Israel, Italy, Jamaica, Japan\
+		, Kazakhstan, Kenya, Kuwait, Latvia, Lithuania, Luxembourg, Madagascar, Malawi, Malaysia\
+		, Maldives, Malta, Mexico, Morocco, Mozambique, Nepal, Netherlands, NewZealand, Nigeria\
+		, NorthMacedonia, Norway, Pakistan, Panama, Paraguay, Peru, Philippines, Poland, Portugal\
+		, Qatar, Romania, Russia, Rwanda, SaudiArabia, Senegal, Serbia, Singapore, Slovakia\
+		, Slovenia, SouthAfrica, SouthKorea, Spain, SriLanka, Sweden, Switzerland, Thailand\
+		, Togo, Tunisia, Turkey, UAE, UK, Ukraine, Uruguay, USA, Zambia
+	~	
+	~	Iran, Italy, USA, SouthKorea, France, Spain, Germany, Switzerland, UK Australia, \
+		Austria, Belgium, Brazil, Canada, France, Germany, Iran, Ireland, \
+		Israel,Italy, Netherlands, Norway, Portugal, Russia, SouthKorea, Spain, \
+		Sweden, Switzerland, Turkey, UK, USA Australia, Austria, Belgium, Brazil, \
+		Canada, Ecuador, France, Germany, India, Iran, Ireland, Israel, Italy, \
+		Japan, Mexico, Netherlands, Norway, Peru, Portugal, Russia, Singapore, \
+		SouthKorea, Spain, Sweden, Switzerland, Turkey, UK, USA
+		
+		Albania, Argentina, Armenia, Australia, Austria, Azerbaijan, Bahrain, \
+		Bangladesh, Belarus, Belgium, Bolivia, Bosnia, Bulgaria, Canada, Chile, \
+		Colombia, CostaRica, Croatia, Cuba, Cyprus, CzechRepublic, Denmark, \
+		Ecuador, Egypt, ElSalvador, Estonia, Ethiopia, Finland, France, Germany, \
+		Ghana, Greece, Hungary, Iceland, India, Indonesia, Iran, Ireland, Israel, \
+		Italy, Japan, Kazakhstan, Kenya, Kuwait, Kyrgyzstan, Latvia, Lithuania, \
+		Luxembourg, Malaysia, Maldives, Mexico, Morocco, Nepal, Netherlands, \
+		NewZealand, Nigeria, NorthMacedonia, Norway, Pakistan, Panama, Paraguay, \
+		Peru, Philippines, Poland, Portugal, Qatar, Romania, Russia, Rwanda, \
+		SaudiArabia, Senegal, Serbia, Singapore, Slovakia, Slovenia, SouthAfrica, \
+		SouthKorea, Spain, Sweden, Switzerland, Thailand, Tunisia, Turkey, UAE, \
+		Uganda, UK, Ukraine, USA
+	|
+
+PriorGen:
+	BsFtRt,SnsWth,Acty,SnFtAc, TtAsyFr,ObsImp,ChrImp,LivImp,MTrAsym
+	~	
+	~		|
+
+Response Policy Time On=
+	1000
+	~	Day
+	~		|
+
+Response Policy Weight[pdim]=
+	0
+	~	dmnl
+	~		|
+
+Dread Factor Policy=
+	3000
+	~	dmnl
+	~		|
+
+Sensitivity of Contact Reduction to Utility Policy=
+	10
+	~	dmnl
+	~		|
+
+pdim:
+	tstP, dfcP,dgtP,scuP
+	~	
+	~		|
+
+Time to Downgrade Risk Policy=
+	300
+	~	Day
+	~		|
+
+Time to Downgrade Risk Net[Rgn]=
+	if then else(Response Policy Time On<Time,Time to Downgrade Risk Policy*Response Policy Weight\
+		[dgtP]+(1-Response Policy Weight[dgtP])*Time to Downgrade Risk[Rgn],Time to Downgrade Risk\
+		[Rgn])
+	~	Day
+	~		|
+
+Excess Death Range Frac=
+	0.2
+	~	dmnl
+	~		|
+
+Global Deaths=
+	sum(Cumulative Deaths[Rgn!])
+	~	Person
+	~		|
+
+Global Cases=
+	sum(Cumulative Cases[Rgn!])
+	~	Person
+	~		|
+
+Excess Death Mean Frac=
+	0.9
+	~	dmnl
+	~		|
+
+PMAS Confirmed for Hospital Demand[Rgn]=
+	(1-Reference COVID Hospitalization Fraction Confirmed[Rgn])^(1/Average Acuity of Positively Tested\
+		[Rgn])
+	~	dmnl
+	~		|
+
+Liver Disease Rate[Rgn]=
+	GET VDF CONSTANTS(Constant Data File , 
+	                'DataConstants[Rgn]', 
+	                18)
+	~	dmnl
+	~		|
+
+Obesity Rates[Rgn]=
+	GET VDF CONSTANTS(Constant Data File , 
+	                'DataConstants[Rgn]', 
+	                16)
+	~	dmnl
+	~		|
+
+Chronic Death Rate[Rgn]=
+	GET VDF CONSTANTS(Constant Data File , 
+	                'DataConstants[Rgn]', 
+	                17)
+	~	dmnl
+	~		|
+
+Weather Effect on Transmission[Rgn]=
+	CRW[Rgn]^Sensitivity to Weather Net[Rgn]
+	~	dmnl
+	~		|
+
+Baseline Daily Fraction Susceptible Seeking Tests[Rgn]=
+	0.001
+	~	1/Day
+	~		|
+
+AbsStd[Priors]=
+	0.2, 0.3, 0.1, 0.2, 0.0002, 0.2, 10, 0.03, 6, 0.1, 0.1, 0.1, 0.8, 0.1, 1e-05, 10, 0.01\
+		, 0.005, 0.01, 10, 10, 10,0.01, 0.5, 0.5
+	~	
+	~		|
+
+InputAve[Priors]=
+	1,1.8,0.47,1,0.0009,0.81, 58, 0.017, 6.2, 0.1, 0.24,0.4,2.27,0.52, 0.00055, 0.76, 5.9\
+		, 2.07, 0.55, 1e-06, 1e-06, 1e-06,0.28, 0, 0
+	~	
+	~		|
+
+Time to Downgrade Risk[Rgn]=
+	60
+	~	Day
+	~		|
+
+Multiplier Recent Infections to Test[Rgn]=
+	45
+	~	dmnl
+	~		|
+
+Impact of Population Density on Hospital Availability[Rgn]=
+	0.72
+	~	dmnl
+	~		|
+
+Sensitivity Post Mortem Testing to Capacity[Rgn]=
+	1
+	~	dmnl
+	~		|
+
+Effective Hospital Capacity[Rgn]  = 
+        Nominal Hospital Capacity[Rgn] 
+             * Normalized Hospital density[Rgn] 
+                  ^ Impact of Population Density on Hospital Availability[Rgn]
+	~	Person
+	~		|
+
+CRW[Rgn]:INTERPOLATE:
+	~	dmnl
+	~		|
+
+Negative Test Results[Rgn]=
+	Testing on Living[Rgn] 
+	             - Positive Tests of Infected[Rgn]
+	~	Person/Day
+	~		|
+
+Priors:
+	UpAdj,DwnAdj,RFI,PMT, RfSkTs, WRpPIn,MInfTs, MnCnFrc, SnCnRdUt,CfImCn,ImPDnHs,ImTrFt\
+		,DrdFac, MxHsFr, BsFtRt,SnsWth,Acty,SnFtAc, TtAsyFr,ObsImp,ChrImp,LivImp,MTrAsym, HspLrng\
+		, AdhrFtg
+	~	
+	~		|
+
+Excess Death Rate Error[Rgn]=
+	if then else ( Data Excess Deaths[Rgn] 
+	                  <50, 
+	             0, ZIDZ(Cumulative Missed Death[Rgn]-Excess Death Mean Frac*Data Excess Deaths\
+		[Rgn],Excess Death Range Frac*Data Excess Deaths[Rgn])^4)
+	~	dmnl
+	~	This is the log-likehood for a distribution with p(x)=exp(-x^4)/1.8128. x \
+		here is the normalized gap between simulated and expected excess death.
+	|
+
+Recent Detected Infections[Rgn]=
+	SMOOTHI(Positive Tests of Infected[Rgn],Time to Respond with Tests,0)
+	~	Person/Day
+	~		|
+
+MaxRTresh=
+	8
+	~	dmnl
+	~		|
+
+Cml Death Frac In Hosp[Rgn]=
+	XIDZ(Cumulative Deaths at Hospital[Rgn,Tested]+Cumulative Deaths at Hospital[Rgn,Notest\
+		],Cumulative Deaths[Rgn],1)
+	~	dmnl
+	~		|
+
+Fraction Covid Death In Hospitals Previously Tested[Rgn]=
+	ZIDZ(Hospitalized Infectious Deaths[Rgn,Tested],sum(Hospitalized Infectious Deaths[Rgn\
+		,TstSts!]))
+	~	dmnl
+	~		|
+
+AdvCntrs[Rgn]=
+	1
+	~	dmnl
+	~	Rgn=Iceland :OR:  if then else(Rgn=SouthKorea :OR: Rgn=Australia :OR: Rgn=Germany,1,0
+		)
+	|
+
+MinHspDTreshAdv=
+	0.8
+	~	dmnl
+	~		|
+
+Known death fraction in hospitals large enough=
+	sum(if then else(Cml Known Death Frac Hosp[Rgn!]<MinHspDTreshAdv,1,0)*AdvCntrs[Rgn!]\
+		)
+	~	dmnl
+	~		|
+
+Cml Known Death Frac Hosp[Rgn]=
+	XIDZ(Cumulative Deaths at Hospital[Rgn,Tested],Cumulative Deaths[Rgn],1)
+	~	dmnl
+	~		|
+
+Cml Death fraction in hospitals large enough=
+	sum(if then else(Cml Death Frac In Hosp[Rgn!]<MinHspDTresh,1,0))
+	~	dmnl
+	~		|
+
+Realistic R0=
+	sum(if then else(R Effective Reproduction Rate[Rgn!]>MaxRTresh,1,0))
+	~	dmnl
+	~		|
+
+MinHspDTresh=
+	0.2
+	~	dmnl
+	~		|
+
+Not too few susceptibles=
+	sum(if then else(SuscFrac[Rgn!]<MinSuscTresh,1,0))
+	~	dmnl
+	~		|
+
+MinSuscTresh=
+	0.7
+	~	dmnl
+	~		|
+
+Hospital Adj T=
+	1
+	~	Day
+	~		|
+
+Untested PMAS Gap with Tested[Rgn]=
+	(1-Allocated Fration NonCOVID Hospitalized[Rgn])^SensCovidUntestedAdmission
+	~	dmnl
+	~		|
+
+SensCovidUntestedAdmission=
+	1
+	~	dmnl
+	~		|
+
+Count Missed Death[Rgn]=
+	if then else ( Excess Death Start Count[Rgn] 
+	                  = :NA:, 
+	             0, 
+	             if then else ( Time 
+	                       >= Excess Death Start Count[Rgn] 
+	                       :AND: Time 
+	                            <= Excess Death End Count[Rgn] , 
+	                  Cml Death Hsp Inc[Rgn,Notest]+Chng Cml Dth Untst Untrt[Rgn], 
+	                  0) )
+	~	Person/Day
+	~		|
+
+Chng Cml Dth Untst Untrt[Rgn]=
+	Deaths of Symptomatic Untested[Rgn]-Post Mortem Test Rate[Rgn]*Frac Post Mortem from Untreated\
+		[Rgn]
+	~	Person/Day
+	~		|
+
+Cumulative Deaths Untested Untreated[Rgn]= INTEG (
+	Chng Cml Dth Untst Untrt[Rgn],
+		0)
+	~	Person
+	~		|
+
+MinAdjT=
+	1
+	~	Day
+	~		|
+
+Cml Death Hsp Inc[Rgn,Tested]=
+	Hospitalized Infectious Deaths[Rgn,Tested]+PostMortemCorrection[Rgn] ~~|
+Cml Death Hsp Inc[Rgn,Notest]=
+	Hospitalized Infectious Deaths[Rgn,Notest]-PostMortemCorrection[Rgn]
+	~	Person/Day
+	~		|
+
+PostMortemCorrection[Rgn]=
+	min(Hospitalized Infectious[Rgn,Notest]/MinAdjT,Post Mortem Test Rate[Rgn]*(1-Frac Post Mortem from Untreated\
+		[Rgn]))
+	~	Person/Day
+	~		|
+
+MaxData[Rgn]= INITIAL(
+	GET DATA MAX(DataCmltInfection[Rgn], 0, 500))
+	~	Person
+	~		|
+
+Frac Post Mortem from Untreated[Rgn]=
+	SMOOTHI(ZIDZ(Deaths of Symptomatic Untested[Rgn],Deaths of Symptomatic Untested[Rgn]\
+		+Hospitalized Infectious Deaths[Rgn,Notest]),Post Mortem Test Delay,1)
+	~	dmnl
+	~		|
+
+FracThresh=
+	0.001
+	~	dmnl
+	~		|
+
+ThrsInc[Rgn]=
+	Max(FracThresh*MaxData[Rgn],50)
+	~	Person
+	~		|
+
+Cumulative Deaths of Confirmed Untreated[Rgn]= INTEG (
+	Deaths of Confirmed[Rgn]+Post Mortem Test Untreated[Rgn],
+		 
+		             0)
+	~	Person
+	~		|
+
+Post Mortem Test Untreated[Rgn]=
+	Post Mortem Test Rate[Rgn]*Frac Post Mortem from Untreated[Rgn]
+	~	Person/Day
+	~		|
+
+Hospitalized Infectious Deaths[Rgn,TstSts]=
+	Fatality Rate Treated[Rgn,TstSts] 
+	             * Hospital Outflow Covid Positive[Rgn,TstSts]
+	~	Person/Day
+	~		|
+
+Hospital Demand from Tested[Rgn]=
+	Positive Tests of Infected[Rgn]*(1-exp(-Average Acuity of Positively Tested[Rgn]*(1-\
+		PMAS Confirmed for Hospital Demand[Rgn])))
+	~	Person/Day
+	~		|
+
+Deaths of Confirmed[Rgn]=
+	Tested Untreated Resolution[Rgn]
+	             * Fatality Rate Untreated[Rgn,Tested]
+	~	Person/Day
+	~		|
+
+All Recovery[Rgn]=
+	Recovery of Confirmed[Rgn] 
+	             + Recovery of Untested[Rgn]+sum(Hospital Discharges[Rgn,TstSts!])
+	~	Person/Day
+	~		|
+
+Positive Candidates Interested in Testing Poisson Subset[Rgn]=
+	Poisson Subset Reaching Test Gate[Rgn]*Fraction Seeking Test[Rgn]
+	~	Person/Day
+	~	The max(0.001*...,) is included for robustness of testing sector.
+	|
+
+Tested Untreated Resolution[Rgn]=
+	Infectious Confirmed Not Hospitalized[Rgn]/"Post-Detection Phase Resolution Time"
+	~	Person/Day
+	~		|
+
+Positive Testing of Infected Untreated[Rgn]=
+	Positive Tests of Infected[Rgn] 
+	             *Fraction Poisson not Hospitalized[Rgn,Tested]
+	~	Person/Day
+	~		|
+
+Average Acuity Hospitalized[Rgn,Tested]=
+	Average Acuity of Positively Tested[Rgn] 
+	             * XIDZ ( ( 1
+	                       - Probability of Missing Acuity Signal at Hospitals[Rgn,Tested\
+		] 
+	                            * Fraction Poisson not Hospitalized[Rgn,Tested] 
+	                                 ^ 2) , 
+	                  1
+	                       - Fraction Poisson not Hospitalized[Rgn,Tested] , 
+	                  2
+	                       * Probability of Missing Acuity Signal at Hospitals[Rgn,Tested\
+		] ) ~~|
+Average Acuity Hospitalized[Rgn,Notest]=
+	ZIDZ ( Average Acuity of Untested Poisson Subset[Rgn]
+	                  * ( 1
+	                       - Probability of Missing Acuity Signal at Hospitals[Rgn,Notest\
+		] 
+	                            * Fraction Poisson not Hospitalized[Rgn,Notest] 
+	                                 ^ 2) , 
+	             1
+	                  - Fraction Poisson not Hospitalized[Rgn,Notest] )
+	~	dmnl
+	~	Average symptoms for those hospitalized, divided among those coming \
+		through testing and those coming because of sympthoms. This is calculated \
+		by the following two equations: a=f*y+(1-f)*x, where a is the average \
+		acuity, y is average acuity among those not hospitalized (or not), x is \
+		average acuity among those hospitalized (or not), and f is fraction not \
+		hospitalized. y=f*a*e (e being prob missing symptom) based on Rahmandad \
+		and Hu 2010, equation 2 (corrected version). Putting these together we \
+		find this equation.
+	|
+
+Hospital Admission Infectious[Rgn,TstSts]=
+	Hospital Admits All[Rgn,TstSts]
+	~	Person/Day
+	~		|
+
+Average Acuity Not Hospitalized Poisson[Rgn,Tested]=
+	Max ( 0, 
+	             Probability of Missing Acuity Signal at Hospitals[Rgn,Tested] 
+	                  * Average Acuity of Positively Tested[Rgn] 
+	                  * Fraction Poisson not Hospitalized[Rgn,Tested] ) ~~|
+Average Acuity Not Hospitalized Poisson[Rgn,Notest]=
+	Max ( 0, 
+	             Probability of Missing Acuity Signal at Hospitals[Rgn,Notest] 
+	                  * Average Acuity of Untested Poisson Subset[Rgn] 
+	                  * Fraction Poisson not Hospitalized[Rgn,Notest] )
+	~	dmnl
+	~		|
+
+Post Mortem Testing Need[Rgn]=
+	SMOOTHI ( (Deaths of Symptomatic Untested[Rgn]+Hospitalized Infectious Deaths[Rgn,Notest\
+		]) 
+	                  * Fraction of Fatalities Screened Post Mortem[Rgn] , 
+	             Post Mortem Test Delay , 
+	             0)
+	~	Person/Day
+	~		|
+
+Poisson Subset Not Tested Passing Gate[Rgn]=
+	Poisson Subset Reaching Test Gate[Rgn]-Positive Tests of Infected[Rgn]
+	~	Person/Day
+	~		|
+
+Hospital Demand from Not Tested[Rgn]=
+	Poisson Subset Not Tested Passing Gate[Rgn]*(1-exp(-Average Acuity of Untested Poisson Subset\
+		[Rgn]*(1-PMAS Unconfirmed for Hospital Demand[Rgn])))
+	~	Person/Day
+	~		|
+
+Untested symptomatic Infected to Hospital[Rgn]=
+	Hospital Admission Infectious[Rgn,Notest]
+	~	Person/Day
+	~		|
+
+Recovery of Confirmed[Rgn]=
+	Tested Untreated Resolution[Rgn]*(1-Fatality Rate Untreated[Rgn,Tested])
+	~	Person/Day
+	~		|
+
+Weighted Infected Post Detection Gate[Rgn]=
+	+ "Infected Unconfirmed Post-Detection"[Rgn] 
+	             + Infectious Confirmed Not Hospitalized[Rgn] 
+	+sum(Hospitalized Infectious[Rgn,TstSts!])*"Post-Detection Phase Resolution Time"/Hospitalized Resolution Time
+	~	Person
+	~		|
+
+Hospital Admits All[Rgn,Tested]=
+	Hospital Demand from Tested[Rgn]*Allocated Fraction COVID Hospitalized[Rgn] ~~|
+Hospital Admits All[Rgn,Notest]=
+	Hospital Demand from Not Tested[Rgn]*Allocated Fraction COVID Hospitalized[Rgn]
+	~	Person/Day
+	~		|
+
+Fraction Poisson not Hospitalized[Rgn,Tested]=
+	exp ( - Average Acuity of Positively Tested[Rgn] 
+	                  * ( 1
+	                       - Probability of Missing Acuity Signal at Hospitals[Rgn,Tested\
+		] ) ) ~~|
+Fraction Poisson not Hospitalized[Rgn,Notest]=
+	exp ( - Average Acuity of Untested Poisson Subset[Rgn]
+	                  * ( 1
+	                       - Probability of Missing Acuity Signal at Hospitals[Rgn,Notest\
+		] ) )
+	~	dmnl
+	~	Fraction of those with covid who are not hospitalized, subscripted for \
+		those tested and those not tested
+	|
+
+PMAS Unconfirmed for Hospital Demand[Rgn]=
+	PMAS Confirmed for Hospital Demand[Rgn]+(1-PMAS Confirmed for Hospital Demand[Rgn])*\
+		Untested PMAS Gap with Tested[Rgn]
+	~	dmnl
+	~		|
+
+Covid Poisson Fraction in Hospital[Rgn]=
+	ZIDZ ( Total Covid Hospitalized[Rgn] , 
+	             Infectious not Tested or in Hospitals Poisson[Rgn]
+	                  + Infectious Confirmed Not Hospitalized[Rgn]+Total Covid Hospitalized\
+		[Rgn] )
+	~	dmnl
+	~		|
+
+Positive Tests of Infected[Rgn]=
+	Positive Candidates Interested in Testing Poisson Subset[Rgn] 
+	             * ( 1
+	                  - Fraction Interseted not Correctly Tested[Rgn] )
+	~	Person/Day
+	~		|
+
+Sim Pseudo Case Fatality[Rgn]=
+	ZIDZ (Cumulative Deaths of Confirmed[Rgn] , 
+	             Cumulative Confirmed Cases[Rgn] )
+	~	dmnl
+	~		|
+
+Hospitalized Resolution Time=
+	20
+	~	Day
+	~		|
+
+SeriesErrorTerm[Rgn,Series]=
+	if then else ( DataCmltOverTime[Rgn,Series] 
+	                  = :NA:, 
+	             0, 
+	             (abs ( DataCmltOverTime[Rgn,Series] 
+	                       - SimCmltOverTime[Rgn,Series] ) 
+	                  )^CmltErrPW)/ ( BaseError 
+	                       + DataCmltOverTime[Rgn,Series] )*CmltPenaltyScl *CmltToInclude\
+		[Series]*DataIncluded[Rgn]
+	~	dmnl
+	~		|
+
+CmltPenaltyScl=
+	0
+	~	dmnl
+	~		|
+
+CmltErrPW=
+	2
+	~	dmnl
+	~		|
+
+CmltToInclude[Series]=
+	0,0,0
+	~	dmnl
+	~		|
+
+NBLLFlow[Rgn,Series]=
+	( NBL1[Rgn,Series] 
+	             + NBL2[Rgn,Series] ) 
+	             * FlowToInclude[Series]*DataIncluded[Rgn]
+	~	dmnl
+	~		|
+
+Herd Immunity Fraction=
+	0.6
+	~	dmnl
+	~		|
+
+TstInc[Rgn]=
+	Active Test Rate[Rgn]
+	~	Person/Day
+	~		|
+
+maxAlp=
+	1
+	~	dmnl
+	~		|
+
+TestErrorFrac=
+	0.0001
+	~	dmnl
+	~		|
+
+TestFlowErr[Rgn]=
+	((DataFlowOverTime[Rgn,Test]-MeanFlowOverTime[Rgn,Test])*WTestFlowErr[Rgn])^2
+	~	dmnl
+	~		|
+
+WTestFlowErr[Rgn]=
+	if then else(DataFlowOverTime[Rgn,Test]=:NA:,0,1/Max(10,DataFlowOverTime[Rgn,Test]*TestErrorFrac\
+		))
+	~	Day/Person
+	~		|
+
+Time to Respond with Tests=
+	5
+	~	Day
+	~		|
+
+Testing Capacity Net of Post Mortem Tests[Rgn]=
+	Active Test Rate[Rgn] 
+	             - Post Mortem Tests Total[Rgn]
+	~	Person/Day
+	~		|
+
+Indicated fraction negative demand tested[Rgn]=
+	1-exp ( Flu Acuity 
+	                  * ( Prob Missing Symptom[Rgn] 
+	                       - 1) )
+	~	dmnl
+	~		|
+
+Fraction Interested not Tested[Rgn]=
+	1-ZIDZ(Total Test on Covid Patients[Rgn],Positive Candidates Interested in Testing Poisson Subset\
+		[Rgn])
+	~	dmnl
+	~	The fraction of covid positive, poisson part, that is not tested given the \
+		Prob Missing Symptm.This is calculated using the equation 2 in Rahmandad \
+		and Hu 2010, where "Fraction not tested" is equal to "P(TestPass)" given \
+		the different meanings of testing (one is testing to find defects, where \
+		passing means you did not catch errors in tasks and let it go; the other \
+		is missing symptoms in tests which lead to "TestPass" when somebody is not \
+		tested at all.
+	|
+
+Post Mortem Tests Total[Rgn]=
+	min ( Post Mortem Testing Need[Rgn] , 
+	             Active Test Rate[Rgn] )
+	~	Person/Day
+	~		|
+
+Tests on Negative Patients[Rgn]=
+	Testing on Living[Rgn]*ZIDZ(Indicated fraction negative demand tested[Rgn]*Potential Test Demand from Susceptible Population\
+		[Rgn],Indicated fraction negative demand tested[Rgn]*Potential Test Demand from Susceptible Population\
+		[Rgn]+Indicated fraction positive demand tested[Rgn]*Positive Candidates Interested in Testing Poisson Subset\
+		[Rgn])
+	~	Person/Day
+	~		|
+
+Total Test on Covid Patients[Rgn]=
+	Max(0,min(Positive Candidates Interested in Testing Poisson Subset[Rgn],Testing on Living\
+		[Rgn]-Tests on Negative Patients[Rgn]))
+	~	Person/Day
+	~		|
+
+Symptomatic Fraction Negative[Rgn]= INITIAL(
+	1
+	             - exp ( - Flu Acuity ))
+	~	dmnl
+	~		|
+
+LastTestDate[Rgn]= INITIAL(
+	GET DATA Last TIME(DataTestRate[Rgn]))
+	~	Day
+	~		|
+
+FlowToInclude[Series]=
+	1, 1, 0
+	~	dmnl
+	~		|
+
+Min Excess Death Attributable to COVID=
+	0.5
+	~	dmnl
+	~		|
+
+DataCmltTest[Rgn]
+	~	Person
+	~		|
+
+talp=
+	5
+	~	dmnl
+	~		|
+
+SimTestRate[Rgn]  = 
+        Total Simulated Tests[Rgn]
+	~	Person/Day
+	~		|
+
+Cumulative Tests Conducted[Rgn]  = 
+        INTEG( SimTestRate[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+DataTestRate[Rgn]:INTERPOLATE:
+	~	Person/Day
+	~		|
+
+alpR[Rgn]  = 1
+	~	dmnl
+	~		|
+
+Total Simulated Tests[Rgn]  = 
+        Post Mortem Tests Total[Rgn] 
+             + Testing on Living[Rgn]
+	~	Person/Day
+	~		|
+
+DataTestCapacity[Rgn]
+	~	Person/Day
+	~		|
+
+ialp  = 0.1
+	~	dmnl
+	~		|
+
+dalp  = 0.1
+	~	dmnl
+	~		|
+
+payoff  = 0
+	~	dmnl
+	~		|
+
+Excess Death End Count[Rgn]  = GET VDF CONSTANTS(Constant Data File , 
+                'DataConstants[Rgn]', 
+                14)
+	~	Day
+	~		|
+
+Cumulative Missed Death[Rgn]  = 
+        INTEG( Count Missed Death[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+Excess Death Start Count[Rgn]  = GET VDF CONSTANTS(Constant Data File , 
+                'DataConstants[Rgn]', 
+                13)
+	~	Day
+	~		|
+
+Reference COVID Hospitalization Fraction Confirmed[Rgn]=
+	0.7
+	~	dmnl
+	~		|
+
+Allocated Fration NonCOVID Hospitalized[Rgn]=
+	SMOOTHI(Allocated Fraction COVID Hospitalized[Rgn] 
+	             ^ 2,Hospital Adj T,1)
+	~	dmnl
+	~	This is by assumption the squared of allocated fraction for COVID
+	|
+
+Fraction Covid Hospitalized Positively Tested[Rgn]  = 
+        ZIDZ ( Hospitalized Infectious[Rgn,Tested] , 
+             Total Covid Hospitalized[Rgn] )
+	~	dmnl
+	~		|
+
+Fraction of Population Hospitalized for Covid[Rgn]  = 
+        Total Covid Hospitalized[Rgn] 
+             / Population[Rgn]
+	~	dmnl
+	~		|
+
+Total Covid Hospitalized[Rgn]  = 
+        sum ( Hospitalized Infectious[Rgn,TstSts!] )
+	~	Person
+	~		|
+
+Post Mortem Test Rate[Rgn]  = 
+        Post Mortem Tests Total[Rgn] 
+             * Sensitivity of COVID Test
+	~	Person/Day
+	~		|
+
+Data Excess Deaths[Rgn]=
+	GET VDF CONSTANTS(Constant Data File , 
+	                'DataConstants[Rgn]', 
+	                15)
+	~	Person
+	~	Data should be collected. Unclear if many countries have it. UK: has \
+		weekly data, rather up-to-date: \
+		https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriage\
+		s/deaths/datasets/weeklyprovisionalfiguresondeathsregisteredinenglandandwal\
+		es Germany: does not have it beyond last month of 2019. \
+		https://www-genesis.destatis.de/genesis/online?sequenz=tabelleErgebnis&sele\
+		ctionname=12613-0005&language=en
+	|
+
+eps  = 0.001
+	~	Person/Day
+	~		|
+
+a[Rgn]  = 
+        XIDZ ( Potential Test Demand from Susceptible Population[Rgn] , 
+             Positive Candidates Interested in Testing Poisson Subset Adj[Rgn] , 
+             1)
+	~	dmnl
+	~	The coefficient for the first order term for Y=exp(-lambda(1-alpha))
+	|
+
+Positive Candidates Interested in Testing Poisson Subset Adj[Rgn]  = 
+        Max ( 0.001
+                  * Potential Test Demand from Susceptible Population[Rgn] , 
+             Positive Candidates Interested in Testing Poisson Subset[Rgn] )
+	~	Person/Day
+	~		|
+
+b[Rgn]  = 
+        ZIDZ ( Testing on Living[Rgn] 
+                  - Positive Candidates Interested in Testing Poisson Subset Adj[Rgn]\
+		 
+                  - Potential Test Demand from Susceptible Population[Rgn] , 
+             Positive Candidates Interested in Testing Poisson Subset Adj[Rgn] )
+	~	dmnl
+	~	Equation coefficients for solving the equation that changes testing \
+		threshold (for ignoring/attending to symptoms) to match test supply with \
+		demand.
+	|
+
+PseudoCFR
+	~	dmnl
+	~		|
+
+lnymix[Rgn,expnt]  = 
+        - ln ( Max ( 1e-06, 
+                  1
+                       - Ymix[Rgn,expnt] ) )
+	~	dmnl
+	~		|
+
+lnymix 0[Rgn,expnt]  = 
+        - ln ( Max ( 1e-06, 
+                  1
+                       - Ymix[Rgn,expnt] ) )
+	~	dmnl
+	~		|
+
+Sensitivity of COVID Test  = 0.7
+	~	dmnl
+	~		|
+
+cft[Rgn,p2]  = 
+        lnymix[Rgn,p2] ~~|
+cft[Rgn,p3]  = 
+        lnymix[Rgn,p3] 
+             - lnymix[Rgn,p2] ~~|
+cft[Rgn,p4]  = 
+        ( ln ( min ( 100, 
+                  Max ( 1e-06, 
+                       ZIDZ ( lnymix[Rgn,p4] 
+                                 - lnymix[Rgn,p2] , 
+                            lnymix[Rgn,p3] 
+                                 - lnymix[Rgn,p2] ) 
+                            / ln ( 2) ) ) ) )
+	~	dmnl
+	~		|
+
+Infectious not Tested or in Hospitals Poisson[Rgn]=
+	"Infected Unconfirmed Post-Detection"[Rgn] 
+	             - Additional Asymptomatic Post Detection[Rgn]
+	~	Person
+	~		|
+
+Average Acuity Not Hospitalized[Rgn,Notest]  = 
+        ZIDZ ( Average Acuity Not Hospitalized Poisson[Rgn,Notest] 
+                  * Infectious not Tested or in Hospitals Poisson[Rgn] , 
+             "Infected Unconfirmed Post-Detection"[Rgn] ) ~~|
+Average Acuity Not Hospitalized[Rgn,Tested]  = 
+        Average Acuity Not Hospitalized Poisson[Rgn,Tested]
+	~	dmnl
+	~		|
+
+Multiplier Transmission Risk for Asymptomatic Net[Rgn]= INITIAL(
+	Multiplier Transmission Risk for Asymptomatic[Rgn]*(1-SW Gen[MTrAsym])+SW Gen[MTrAsym\
+		]*InputAve[MTrAsym])
+	~	dmnl
+	~		|
+
+W Ave Acuity Hospitalized[Rgn]  = 
+        ZIDZ ( sum ( Average Acuity Hospitalized[Rgn,TstSts!] 
+                       * Hospitalized Infectious[Rgn,TstSts!] ) , 
+             sum ( Hospitalized Infectious[Rgn,TstSts!] ) )
+	~	dmnl
+	~		|
+
+Reference Hospital Density  = 6.06
+	~	Person/(Km*Km)
+	~		|
+
+Normalized Hospital density[Rgn]  = 
+        INITIAL( Bed per Square Kilometer[Rgn] 
+                  / Reference Hospital Density  )
+	~	dmnl
+	~	Normalizing beds per square km to the values for south korea, which is a \
+		relatively large country but with very high density (98 percentile of this \
+		measure worldwide).
+	|
+
+Infectious Confirmed Not Hospitalized[Rgn]  = 
+        INTEG( Positive Testing of Infected Untreated[Rgn] 
+                  - Deaths of Confirmed[Rgn] 
+                  - Recovery of Confirmed[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+Cumulative Confirmed Recovered[Rgn]=
+	Confirmed Recovered[Rgn]+Cumulative Recovered at Hospitals[Rgn,Tested]
+	~	Person
+	~		|
+
+Area of Region[Rgn]  = GET VDF CONSTANTS(Constant Data File , 
+                'DataConstants[Rgn]', 
+                5)
+	~	Km*Km
+	~		|
+
+Confirmed Recovered[Rgn]  = 
+        INTEG( Recovery of Confirmed[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+Onset of Symptoms[Rgn]  = 
+        DELAY N ( Infection Rate[Rgn] , 
+             Incubation Period ,0, 
+             Delay Order )
+	~	Person/Day
+	~		|
+
+Patient Zero Arrival[Rgn]=
+	if then else ( Time 
+	                  < Patient Zero Arrival Time[Rgn] 
+	                  :AND: Time 
+	                       + TIME STEP 
+	                       >= Patient Zero Arrival Time[Rgn] , 
+	             PatientZero 
+	                  / TIME STEP , 
+	             0)
+	~	Person/Day
+	~		|
+
+Bed per Square Kilometer[Rgn]  = 
+        INITIAL( Nominal Hospital Capacity[Rgn] 
+                  / Area of Region[Rgn]  )
+	~	Person/Km/Km
+	~		|
+
+Delay Order=
+	1
+	~	dmnl
+	~		|
+
+Incubation Period  = 5.6
+	~	Day
+	~		|
+
+Recovered Unconfirmed[Rgn]  = 
+        INTEG( Recovery of Untested[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+"Pre-Symptomatic Infected"[Rgn]  = 
+        INTEG( Infection Rate[Rgn] 
+                  + Patient Zero Arrival[Rgn] 
+                  - Onset of Symptoms[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+Data Pseudo Case Fatality[Rgn]  = 
+        ZIDZ ( DataCmltDeath[Rgn] , 
+             DataCmltInfection[Rgn] )
+	~	dmnl
+	~		|
+
+Overall Death Fraction[Rgn]  = 
+        ZIDZ ( Death Rate[Rgn] , 
+             All Recovery[Rgn] )
+	~	dmnl
+	~		|
+
+Cumulative Recoveries[Rgn]  = 
+        INTEG( All Recovery[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+Demographic Impact on Fatality Relative to China[Rgn]  = GET VDF CONSTANTS(Constant Data File\
+		 , 
+                'DataConstants[Rgn]', 
+                12)
+	~	dmnl
+	~		|
+
+Constant Data File:IS:
+	'CovidModelInputs - ConstantData.vdf'
+	~	dmnl
+	~		|
+
+Discount Rate per Day  = 
+        INITIAL( Discount Rate Annual 
+                  / Days per Year  )
+	~	1/Day
+	~		|
+
+Days per Year  = 365
+	~	Day/Year
+	~		|
+
+Contacts Relative to Normal[Rgn]  = 
+        min ( Voluntary Reduction in Contacts[Rgn] , 
+             Activities Allowed by Government[Rgn] )
+	~	dmnl
+	~		|
+
+Activities Allowed by Government[Rgn]  = 1
+	~	dmnl [0,1,0.01]
+	~	Activities government(s) in the Region allow under Covid response \
+		policies. 1 = no restrictions; 0 = full mandatory lockdown with all people \
+		to remain in their homes at all times (essential personnel excepted).
+	|
+
+Nominal Hospital Capacity[Rgn]  = 
+        INITIAL( Initial Population[Rgn] 
+                  * Beds per Thousand Population[Rgn] 
+                  / 1000 )
+	~	Person
+	~		|
+
+Hospital Discharges[Rgn,TstSts]  = 
+        ( 1
+             - Fatality Rate Treated[Rgn,TstSts] ) 
+             * Hospital Outflow Covid Positive[Rgn,TstSts]
+	~	Person/Day
+	~		|
+
+Hospital Outflow Covid Positive[Rgn,TstSts]=
+	Hospitalized Infectious[Rgn,TstSts] 
+	             / Hospitalized Resolution Time
+	~	Person/Day
+	~		|
+
+Day of First Case Report in JHU Database  = 99
+	~	Day
+	~	The first case reported to the Johns Hopkins database occurred 99 days \
+		after the presumptive date of the first actual case in Wuhan.
+	|
+
+Reaching Testing Gate[Rgn]  = 
+        Infected pre Detection[Rgn] 
+             / Onset to Detection Delay
+	~	Person/Day
+	~		|
+
+Testing on Living[Rgn]  = 
+        min ( Testing Capacity Net of Post Mortem Tests[Rgn] , 
+             Testing Demand[Rgn] )
+	~	Person/Day
+	~		|
+
+BaseError  = 5
+	~	Person
+	~		|
+
+Beds per Thousand Population[Rgn]  = GET VDF CONSTANTS(Constant Data File , 
+                'DataConstants[Rgn]', 
+                11)
+	~	dmnl
+	~		|
+
+Cumulative Negative Tests[Rgn]  = 
+        INTEG( Negative Test Results[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+DataAttentionTime[Rgn]  = GET VDF CONSTANTS(Constant Data File , 
+                'DataConstants[Rgn]', 
+                9)
+	~	Day
+	~		|
+
+DataCmltDeath[Rgn]
+	~	Person
+	~		|
+
+DataCmltInfection[Rgn]
+	~	Person
+	~		|
+
+DataFlowDeath[Rgn]:INTERPOLATE:
+	~	Person/Day
+	~		|
+
+DataFlowInfection[Rgn]
+	~	Person/Day
+	~		|
+
+DataFlowRecovery[Rgn] :RAW:
+	~	Person/Day
+	~		|
+
+expnt : (p2-p4)
+	~	
+	~		|
+
+Switch for Government Response[Rgn]  = 
+        if then else ( Time 
+                  > Government Response Start Time[Rgn] , 
+             1, 
+             0)
+	~	dmnl
+	~		|
+
+IrD : Travel,InformalDeath
+	~	
+	~		|
+
+PatientZero=
+	1
+	~	Person
+	~		|
+
+PG1 : PG
+	~	
+	~		|
+
+Post Mortem Test Delay  = 1
+	~	Day
+	~		|
+
+Rgn1 : Rgn
+	~	
+	~		|
+
+Discount Rate Annual  = 0.03
+	~	1/Year [1e-05,0.2]
+	~		|
+
+Series : Infection,Death,Test
+	~	
+	~		|
+
+t3[Rgn]  = 
+        ( -9
+             * b[Rgn] 
+             + 1.7321
+                  * Sqrt ( 4
+                            * a[Rgn] 
+                                 ^ 3
+                            + 27
+                                 * b[Rgn] 
+                                      ^ 2) ) 
+             ^ ( 1
+                  / 3)
+	~	dmnl
+	~		|
+
+TstSts : Tested,Notest
+	~	
+	~		|
+
+Y[Rgn]  = 
+        min ( 1, 
+             Max ( 1e-06, 
+                  1
+                       - exp ( - Extrapolated Estimator[Rgn] ) ) )
+	~	dmnl
+	~	Max(1e-06,if then else(Exponent Symptm Density<=2,Ymix[Rgn,p2],if then \
+		else(Exponent Symptm Density<=3,Ymix[Rgn,p2]*(3-Exponent Symptm \
+		Density)+Ymix[Rgn,p3]*(Exponent Symptm Density-2),if then else(Exponent \
+		Symptm Density<=4,Ymix[Rgn,p3]*(4-Exponent Symptm \
+		Density)+Ymix[Rgn,p4]*(Exponent Symptm Density-3),Ymix[Rgn,p4]))))
+	|
+
+Ymix[Rgn,p2]  = 
+        - b[Rgn] 
+             / ( 1
+                  + a[Rgn] ) ~~|
+Ymix[Rgn,p3]  = 
+        ( Sqrt ( a[Rgn] 
+                  ^ 2
+                  - 4
+                       * b[Rgn] ) 
+             - a[Rgn] ) 
+             / 2 ~~|
+Ymix[Rgn,p4]  = 
+        ( -0.87358
+             * a[Rgn] ) 
+             / t3[Rgn] 
+             + 0.38157
+                  * t3[Rgn]
+	~	dmnl
+	~	solution to the equation for relative symptom levels of 1,2, and 3 between \
+		corona and common flu. These are used to in/extrapolate for other values
+	|
+
+********************************************************
+	.Measures
+********************************************************~
+	|
+
+Time to Herd Immunity[Rgn]=
+	XIDZ(Herd Immunity Fraction*Susceptible[Rgn],Total Weighted Infected Population[Rgn]\
+		/Total Disease Duration,0)
+	~	Day
+	~		|
+
+Active Test Rate[Rgn]=
+	if then else(Time<New Testing Time,DataTestRate[Rgn],External Test Rate[Rgn])
+	~	Person/Day
+	~	if then else(Response Policy Time On<Time,Sensitivity of Contact Reduction \
+		to Utility Policy*Response Policy Weight[scuP]+(1-Response Policy \
+		Weight[scuP])*Sensitivity of Contact Reduction to Utility[Rgn],Sensitivity \
+		of Contact Reduction to Utility[Rgn])
+	|
+
+AbsPrcErr[Rgn,Series]=
+	if then else(DataIncluded[Rgn]=0,:NA:,ZIDZ(abs(FlowResiduals[Rgn,Series
+	]),DataFlowOverTime[Rgn,Series]))
+	~	dmnl
+	~		|
+
+Fraction Tests Positive[Rgn]=
+	ZIDZ ( Positive Tests of Infected[Rgn], 
+	             Testing on Living[Rgn] )
+	~	dmnl
+	~		|
+
+Cumulative Deaths at Hospital[Rgn,TstSts]= INTEG (
+	Cml Death Hsp Inc[Rgn,TstSts],
+		0)
+	~	Person
+	~		|
+
+MeanFlowOverTime[Rgn,Infection]=
+	Post Mortem Test Rate[Rgn] 
+	             + Positive Tests of Infected[Rgn] ~~|
+MeanFlowOverTime[Rgn,Death]=
+	Recorded Deaths[Rgn] ~~|
+MeanFlowOverTime[Rgn,Test]=
+	Total Simulated Tests[Rgn]
+	~	Person/Day
+	~		|
+
+SimCmltOverTime[Rgn,Infection]=
+	Cumulative Confirmed Cases[Rgn] ~~|
+SimCmltOverTime[Rgn,Death]=
+	Cumulative Deaths of Confirmed[Rgn] ~~|
+SimCmltOverTime[Rgn,Test]  = 
+        Cumulative Tests Conducted[Rgn]
+	~	Person
+	~		|
+
+DataFlowOverTime[Rgn,Infection]:RAW::=
+	 DataFlowInfection[Rgn] ~~|
+DataFlowOverTime[Rgn,Death]:RAW::=
+	 DataFlowDeath[Rgn] ~~|
+DataFlowOverTime[Rgn,Test]:RAW::=
+	DataTestRate[Rgn]
+	~	Person/Day
+	~		|
+
+Cumulative Fraction Total Cases Hospitalized[Rgn]=
+	ZIDZ(sum(Cumulative Deaths at Hospital[Rgn,TstSts!]+Cumulative Recovered at Hospitals\
+		[Rgn,TstSts!]+Hospitalized Infectious[Rgn,TstSts!]),Cumulative Cases[Rgn])
+	~	dmnl
+	~		|
+
+Hospitalized True CFR[Rgn]=
+	ZIDZ(sum(Hospitalized Infectious Deaths[Rgn,TstSts!]),sum(Hospital Outflow Covid Positive\
+		[Rgn,TstSts!]))
+	~	dmnl
+	~		|
+
+Hospitalized CFR Cumulative[Rgn,TstSts]=
+	ZIDZ(Cumulative Deaths at Hospital[Rgn,TstSts],Cumulative Deaths at Hospital[Rgn,TstSts\
+		]+Cumulative Recovered at Hospitals[Rgn,TstSts])
+	~	dmnl
+	~		|
+
+Cumulative Recovered at Hospitals[Rgn,TstSts]= INTEG (
+	Hospital Discharges[Rgn,TstSts],
+		0)
+	~	Person
+	~		|
+
+SqrdErr[Rgn,Series]=
+	if then else(FlowResiduals[Rgn,Series]=:NA:,:NA:,FlowResiduals[Rgn,Series]^2)
+	~	Person*Person/Day/Day
+	~		|
+
+Cumulative Tests Data[Rgn]= INTEG (
+	TstInc[Rgn],
+		0)
+	~	Person
+	~		|
+
+Total to Official Cases Simulated[Rgn]=
+	ZIDZ(Cumulative Cases[Rgn],SimCmltOverTime[Rgn,Infection])
+	~	dmnl
+	~		|
+
+Tests Per Million[Rgn]=
+	Cumulative Tests Data[Rgn]/Initial Population[Rgn]*1e+06
+	~	dmnl
+	~		|
+
+Hospitalized True CFR Cumulative[Rgn]=
+	ZIDZ(sum(Cumulative Deaths at Hospital[Rgn,TstSts!]),sum(Cumulative Deaths at Hospital\
+		[Rgn,TstSts!]+Cumulative Recovered at Hospitals[Rgn,TstSts!]))
+	~	dmnl
+	~		|
+
+Fraction Tests Positive Data[Rgn]=
+	min(1,ZIDZ(DataFlowInfection[Rgn],Active Test Rate[Rgn]))
+	~	dmnl
+	~		|
+
+DataCmltOverTime[Rgn,Infection] :RAW: := DataCmltInfection[Rgn] ~~|
+DataCmltOverTime[Rgn,Death] :RAW: := DataCmltDeath[Rgn] ~~|
+DataCmltOverTime[Rgn,Test]  = 
+        DataCmltTest[Rgn]
+	~	Person
+	~		|
+
+FlowResiduals[Rgn,Series]  = 
+        if then else ( DataFlowOverTime[Rgn,Series] 
+                  = :NA:, 
+             :NA:, 
+             DataFlowOverTime[Rgn,Series] 
+                  - MeanFlowOverTime[Rgn,Series] )
+	~	Person/Day
+	~		|
+
+Cumulative Death Fraction[Rgn]  = 
+        ZIDZ ( Cumulative Deaths[Rgn] , 
+             Cumulative Deaths[Rgn] 
+                  + Cumulative Recoveries[Rgn] )
+	~	dmnl
+	~		|
+
+Hospitalized Infectious[Rgn,TstSts]  = 
+        INTEG( Hospital Admission Infectious[Rgn,TstSts] 
+                  - Hospitalized Infectious Deaths[Rgn,TstSts] 
+                  - Hospital Discharges[Rgn,TstSts] , 
+             0)
+	~	Person
+	~		|
+
+Initial Population[Rgn]  = GET VDF CONSTANTS(Constant Data File , 
+                'DataConstants[Rgn]', 
+                1)
+	~	Person
+	~	99,1;99,1;
+	|
+
+R Effective Reproduction Rate[Rgn]  = 
+        ZIDZ ( Infection Rate[Rgn] , 
+             Total Weighted Infected Population[Rgn] ) 
+             * Total Disease Duration
+	~	dmnl
+	~		|
+
+Cumulative Cases[Rgn]  = 
+        INTEG( New Cases[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+Cumulative Deaths[Rgn]  = 
+        INTEG( Death Rate[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+********************************************************
+	.Calibration
+********************************************************~
+	|
+
+Voluntary Reduction in Contacts[Rgn]=
+	exp(-Max(0,Dread Factor in Risk Perception Net[Rgn]*Perceived Risk of Life Loss[Rgn]\
+		-Sensitivity of Contact Reduction to Utility Net[Rgn]))
+	* ( 1
+	                  - Min Contact Fraction[Rgn] ) 
+	             + Min Contact Fraction[Rgn]
+	~	dmnl
+	~		|
+
+Min Contact Fraction[Rgn]=
+	0.04
+	~	dmnl
+	~		|
+
+Perceived Risk of Life Loss[Rgn]= INTEG (
+	 ( Indicated Risk of Life Loss[Rgn] 
+	                  - Perceived Risk of Life Loss[Rgn] ) 
+	                  / if then else ( Indicated Risk of Life Loss[Rgn] 
+	                            > Perceived Risk of Life Loss[Rgn] , 
+	                       Time to Upgrade Risk[Rgn] , 
+	                       Time to Downgrade Risk With Vaccine[Rgn]),
+		 
+		             0)
+	~	dmnl
+	~		|
+
+Covid Acuity Relative to Flu Net[Rgn]=
+	Average Acuity in Susceptible[Rgn]/(1-Additional Asymptomatic Fraction Init[Rgn])
+	~	dmnl
+	~		|
+
+Fatality Rate Untreated[Rgn,TstSts]=
+	min ( 1, 
+	             Baseline Fatality Multiplier[Rgn] 
+	                  * Average Acuity Not Hospitalized Poisson[Rgn,TstSts] 
+	                       ^ Sensitivity of Fatality Rate to Acuity Net[Rgn]*Time variant change in fatality\
+		[Rgn])
+	~	dmnl
+	~	Death fraction among those without getting healthcare treatment, \
+		considering their number of symptoms.
+	|
+
+RegionalInputs[UpAdj,Rgn]= INITIAL(
+	Log(Time to Upgrade Risk[Rgn],10)) ~~|
+RegionalInputs[DwnAdj,Rgn]=
+	Log(Time to Downgrade Risk[Rgn],10) ~~|
+RegionalInputs[RFI,Rgn]=
+	Reference Force of Infection[Rgn] ~~|
+RegionalInputs[PMT,Rgn]=
+	Sensitivity Post Mortem Testing to Capacity[Rgn] ~~|
+RegionalInputs[RfSkTs,Rgn]=
+	Baseline Daily Fraction Susceptible Seeking Tests[Rgn] ~~|
+RegionalInputs[WRpPIn,Rgn]=
+	Weight on Reported Probability of Infection[Rgn] ~~|
+RegionalInputs[MInfTs,Rgn]=
+	Multiplier Recent Infections to Test[Rgn] ~~|
+RegionalInputs[MnCnFrc,Rgn]=
+	Min Contact Fraction[Rgn] ~~|
+RegionalInputs[SnCnRdUt,Rgn]=
+	Sensitivity of Contact Reduction to Utility[Rgn] ~~|
+RegionalInputs[CfImCn,Rgn]=
+	Confirmation Impact on Contact[Rgn] ~~|
+RegionalInputs[ImPDnHs,Rgn]=
+	Impact of Population Density on Hospital Availability[Rgn] ~~|
+RegionalInputs[ImTrFt,Rgn]=
+	Impact of Treatment on Fatality Rate[Rgn] ~~|
+RegionalInputs[DrdFac,Rgn]=
+	Log(Dread Factor in Risk Perception[Rgn],10) ~~|
+RegionalInputs[MxHsFr,Rgn]=
+	Reference COVID Hospitalization Fraction Confirmed[Rgn] ~~|
+RegionalInputs[BsFtRt,Rgn]=
+	Base Fatality Rate for Unit Acuity Net[Rgn] ~~|
+RegionalInputs[SnsWth,Rgn]=
+	Sensitivity to Weather Net[Rgn] ~~|
+RegionalInputs[Acty,Rgn]=
+	Covid Acuity Relative to Flu Init Net[Rgn] ~~|
+RegionalInputs[SnFtAc,Rgn]=
+	Sensitivity of Fatality Rate to Acuity Net[Rgn] ~~|
+RegionalInputs[TtAsyFr,Rgn]=
+	Total Asymptomatic Fraction Init Net[Rgn] ~~|
+RegionalInputs[ObsImp,Rgn]=
+	Sens Obesity Impact Net[Rgn] ~~|
+RegionalInputs[ChrImp,Rgn]=
+	Sens Chronic Impact Net[Rgn] ~~|
+RegionalInputs[LivImp,Rgn]=
+	Sens Liver Impact Net[Rgn] ~~|
+RegionalInputs[MTrAsym,Rgn]=
+	Multiplier Transmission Risk for Asymptomatic Net[Rgn] ~~|
+RegionalInputs[HspLrng,Rgn]=
+	Learning and Death Reduction Rate[Rgn] ~~|
+RegionalInputs[AdhrFtg,Rgn]=
+	Strength of Adherence Fatigue[Rgn]
+	~	
+	~		|
+
+Fatality Rate Treated[Rgn,TstSts]=
+	min ( 1, 
+	             Baseline Fatality Multiplier[Rgn] 
+	                  * TimeVar Impact of Treatment on Fatality[Rgn]
+	                  * Average Acuity Hospitalized[Rgn,TstSts] 
+	                       ^ Sensitivity of Fatality Rate to Acuity Net[Rgn] )
+	~	dmnl
+	~	Fraction of treated patients who die.
+	|
+
+PriorErrs[Rgn,Priors]= INITIAL(
+	ZIDZ(ActiveAve[Priors]-RegionalInputs[Priors,Rgn],(AbsStd[Priors]*StdScale))^2/2)
+	~	
+	~		|
+
+Transmission Multiplier Pre Detection[Rgn]= INITIAL(
+	Baseline Transmission Multiplier for Untested Symptomatic
+	                  * ( 1
+	                       - Total Asymptomatic Fraction Net[Rgn] ) 
+	                  + Total Asymptomatic Fraction Net[Rgn]
+	                       * Baseline Risk of Transmission by Asymptomatic[Rgn])
+	~	dmnl
+	~		|
+
+Baseline Risk of Transmission by Asymptomatic[Rgn]= INITIAL(
+	Baseline Transmission Multiplier for Untested Symptomatic*Multiplier Transmission Risk for Asymptomatic Net\
+		[Rgn])
+	~	dmnl
+	~		|
+
+Sensitivity of Fatality Rate to Acuity Net[Rgn]= INITIAL(
+	Sensitivity of Fatality Rate to Acuity[Rgn]*(1-SW Gen[SnFtAc])+SW Gen[SnFtAc]*InputAve\
+		[SnFtAc])
+	~	dmnl [0,3]
+	~		|
+
+Base Fatality Rate for Unit Acuity Net[Rgn]= INITIAL(
+	Base Fatality Rate for Unit Acuity[Rgn]*(1-SW Gen[BsFtRt])+SW Gen[BsFtRt]*InputAve[BsFtRt\
+		])
+	~	dmnl [0,0.01]
+	~	This is a function of variations in comorbidity not captured in \
+		demographic multiplier.
+	|
+
+Indicated Risk of Life Loss[Rgn]=
+	Perceived Hazard of Death[Rgn] / Discount Rate per Day
+	~	dmnl
+	~	Perceived expected oss of days of life, per day, due to the epidemic
+	|
+
+Sensitivity of Contact Reduction to Utility[Rgn]=
+	15
+	~	dmnl
+	~		|
+
+Additional Asymptomatic Post Detection[Rgn]=
+	Weighted Infected Post Detection Gate[Rgn]*Additional Asymptomatic Relative to Symptomatic\
+		[Rgn]/(1+Additional Asymptomatic Relative to Symptomatic[Rgn])
+	~	Person
+	~		|
+
+Additional Asymptomatic Relative to Symptomatic[Rgn]=
+	ZIDZ(Total Asymptomatic Fraction Net[Rgn]-exp ( - Covid Acuity[Rgn] ),1-Total Asymptomatic Fraction Net\
+		[Rgn])
+	~	dmnl
+	~	This is the solution to (x+p0)/(x+p0+p_rest)=T, where x is the additional \
+		asymptomatic as a fraction of symptomatic, p0 is probability of 0 given \
+		the poisson portion, and p_rest is the remainder of the poisson \
+		probablities, so p0+p_rest=1; T is the total asymptomatic fraction.
+	|
+
+Average Acuity of Positively Tested[Rgn]  = 
+        Covid Acuity[Rgn] 
+             * XIDZ ( ( 1
+                       - Prob Missing Symptom[Rgn] 
+                            * Fraction Interested not Tested[Rgn] 
+                                 ^ 2) , 
+                  1
+                       - Fraction Interested not Tested[Rgn] , 
+                  2
+                       * Prob Missing Symptom[Rgn] )
+	~	dmnl
+	~	Averange number of symptoms among those tested. This is calculated by the \
+		following two equations: a=f*y+(1-f)*x, where a is the average acuity, y \
+		is average acuity among those not tested, x is average acuity among those \
+		tested, and f is fraction not tested. y=f*a*e (e being prob missing \
+		symptom) based on Rahmandad and Hu 2010, equation 2 (corrected version). \
+		Putting these together we find this equation. The last part of XIDZ uses \
+		L'Hopital's rule to calculate the ratio.
+	|
+
+Average Acuity of Untested Poisson Subset[Rgn]=
+	ZIDZ(Poisson Subset Reaching Test Gate[Rgn]*Covid Acuity[Rgn]-Positive Tests of Infected\
+		[Rgn]*Average Acuity of Positively Tested[Rgn],Poisson Subset Not Tested Passing Gate\
+		[Rgn])
+	~	dmnl
+	~		|
+
+Flu Acuity Relative to Covid[Rgn]=
+	Flu Acuity 
+	             / Covid Acuity[Rgn]
+	~	dmnl
+	~		|
+
+Fraction of Additional Symptomatic[Rgn]=
+	Additional Asymptomatic Relative to Symptomatic[Rgn]/(1+Additional Asymptomatic Relative to Symptomatic\
+		[Rgn])
+	~	dmnl
+	~		|
+
+Poisson Subset Reaching Test Gate[Rgn]=
+	Reaching Testing Gate[Rgn]/(1+Additional Asymptomatic Relative to Symptomatic[Rgn])
+	~	Person/Day
+	~		|
+
+Testing Demand[Rgn]=
+	Positive Candidates Interested in Testing Poisson Subset[Rgn] 
+	             * Symptomatic Fraction in Poisson[Rgn] 
+	             + Potential Test Demand from Susceptible Population[Rgn] 
+	                  *Symptomatic Fraction Negative[Rgn]
+	~	Person/Day
+	~		|
+
+Symptomatic Fraction in Poisson[Rgn]= INITIAL(
+	1
+	             - exp ( - Covid Acuity[Rgn] ))
+	~	dmnl
+	~		|
+
+Indicated fraction positive demand tested[Rgn]=
+	1-exp ( Covid Acuity[Rgn] 
+	                  * ( Prob Missing Symptom[Rgn] 
+	                       - 1) )
+	~	dmnl
+	~		|
+
+Baseline Fatality Multiplier[Rgn]= INITIAL(
+	Demographic Impact on Fatality Relative to China[Rgn] 
+	             * Base Fatality Rate for Unit Acuity Net[Rgn]*Liver Disease Impact on Fatality\
+		[Rgn]*Obesity Impact on Fatality[Rgn]*Chronic Impact on Fatality[Rgn])
+	~	dmnl [0,0.1]
+	~		|
+
+Covid Acuity[Rgn]=
+	Flu Acuity 
+	             * Covid Acuity Relative to Flu Net[Rgn]
+	~	dmnl
+	~		|
+
+Extrapolated Estimator[Rgn]  = 
+        if then else ( Covid Acuity Relative to Flu Net[Rgn] 
+                  > 1, 
+             cft[Rgn,p2] 
+                  + cft[Rgn,p3] 
+                       * ( Covid Acuity Relative to Flu Net[Rgn] 
+                            - 1) 
+                            ^ cft[Rgn,p4] , 
+             lnymix[Rgn,p2] )
+	~	dmnl
+	~	Extrapolating to other values of ration in symptoms using the equation \
+		form: a(P-1)^b+c=lnymix. a,b,c are found solving for P values of 1,2, and \
+		3. Note that lnymix is itself a transformation of Probability of Missing \
+		Syptm
+	|
+
+Confirmation Impact on Contact[Rgn]=
+	0.002
+	~	dmnl
+	~		|
+
+Perceived Hazard of Death[Rgn]  = 
+        ( Weight on Reported Probability of Infection[Rgn] 
+             * Reported Hazard of Death[Rgn] 
+             + ( 1
+                  - Weight on Reported Probability of Infection[Rgn] ) 
+                  * True Hazard of death[Rgn] )
+	~	1/Day
+	~		|
+
+Time to Upgrade Risk[Rgn]=
+	10
+	~	Day
+	~		|
+
+Indicated Fraction Post Mortem Testing[Rgn]=
+	Fraction Covid Death In Hospitals Previously Tested[Rgn]
+	              
+	             ^ Sensitivity Post Mortem Testing to Capacity[Rgn]
+	~	dmnl
+	~	The idea in this equation is that post-mortem testing coverage is related \
+		to testing coverage in hospitals with a power function.
+	|
+
+Weight on Reported Probability of Infection[Rgn]=
+	0.78
+	~	dmnl [0,1,0.01]
+	~		|
+
+Impact of Treatment on Fatality Rate[Rgn]=
+	0.32
+	~	dmnl
+	~		|
+
+Hospital Admit Ratio[Rgn,TstSts]=
+	XIDZ(Hospital Admits All[Rgn,TstSts],Potential Hospital Demand[Rgn,TstSts],1)
+	~	dmnl
+	~		|
+
+Expected Positive Poisson Covid Patients[Rgn]=
+	sum(Potential Hospital Demand[Rgn,TstSts!])*"Post-Detection Phase Resolution Time"
+	~	Person
+	~	This is the equilibrium number of symptomatic covid patients, a fraction \
+		of which becomes the demand for hospital.
+	|
+
+Potential Hospital Demand[Rgn,Notest]=
+	Hospital Demand from Not Tested[Rgn] ~~|
+Potential Hospital Demand[Rgn,Tested]=
+	Hospital Demand from Tested[Rgn]
+	~	Person/Day
+	~	The potential number of people who might go to the hospital, based on the \
+		severity of symptoms they experience, regardless of whether they have been \
+		tested or test status.
+	|
+
+Probability of Missing Acuity Signal at Hospitals[Rgn, Tested]=
+	ZIDZ(ln ( Max ( 1e-06, 
+	                  1
+	                       - ZIDZ ( Hospital Admits All[Rgn,Tested] , 
+	                            Positive Tests of Infected[Rgn] ) ) ) ,
+	             Average Acuity of Positively Tested[Rgn] )
+	             + 1 ~~|
+Probability of Missing Acuity Signal at Hospitals[Rgn,Notest]=
+	ZIDZ(ln ( Max ( 1e-06, 
+	                  1
+	                       - ZIDZ ( Hospital Admits All[Rgn,Notest] , 
+	                            Poisson Subset Not Tested Passing Gate[Rgn] ) ) ) 
+	             , Average Acuity of Untested Poisson Subset[Rgn] )
+	             + 1
+	~	dmnl
+	~	The probability that hospital misses an acuity units in admission, that \
+		allows to match supply and demand for hospital beds. The probability of \
+		admission, which is 1-probability of rejection (eq 2 in Rahmandad and Hu \
+		2010), is exp(-Covid Acuity*(1-X)), and equals "Hospital Admits \
+		All[Rgn]/(Reaching Testing Gate[Rgn]*(1-Additional Asymptomatic \
+		Fraction))". Finding X results in the equation.
+	|
+
+Allocated Fraction COVID Hospitalized[Rgn]  = 
+        min ( 1, 
+             ( - Expected Positive Poisson Covid Patients[Rgn] 
+                  + Sqrt ( Expected Positive Poisson Covid Patients[Rgn] 
+                            ^ 2
+                            + 4
+                                 * Effective Hospital Capacity[Rgn] 
+                                 * Effective Hospital Capacity[Rgn] ) ) 
+                  / ( 2
+                       * Effective Hospital Capacity[Rgn] ) )
+	~	dmnl
+	~	This equation is solved for allocating Capacity (C) hospital beds to \
+		non-covid demand of C, and covid demand of V. the allocation fraction to V \
+		is fv, which we assumed is higher than fc (the allocation fraction to \
+		non-covid) with fc=fv^2 (and fv<=1). Solving fv*V+fc*C=C equation we get \
+		the above solution. Note that non-covid demand could easily be changed to \
+		another number if data is avaiable.
+	|
+
+Dread Factor in Risk Perception[Rgn]=
+	25
+	~	dmnl [0,10000]
+	~		|
+
+Total Disease Duration  = 
+        Onset to Detection Delay 
+             + "Post-Detection Phase Resolution Time" 
+             + Incubation Period
+	~	Day
+	~		|
+
+Fraction Interseted not Correctly Tested[Rgn]  = 
+        1
+             - ( 1
+                  - Fraction Interested not Tested[Rgn] ) 
+                  * Sensitivity of COVID Test
+	~	dmnl
+	~	Fraction of those with covid-19 not correctly tested due to test supply \
+		limits or test sensitivity problems. This equations assumes test \
+		sensitivity is independent of acuity. Thus "(1-exp ( Covid Acuity * ( Prob \
+		Missing Symptm[Rgn] - 1) )" is fraction not tested due to test treshold, 1 \
+		minus that are those tested, and sensitivity determines the fraction of \
+		those tests that are reliable/correct (focus is on false negatives, as RNA \
+		based tests have very low false positivies).
+	|
+
+Flu Acuity  = 1
+	~	dmnl
+	~		|
+
+Fraction Seeking Test[Rgn]=
+	1
+	~	dmnl
+	~	min ( 1, Perceived Risk of Life Loss[Rgn] / Cost of Test Compared to Life Value )
+		
+		( 1
+		             - exp ( - Perceived Risk of Life Loss[Rgn] 
+		                       * Sensitivity of Test Demand To Perceived Risk ) )
+	|
+
+Reference Force of Infection[Rgn]=
+	0.6
+	~	1/Day [0,2]
+	~		|
+
+Fraction of Fatalities Screened Post Mortem[Rgn]  = 
+        Indicated Fraction Post Mortem Testing[Rgn] 
+             * Switch for Government Response[Rgn]
+	~	dmnl
+	~		|
+
+Prob Missing Symptom[Rgn]=
+	Max ( 0, 
+	             ln ( Y[Rgn] ) 
+	                  / Flu Acuity 
+	                  + 1)
+	~	dmnl
+	~	The probability of missing symptoms in testing, assuming a poisson \
+		distribution for symptoms with the given mean for flu and covid19, to \
+		match test supply and demand. This is coming from the solution to the \
+		extrapolated Prob Missing Sympms which used the reverse of this \
+		transformation, i.e. y=exp(-acuity*(1-Pmissing)) and extrapolates that \
+		using y(p)=a+b*p^c, measured for 3 values of p=1,2 and 3 to estimate a,b, \
+		and c.
+	|
+
+Patient Zero Arrival Time[Rgn]  = 1
+	~	Day [0,200]
+	~		|
+
+Government Response Start Time[Rgn]  = 
+        INITIAL( DataAttentionTime[Rgn] 
+                  + Day of First Case Report in JHU Database  )
+	~	Day
+	~		|
+
+Relative Risk of Transmission by Hospitalized=
+	1
+	~	dmnl
+	~		|
+
+Onset to Detection Delay  = 5
+	~	Day
+	~		|
+
+"Post-Detection Phase Resolution Time"  = 10
+	~	Day
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 550
+	~	Day [50,182,1]
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 30
+	~	Day
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 1
+	~	Day [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.25
+	~	Day [0,?]
+	~	The time step for the simulation.
+	|
+
+********************************************************
+	.UPerson
+********************************************************~
+	|
+
+Population[Rgn]=
+	Infected pre Detection[Rgn] 
+	             + "Infected Unconfirmed Post-Detection"[Rgn] 
+	             + Susceptible[Rgn] 
+	             + Recovered Unconfirmed[Rgn] 
+	             + Confirmed Recovered[Rgn] 
+	             + Infectious Confirmed Not Hospitalized[Rgn] 
+	             + "Pre-Symptomatic Infected"[Rgn]
+	+sum(Hospitalized Infectious[Rgn,TstSts!])
+	+sum(Cumulative Recovered at Hospitals[Rgn,TstSts!])
+	~	Person
+	~		|
+
+Susceptible[Rgn]= INTEG (
+	-Infection Rate[Rgn]-Vaccination[Rgn],
+		 
+		             Initial Population[Rgn])
+	~	Person
+	~		|
+
+Cumulative Confirmed Cases[Rgn]= INTEG (
+	SimFlowOverTime[Rgn,Infection],
+		0)
+	~	Person
+	~		|
+
+Infected pre Detection[Rgn]= INTEG (
+	Onset of Symptoms[Rgn]-Continue without Testing[Rgn]-Symptomatic Infected to Testing\
+		[Rgn]-Untested symptomatic Infected to Hospital[Rgn],
+		 
+		             0)
+	~	Person
+	~		|
+
+Total Weighted Infected Population[Rgn]=
+	Infected pre Detection[Rgn] 
+	             + "Pre-Symptomatic Infected"[Rgn]+Weighted Infected Post Detection Gate\
+		[Rgn]
+	~	Person
+	~		|
+
+"Infected Unconfirmed Post-Detection"[Rgn]  = 
+        INTEG( Continue without Testing[Rgn] 
+                  - Deaths of Symptomatic Untested[Rgn] 
+                  - Recovery of Untested[Rgn] , 
+             0)
+	~	Person
+	~		|
+
+********************************************************
+	.UPpDay
+********************************************************~
+	|
+
+Infection Rate[Rgn]=
+	Infectious Contacts[Rgn] 
+	             * ( Susceptible[Rgn] 
+	                  / Population[Rgn] )*Weather Effect on Transmission[Rgn]
+	~	Person/Day
+	~		|
+
+New Cases[Rgn]=
+	Infection Rate[Rgn]+Patient Zero Arrival[Rgn]
+	~	Person/Day
+	~		|
+
+Continue without Testing[Rgn]=
+	Reaching Testing Gate[Rgn] 
+	             - Symptomatic Infected to Testing[Rgn]-Untested symptomatic Infected to Hospital\
+		[Rgn]
+	~	Person/Day
+	~		|
+
+Death Rate[Rgn]=
+	Deaths of Confirmed[Rgn] 
+	             + Deaths of Symptomatic Untested[Rgn]+sum(Hospitalized Infectious Deaths\
+		[Rgn,TstSts!])
+	~	Person/Day
+	~		|
+
+alp[Rgn,Infection]=
+	min ( maxAlp, 
+	             ialp 
+	                  * alpR[Rgn] ) ~~|
+alp[Rgn,Death]  = 
+        min ( 1, 
+             dalp 
+                  * alpR[Rgn] ) ~~|
+alp[Rgn,Test]  = 
+        min ( 1, 
+             talp 
+                  * alpR[Rgn] )
+	~	dmnl
+	~	This parameter is 1 over the number of failures in negative binomial \
+		before experiment is stopped. A value between 0 and 1 (excluding zero) is \
+		legitimate calibraiton parameters here.
+	|
+
+NBL1[Rgn,Series]  = 
+        if then else ( DataFlowOverTime[Rgn,Series] 
+                  = 0, 
+             - ln ( 1
+                       + alp[Rgn,Series] 
+                            * Mu[Rgn,Series] ) 
+                  / alp[Rgn,Series] , 
+             0)
+	~	dmnl
+	~	This is the part of negative binomial distribution calcualted when \
+		outcomes are zero.
+	|
+
+NBL2[Rgn,Series]  = 
+        if then else ( DataFlowOverTime[Rgn,Series] 
+                  > 0, 
+             GAMMA LN ( Di[Rgn,Series] 
+                       + 1
+                            / alp[Rgn,Series] ) 
+                  - GAMMA LN ( 1
+                            / alp[Rgn,Series] ) 
+                  - GAMMA LN ( Di[Rgn,Series] 
+                            + 1) 
+                  - ( Di[Rgn,Series] 
+                       + 1
+                            / alp[Rgn,Series] ) 
+                       * ln ( 1
+                                 + alp[Rgn,Series] 
+                                      * Mu[Rgn,Series] ) 
+                  + Di[Rgn,Series] 
+                       * ( ln ( alp[Rgn,Series] ) 
+                            + ln ( Mu[Rgn,Series] ) ) , 
+             0)
+	~	dmnl
+	~	This is the second piece in the loglikelihood for negative binomial which \
+		only applies to non-zero data points.
+	|
+
+NBL3[Rgn,Series]  = 
+        if then else ( Di[Rgn,Series] 
+                  > 0, 
+             - GAMMA LN ( Di[Rgn,Series] 
+                       + 1) 
+                  - ( Di[Rgn,Series] 
+                       + 1
+                            / alp[Rgn,Series] ) 
+                       * ln ( 1
+                                 + alp[Rgn,Series] 
+                                      * Mu[Rgn,Series] ) 
+                  + Di[Rgn,Series] 
+                       * ( ln ( alp[Rgn,Series] ) 
+                            + ln ( Mu[Rgn,Series] ) ) , 
+             0)
+	~	dmnl
+	~		|
+
+Di[Rgn,Series]  = 
+        DataFlowOverTime[Rgn,Series]
+	~	Person/Day
+	~		|
+
+Mu[Rgn,Series]  = 
+        Max ( eps , 
+             MeanFlowOverTime[Rgn,Series] )
+	~	Person/Day
+	~		|
+
+Recovery of Untested[Rgn]  = 
+        ( "Infected Unconfirmed Post-Detection"[Rgn] 
+             / "Post-Detection Phase Resolution Time" ) 
+             - Deaths of Symptomatic Untested[Rgn]
+	~	Person/Day
+	~		|
+
+Deaths of Symptomatic Untested[Rgn]=
+	Infectious not Tested or in Hospitals Poisson[Rgn] 
+	             / "Post-Detection Phase Resolution Time" 
+	             * Fatality Rate Untreated[Rgn,Notest]
+	~	Person/Day
+	~		|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Infection dynamics
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Susceptible,403,757,68,35,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,2,Infected pre Detection,950,756,75,33,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,3,"Infected Unconfirmed Post-Detection",1301,752,68,32,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,4,6,99,4,0,0,22,0,0,0,-1--1--1,,1|(593,760)|
+1,5,6,1,100,0,0,22,0,0,0,-1--1--1,,1|(505,760)|
+11,6,8714,547,760,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,7,Infection Rate,547,792,37,23,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+1,8,10,3,4,0,0,22,0,0,0,-1--1--1,,1|(1182,752)|
+1,9,10,2,100,0,0,22,0,0,0,-1--1--1,,1|(1071,752)|
+11,10,1300,1125,752,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,11,Continue without Testing,1125,796,60,19,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+1,12,14,30,4,0,0,22,0,0,0,-1--1--1,,1|(1523,756)|
+1,13,14,3,100,0,0,22,0,0,0,-1--1--1,,1|(1418,756)|
+11,14,12080,1474,756,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,15,Recovery of Untested,1474,788,49,23,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+12,16,48,1315,944,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,17,19,16,4,0,0,22,0,0,0,-1--1--1,,1|(1317,902)|
+1,18,19,3,100,0,0,22,0,0,0,-1--1--1,,1|(1317,819)|
+11,19,48,1317,862,8,7,33,3,0,0,4,0,0,0,0,0,0,0,0,0
+10,20,Deaths of Symptomatic Untested,1374,862,49,28,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,21,Total Weighted Infected Population,1384,131,70,18,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,22,Population,757,126,39,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,23,Reference Force of Infection,749,1313,67,32,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,24,Onset to Detection Delay,1302,655,59,18,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,25,Total Disease Duration,1798,142,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,26,"Post-Detection Phase Resolution Time",1558,868,65,27,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,27,26,15,1,0,0,0,0,64,0,-1--1--1,,1|(1522,820)|
+10,28,Population,258,820,48,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,29,Initial Population,1398,-108,59,11,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,30,Recovered Unconfirmed,1630,754,64,33,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,31,Infectious Contacts,603,930,59,21,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,32,2,31,1,0,0,0,0,128,0,-1--1--1,,1|(910,824)|
+10,33,Baseline Risk of Transmission by Asymptomatic,-72,1020,60,27,8,131,0,0,-1,0,0,0,0,0,0,0,0,0
+1,34,31,7,1,0,0,0,0,64,0,-1--1--1,,1|(569,874)|
+12,35,48,705,582,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,36,107,35,100,0,0,22,0,0,0,-1--1--1,,1|(705,606)|
+10,37,Time,503,493,29,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,38,TIME STEP,747,489,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+11,39,134,953,844,8,7,33,3,0,0,4,0,0,0,0,0,0,0,0,0
+10,40,Symptomatic Infected to Testing,1027,844,67,19,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,41,Infectious Confirmed Not Hospitalized,1433,307,69,28,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,42,Confirmation Impact on Contact,319,1165,79,29,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,43,42,128,0,0,0,0,0,64,1,-1--1--1,,1|(381,1135)|
+10,44,Relative Risk of Transmission by Hospitalized,189,1294,87,31,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,45,41,157,0,0,0,0,0,128,0,-1--1--1,,1|(1347,270)|
+12,46,48,953,893,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,47,39,46,4,0,0,22,0,0,0,-1--1--1,,1|(953,868)|
+10,48,PatientZero,529,578,43,11,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,49,Patient Zero Arrival Time,647,480,47,27,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,50,Infectious Confirmed Not Hospitalized,512,123,63,29,3,130,0,3,0,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,51,Confirmed Recovered,971,122,52,28,3,130,0,3,0,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,52,50,22,0,0,0,0,0,128,0,-1--1--1,,1|(639,123)|
+1,53,51,22,0,0,0,0,0,128,0,-1--1--1,,1|(864,123)|
+10,54,Fatality Rate Untreated,1546,927,57,28,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,55,26,20,1,0,0,0,0,128,0,-1--1--1,,1|(1473,878)|
+10,56,Hospitalized Infectious Deaths,1603,1036,65,37,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,57,54,20,0,0,0,0,0,128,0,-1--1--1,,1|(1463,895)|
+10,58,Hospitalized Infectious,980,1123,67,24,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,59,58,31,1,0,0,0,0,64,0,-1--1--1,,1|(749,1059)|
+1,60,44,127,0,0,0,0,0,128,1,-1--1--1,,1|(336,1244)|
+1,61,28,7,1,0,0,0,0,128,0,-1--1--1,,1|(349,837)|
+10,62,Infectious not Tested or in Hospitals Poisson,1209,1029,84,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,63,62,31,1,0,0,0,0,64,0,-1--1--1,,1|(980,1086)|
+1,64,3,62,1,0,0,0,0,64,0,-1--1--1,,1|(1280,871)|
+10,65,Infectious Confirmed Not Hospitalized,990,1225,56,27,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,66,65,31,1,0,0,0,0,64,0,-1--1--1,,1|(890,1211)|
+1,67,62,19,1,0,0,0,0,128,0,-1--1--1,,1|(1295,951)|
+1,68,39,2,100,0,0,22,0,0,0,-1--1--1,,1|(953,813)|
+10,69,Reaching Testing Gate,1069,664,47,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,70,24,69,1,0,0,0,0,128,0,-1--1--1,,1|(1220,720)|
+1,71,2,69,1,0,0,0,0,128,0,-1--1--1,,1|(1014,682)|
+1,72,69,10,1,0,0,0,0,128,0,-1--1--1,,1|(1080,698)|
+10,73,Susceptible,465,10,53,27,3,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,74,Infected pre Detection,778,6,53,27,3,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,75,"Infected Unconfirmed Post-Detection",925,4,79,28,3,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,76,Recovered Unconfirmed,1081,12,53,27,3,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,77,73,22,0,0,0,0,0,128,0,-1--1--1,,1|(616,70)|
+1,78,74,22,0,0,0,0,0,128,0,-1--1--1,,1|(767,67)|
+1,79,75,22,0,0,0,0,0,128,0,-1--1--1,,1|(835,69)|
+1,80,76,22,0,0,0,0,0,128,0,-1--1--1,,1|(914,70)|
+1,81,40,11,1,0,0,0,0,128,0,-1--1--1,,1|(1102,848)|
+10,82,Onset to Detection Delay,1666,78,64,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,83,"Post-Detection Phase Resolution Time",1669,204,65,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,84,82,25,0,0,0,0,0,128,0,-1--1--1,,1|(1724,106)|
+1,85,83,25,0,0,0,0,0,128,0,-1--1--1,,1|(1735,172)|
+1,86,3,14,1,0,0,0,0,128,0,-1--1--1,,1|(1382,704)|
+1,87,20,15,1,0,0,0,0,128,0,-1--1--1,,1|(1450,832)|
+10,88,Infected pre Detection,1298,45,48,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,89,"Infected Unconfirmed Post-Detection",1114,319,60,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,90,88,21,0,0,0,0,0,128,0,-1--1--1,,1|(1336,83)|
+1,91,89,157,0,0,0,0,0,128,0,-1--1--1,,1|(1194,277)|
+10,92,Contacts Relative to Normal,945,1302,76,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,93,92,31,1,0,0,0,0,0,0,-1--1--1,,1|(815,1236)|
+1,94,23,31,1,0,0,0,0,128,0,-1--1--1,,1|(699,1224)|
+1,95,1,7,1,0,0,0,0,64,0,-1--1--1,,1|(473,804)|
+10,96,Constant Data File,1595,-92,59,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,97,96,29,0,0,0,0,0,64,0,-1--1--1,,1|(1503,-98)|
+1,98,29,1,0,0,0,0,0,64,1,-1--1--1,,1|(919,307)|
+10,99,"Pre-Symptomatic Infected",701,762,69,28,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,100,102,2,4,0,0,22,0,0,0,-1--1--1,,1|(852,758)|
+1,101,102,99,100,0,0,22,0,0,0,-1--1--1,,1|(792,758)|
+11,102,2400,822,758,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,103,Onset of Symptoms,822,784,40,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,104,Incubation Period,789,593,37,19,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,105,104,102,1,0,0,0,0,128,0,-1--1--1,,1|(794,682)|
+1,106,7,103,1,0,0,0,0,128,0,-1--1--1,,1|(639,860)|
+11,107,10386,705,630,8,7,33,3,0,0,2,0,0,0,0,0,0,0,0,0
+10,108,Patient Zero Arrival,651,630,45,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,109,49,108,0,0,0,0,0,64,0,-1--1--1,,1|(648,552)|
+1,110,48,108,0,0,0,0,0,64,0,-1--1--1,,1|(573,597)|
+1,111,37,108,0,0,0,0,0,64,0,-1--1--1,,1|(566,552)|
+1,112,38,108,0,0,0,0,0,64,0,-1--1--1,,1|(705,549)|
+1,113,107,99,4,0,0,22,0,0,0,-1--1--1,,1|(705,685)|
+1,114,99,31,1,0,0,0,0,128,0,-1--1--1,,1|(673,884)|
+10,115,Delay Order,836,417,44,11,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,116,115,102,1,0,0,0,0,128,1,-1--1--1,,1|(777,623)|
+10,117,"Pre-Symptomatic Infected",608,6,69,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,118,117,22,0,0,0,0,0,128,0,-1--1--1,,1|(681,65)|
+10,119,"Pre-Symptomatic Infected",1472,54,69,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,120,119,21,0,0,0,0,0,128,0,-1--1--1,,1|(1432,88)|
+10,121,Additional Asymptomatic Relative to Symptomatic,1349,506,96,30,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,122,Additional Asymptomatic Post Detection,1010,1038,71,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,123,122,62,0,0,0,0,0,128,0,-1--1--1,,1|(1096,1033)|
+10,124,Additional Asymptomatic Relative to Symptomatic,921,969,53,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,125,124,122,0,0,0,0,0,128,0,-1--1--1,,1|(959,999)|
+1,126,122,31,1,0,0,0,0,128,0,-1--1--1,,1|(851,1045)|
+10,127,Transmission Multiplier for Hospitalized,460,1203,49,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,128,Transmission Multiplier for Confirmed,445,1106,49,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,129,Baseline Transmission Multiplier for Untested Symptomatic,287,1027,83,27,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,130,129,31,0,0,0,0,0,128,0,-1--1--1,,1|(450,977)|
+1,131,127,31,0,0,0,0,0,128,0,-1--1--1,,1|(529,1069)|
+1,132,128,31,0,0,0,0,0,128,0,-1--1--1,,1|(521,1020)|
+10,133,Multiplier Transmission Risk for Asymptomatic Net,-70,1112,84,27,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,134,Transmission Multiplier Presymptomatic,587,1218,60,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,135,134,31,0,0,0,0,0,64,0,-1--1--1,,1|(594,1077)|
+10,136,Transmission Multiplier Pre Detection,266,889,49,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,137,136,31,0,0,0,0,0,64,0,-1--1--1,,1|(422,907)|
+10,138,Average Acuity Hospitalized,465,1414,60,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,139,33,136,1,0,0,0,0,128,1,-1--1--1,,1|(62,943)|
+10,140,Covid Acuity,266,934,55,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,141,33,31,1,0,0,0,0,128,0,-1--1--1,,1|(125,973)|
+10,142,Incubation Period,1788,291,42,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,143,142,25,0,0,0,0,0,128,0,-1--1--1,,1|(1792,223)|
+1,144,42,127,0,0,0,0,0,64,1,-1--1--1,,1|(397,1185)|
+12,145,48,968,581,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,146,148,145,4,0,0,22,0,0,0,-1--1--1,,1|(965,620)|
+1,147,148,2,100,0,0,22,0,0,0,-1--1--1,,1|(965,693)|
+11,148,48,965,658,8,6,33,3,0,0,2,0,0,0,0,0,0,0,0,0
+10,149,Untested symptomatic Infected to Hospital,880,658,77,27,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,150,Hospital Admission Infectious,886,503,63,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,151,150,149,0,0,0,0,0,128,0,-1--1--1,,1|(883,573)|
+10,152,Poisson Subset Reaching Test Gate,1196,596,73,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,153,69,152,0,0,0,0,0,128,0,-1--1--1,,1|(1126,632)|
+10,154,Hospitalized Infectious,946,239,61,23,3,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,155,154,22,0,0,0,0,0,128,0,-1--1--1,,1|(847,180)|
+1,156,154,157,0,0,0,0,0,128,0,-1--1--1,,1|(1095,238)|
+10,157,Weighted Infected Post Detection Gate,1272,238,74,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,158,83,157,0,0,0,0,0,128,0,-1--1--1,,1|(1481,219)|
+1,159,157,21,0,0,0,0,0,128,0,-1--1--1,,1|(1322,189)|
+10,160,Hospitalized Resolution Time,1280,335,54,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,161,160,157,0,0,0,0,0,64,0,-1--1--1,,1|(1276,293)|
+10,162,Weighted Infected Post Detection Gate,1114,969,79,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,163,162,122,0,0,0,0,0,128,0,-1--1--1,,1|(1074,995)|
+1,164,121,152,0,0,0,0,0,128,0,-1--1--1,,1|(1268,553)|
+10,165,Fraction of Additional Symptomatic,-92,471,53,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,166,Cumulative Recovered at Hospitals,742,231,54,29,3,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,167,166,22,0,0,0,0,0,128,0,-1--1--1,,1|(749,176)|
+10,168,Cumulative Deaths Untested Untreated,1379,1006,57,33,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,169,48,1383,1171,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,170,177,168,4,0,0,22,0,0,0,-1--1--1,,1|(1383,1080)|
+1,171,177,169,100,0,0,22,0,0,0,-1--1--1,,1|(1383,1148)|
+10,172,Frac Post Mortem from Untreated,1270,1149,71,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,173,172,177,0,0,0,0,0,128,0,-1--1--1,,1|(1351,1133)|
+10,174,Post Mortem Test Rate,1526,1186,52,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,175,174,177,0,0,0,0,0,128,0,-1--1--1,,1|(1443,1151)|
+1,176,20,177,1,0,0,0,0,128,0,-1--1--1,,1|(1457,1049)|
+11,177,2202,1383,1127,8,6,33,3,0,0,4,0,0,0,0,0,0,0,0,0
+10,178,Chng Cml Dth Untst Untrt,1443,1127,52,18,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,179,Weather Effect on Transmission,468,649,66,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,180,179,6,1,0,0,0,0,128,0,-1--1--1,,1|(526,703)|
+10,181,CRW,209,593,21,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,182,181,179,0,0,0,0,0,128,0,-1--1--1,,1|(309,614)|
+10,183,Sensitivity to Weather Net,331,547,46,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,184,183,179,0,0,0,0,0,128,0,-1--1--1,,1|(393,593)|
+10,185,InputAve,398,494,41,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,186,185,183,0,0,0,0,0,64,1,-1--1--1,,1|(375,512)|
+10,187,Sensitivity to Weather,149,540,51,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,188,187,183,0,0,0,0,0,64,1,-1--1--1,,1|(235,542)|
+10,189,SW Gen,210,520,41,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,190,189,183,0,0,0,0,0,64,1,-1--1--1,,1|(261,531)|
+10,191,InputAve,-191,1157,41,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,192,191,133,0,0,0,0,0,64,1,-1--1--1,,1|(-160,1145)|
+10,193,Multiplier Transmission Risk for Asymptomatic,-41,1202,79,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,194,193,133,0,0,0,0,0,64,1,-1--1--1,,1|(-52,1163)|
+10,195,SW Gen,-205,1003,57,16,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,196,195,133,0,0,0,0,0,64,1,-1--1--1,,1|(-149,1047)|
+1,197,129,128,1,0,0,0,0,128,1,-1--1--1,,1|(337,1064)|
+1,198,129,127,1,0,0,0,0,128,1,-1--1--1,,1|(320,1175)|
+1,199,129,134,1,0,0,0,0,128,1,-1--1--1,,1|(518,1086)|
+10,200,Relative Risk of Transmission by Presymptomatic,512,1321,60,27,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,201,129,33,0,0,0,0,0,128,1,-1--1--1,,1|(102,1023)|
+1,202,129,136,0,0,0,0,0,128,1,-1--1--1,,1|(277,964)|
+1,203,200,134,0,0,0,0,0,128,1,-1--1--1,,1|(544,1275)|
+1,204,33,134,1,0,0,0,0,128,1,-1--1--1,,1|(196,1242)|
+10,205,Total Asymptomatic Fraction Net,154,1158,53,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,206,205,136,0,0,0,0,0,64,1,-1--1--1,,1|(206,1029)|
+1,207,205,134,0,0,0,0,0,64,1,-1--1--1,,1|(360,1186)|
+10,208,"Poisson Not-tested Asymptomatic",1116,1155,70,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,209,62,208,1,0,0,0,0,128,0,-1--1--1,,1|(1142,1129)|
+10,210,Average Acuity Not Hospitalized Poisson,1267,1286,82,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,211,210,208,1,0,0,0,0,128,0,-1--1--1,,1|(1174,1228)|
+1,212,208,31,1,0,0,0,0,128,0,-1--1--1,,1|(723,1082)|
+1,213,133,33,0,0,0,0,0,128,1,-1--1--1,,1|(-70,1072)|
+10,214,Hospital Admission Infectious,1067,910,63,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,215,214,40,0,0,0,0,0,128,0,-1--1--1,,1|(1048,878)|
+10,216,Positive Testing of Infected Untreated,1192,871,72,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,217,216,40,1,0,0,0,0,128,0,-1--1--1,,1|(1109,867)|
+1,218,148,10,1,0,0,0,0,128,0,-1--1--1,,1|(1063,710)|
+10,219,Different Infectious Counted,513,331,72,18,8,2,0,3,0,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,220,PopulationCheck,409,205,63,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,221,Confirmed Recovered,358,314,45,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,222,221,220,0,0,0,0,0,64,0,-1--1--1,,1|(382,261)|
+10,223,Cumulative Recovered at Hospitals,281,276,49,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,224,223,220,0,0,0,0,0,64,0,-1--1--1,,1|(354,234)|
+1,225,30,220,0,0,0,0,0,64,0,-1--1--1,,1|(1003,472)|
+1,226,219,220,0,0,0,0,0,64,0,-1--1--1,,1|(461,268)|
+1,227,73,220,0,0,0,0,0,128,0,-1--1--1,,1|(436,109)|
+12,228,48,154,758,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+11,229,48,249,758,6,8,2,3,0,0,1,0,0,0,0,0,0,0,0,0
+1,230,229,228,4,0,0,22,0,0,0,-1--1--1,,1|(203,758)|
+1,231,229,1,100,0,0,22,0,0,0,-1--1--1,,1|(295,758)|
+10,232,Vaccination,224,690,52,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,233,232,229,0,0,0,0,0,128,0,-1--1--1,,1|(234,719)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Testing
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,75,0
+10,1,Perceived Risk of Life Loss,1723,703,83,23,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,2,Government Response Start Time,2093,580,65,27,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,3,Switch for Government Response,2346,873,47,28,8,2,0,3,0,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,4,DataAttentionTime,2002,485,72,17,8,131,0,0,-1,0,0,0,0,0,0,0,0,0
+1,5,4,2,0,0,0,0,0,64,1,-1--1--1,,1|(2037,522)|
+10,6,Potential Test Demand from Susceptible Population,1533,495,85,28,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,7,Fraction Seeking Test,1525,608,64,20,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,8,7,6,0,0,0,0,0,128,0,-1--1--1,,1|(1527,562)|
+10,9,Fraction of Fatalities Screened Post Mortem,2179,960,87,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,10,Baseline Daily Fraction Susceptible Seeking Tests,1738,621,75,27,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,11,10,6,0,0,0,0,0,128,0,-1--1--1,,1|(1642,562)|
+10,12,Susceptible,1743,526,53,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,13,12,6,0,0,0,0,0,64,0,-1--1--1,,1|(1660,514)|
+1,14,3,9,1,0,0,0,0,128,0,-1--1--1,,1|(2225,887)|
+10,15,Covid Acuity,1275,404,47,11,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,16,Flu Acuity,1405,403,37,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,17,Covid Acuity Relative to Flu Net,943,518,67,24,8,130,0,1,0,0,0,0,128-128-128,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,18,a,669,587,8,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,19,b,673,384,8,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,20,t3,799,584,9,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,21,18,20,0,0,0,0,0,64,0,-1--1--1,,1|(726,585)|
+1,22,19,20,1,0,0,0,0,64,0,-1--1--1,,1|(829,431)|
+10,23,Y,835,778,8,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,24,Prob Missing Symptom,506,786,49,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,25,Testing on Living,1125,488,63,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,26,Positive Candidates Interested in Testing Poisson Subset,1336,602,74,27,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,27,Fraction Interseted not Correctly Tested,675,1044,73,18,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,28,Average Acuity of Positively Tested,776,818,65,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,29,24,28,1,0,0,0,0,128,0,-1--1--1,,1|(667,746)|
+10,30,Ymix,669,639,21,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,31,18,30,0,0,0,0,0,64,0,-1--1--1,,1|(669,606)|
+1,32,19,30,1,0,0,0,0,64,0,-1--1--1,,1|(497,519)|
+1,33,20,30,1,0,0,0,0,64,0,-1--1--1,,1|(757,615)|
+10,34,Testing Capacity Net of Post Mortem Tests,2713,968,80,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,35,Post Mortem Testing Need,2309,1033,67,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,36,9,35,0,0,0,0,0,64,0,-1--1--1,,1|(2226,987)|
+10,37,Deaths of Symptomatic Untested,2185,1093,49,28,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,38,37,35,0,0,0,0,0,64,0,-1--1--1,,1|(2232,1070)|
+10,39,Post Mortem Test Rate,2535,1164,49,25,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,40,7,26,0,0,0,0,0,128,0,-1--1--1,,1|(1442,605)|
+10,41,Post Mortem Test Delay,2405,1138,48,19,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,42,41,35,0,0,0,0,0,64,0,-1--1--1,,1|(2367,1096)|
+12,43,2558102,1717,1371,183,203,3,188,0,0,2,0,0,0,0,0,0,0,0,0
+Fraction Tests Positive[Rgn],Graph
+10,44,lnymix,690,713,25,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,45,30,100,1,0,0,0,0,64,0,-1--1--1,,1|(664,666)|
+10,46,Extrapolated Estimator,829,698,48,19,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,47,46,23,0,0,0,0,0,64,0,-1--1--1,,1|(831,735)|
+1,48,17,46,0,0,0,0,0,64,0,-1--1--1,,1|(888,604)|
+1,49,44,46,0,0,0,0,0,64,0,-1--1--1,,1|(741,707)|
+10,50,Testing Demand,1345,492,61,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,51,50,25,0,0,0,0,0,128,0,-1--1--1,,1|(1242,490)|
+1,52,6,50,0,0,0,0,0,64,0,-1--1--1,,1|(1433,493)|
+1,53,26,50,0,0,0,0,0,64,0,-1--1--1,,1|(1340,545)|
+10,54,Average Acuity Hospitalized,1763,822,61,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,55,Indicated Fraction Post Mortem Testing,2119,871,85,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,56,Switch for Government Response,2052,674,47,28,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,57,2,56,0,0,0,0,0,0,0,-1--1--1,,1|(2075,620)|
+10,58,Time,2219,668,29,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,59,58,56,0,0,0,0,0,0,0,-1--1--1,,1|(2151,670)|
+10,60,Reaching Testing Gate,1339,712,63,27,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,61,Testing Capacity Net of Post Mortem Tests,1125,566,85,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,62,61,25,0,0,0,0,0,128,0,-1--1--1,,1|(1125,530)|
+10,63,Testing on Living,735,348,72,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,64,63,19,1,0,0,0,0,128,0,-1--1--1,,1|(683,359)|
+10,65,Potential Test Demand from Susceptible Population,589,512,83,32,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,66,65,19,1,0,0,0,0,128,0,-1--1--1,,1|(625,443)|
+10,67,Covid Acuity,655,850,56,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,68,67,28,1,0,0,0,0,128,0,-1--1--1,,1|(710,864)|
+10,69,Flu Acuity,327,736,47,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,70,69,24,1,0,0,0,0,128,0,-1--1--1,,1|(422,766)|
+10,71,Y,495,685,17,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,72,71,24,1,0,0,0,0,128,0,-1--1--1,,1|(503,728)|
+1,73,65,18,1,0,0,0,0,128,0,-1--1--1,,1|(625,559)|
+10,74,Positive Candidates Interested in Testing Poisson Subset,331,1112,79,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,75,Day of First Case Report in JHU Database,2155,428,65,28,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,76,75,2,0,0,0,0,0,64,1,-1--1--1,,1|(2126,498)|
+1,77,55,9,1,0,0,0,0,64,0,-1--1--1,,1|(2156,904)|
+10,78,Constant Data File,1975,388,73,17,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,79,78,4,1,0,0,0,0,64,0,-1--1--1,,1|(1986,430)|
+10,80,DataTestCapacity,2736,901,67,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,81,35,107,0,0,0,0,0,0,0,-1--1--1,,1|(2413,1013)|
+10,82,Flu Acuity Relative to Covid,1425,274,73,24,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,83,Symptomatic Fraction in Poisson,1095,385,81,23,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,84,15,85,0,0,0,0,0,128,0,-1--1--1,,1|(1229,358)|
+10,85,Additional Asymptomatic Relative to Symptomatic,1157,288,84,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,86,83,50,0,0,0,0,0,128,0,-1--1--1,,1|(1227,441)|
+1,87,15,83,0,0,0,0,0,128,1,-1--1--1,,1|(1208,397)|
+10,88,Additional Asymptomatic Relative to Symptomatic,1133,699,84,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,89,Sensitivity of COVID Test,517,1071,47,19,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,90,89,27,0,0,0,0,0,64,0,-1--1--1,,1|(575,1060)|
+10,91,Fraction Interested not Tested,680,951,68,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,92,91,27,0,0,0,0,0,64,0,-1--1--1,,1|(678,990)|
+1,93,91,28,0,0,0,0,0,128,0,-1--1--1,,1|(722,890)|
+10,94,cft,752,757,11,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,95,44,94,1,0,0,0,0,128,0,-1--1--1,,1|(707,734)|
+1,96,94,46,0,0,0,0,0,128,0,-1--1--1,,1|(777,737)|
+1,97,16,15,0,0,0,0,0,128,0,-1--1--1,,1|(1352,403)|
+1,98,15,82,0,0,0,0,0,128,0,-1--1--1,,1|(1336,350)|
+1,99,16,82,0,0,0,0,0,128,0,-1--1--1,,1|(1412,351)|
+10,100,lnymix 0,629,693,30,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,101,30,44,0,0,0,0,0,64,0,-1--1--1,,1|(677,669)|
+10,102,Positive Candidates Interested in Testing Poisson Subset Adj,743,501,74,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,103,102,19,0,0,0,0,0,64,0,-1--1--1,,1|(706,440)|
+1,104,102,18,0,0,0,0,0,64,0,-1--1--1,,1|(703,547)|
+1,105,26,102,1,0,0,0,0,64,0,-1--1--1,,1|(1031,604)|
+1,106,65,102,0,0,0,0,0,128,0,-1--1--1,,1|(663,506)|
+10,107,Post Mortem Tests Total,2512,995,47,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,108,107,34,0,0,0,0,0,128,0,-1--1--1,,1|(2589,984)|
+1,109,107,39,0,0,0,0,0,128,0,-1--1--1,,1|(2521,1069)|
+10,110,Sensitivity of COVID Test,2076,1226,51,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,111,110,39,0,0,0,0,0,128,0,-1--1--1,,1|(2299,1195)|
+10,112,Fraction Covid Hospitalized Positively Tested,1914,892,91,39,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,113,Sensitivity Post Mortem Testing to Capacity,2095,768,66,27,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,114,113,55,0,0,0,0,0,128,0,-1--1--1,,1|(2104,812)|
+10,115,Confirmed Recovered,1791,400,45,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,116,Recovered Unconfirmed,1744,461,45,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,117,116,6,0,0,0,0,0,128,0,-1--1--1,,1|(1665,473)|
+10,118,DataTestRate,2931,1125,51,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,119,Testing on Living,2713,654,43,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,120,Total Simulated Tests,2711,807,57,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,121,119,120,0,0,0,0,0,128,0,-1--1--1,,1|(2712,723)|
+1,122,107,120,0,0,0,0,0,128,0,-1--1--1,,1|(2605,905)|
+12,123,3344546,2595,370,308,256,3,188,0,0,1,0,0,0,0,0,0,0,0,0
+test_capacity
+10,124,Fraction Tests Positive Data,2716,1242,53,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,125,DataFlowInfection,2871,1203,75,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,126,125,124,0,0,0,0,0,128,0,-1--1--1,,1|(2809,1218)|
+12,127,2951472,2310,1433,208,175,3,188,0,40,1,0,0,0,0-0-0,0-0-0,Arial|11||0-0-0,0,0,0,0,0,0
+Positive_Test_Fraction_a
+10,128,Total Test on Covid Patients,485,941,54,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,129,Tests on Negative Patients,297,929,65,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,130,Testing on Living,217,1063,43,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,131,Active Test Rate,2671,1110,59,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,132,LastTestDate,2825,1154,50,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,133,118,132,0,0,0,0,0,128,1,-1--1--1,,1|(2884,1137)|
+1,134,118,131,0,0,0,0,0,128,0,-1--1--1,,1|(2811,1118)|
+10,135,Time,2653,1189,29,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,136,135,131,0,0,0,0,0,64,0,-1--1--1,,1|(2659,1156)|
+1,137,131,34,0,0,0,0,0,64,0,-1--1--1,,1|(2687,1050)|
+1,138,131,107,0,0,0,0,0,64,0,-1--1--1,,1|(2602,1060)|
+1,139,131,124,0,0,0,0,0,64,0,-1--1--1,,1|(2689,1165)|
+10,140,Indicated fraction negative demand tested,348,847,61,28,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,141,24,140,0,0,0,0,0,128,0,-1--1--1,,1|(439,810)|
+1,142,69,140,0,0,0,0,0,128,0,-1--1--1,,1|(334,776)|
+1,143,140,129,0,0,0,0,0,128,0,-1--1--1,,1|(323,887)|
+10,144,Potential Test Demand from Susceptible Population,151,986,89,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,145,144,129,0,0,0,0,0,128,0,-1--1--1,,1|(228,955)|
+1,146,129,128,0,0,0,0,0,128,0,-1--1--1,,1|(389,934)|
+1,147,130,128,0,0,0,0,0,128,0,-1--1--1,,1|(344,1004)|
+1,148,128,91,0,0,0,0,0,128,0,-1--1--1,,1|(568,944)|
+1,149,74,91,0,0,0,0,0,128,0,-1--1--1,,1|(508,1029)|
+1,150,74,128,0,0,0,0,0,128,0,-1--1--1,,1|(406,1027)|
+10,151,Indicated fraction positive demand tested,504,859,64,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,152,67,151,0,0,0,0,0,128,0,-1--1--1,,1|(590,853)|
+1,153,24,151,0,0,0,0,0,128,0,-1--1--1,,1|(505,811)|
+1,154,151,129,0,0,0,0,0,128,0,-1--1--1,,1|(401,893)|
+1,155,74,129,0,0,0,0,0,128,0,-1--1--1,,1|(314,1022)|
+10,156,Symptomatic Fraction Negative,1014,442,65,18,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,157,69,156,0,0,0,0,0,128,1,-1--1--1,,1|(655,595)|
+1,158,156,50,0,0,0,0,0,128,0,-1--1--1,,1|(1174,465)|
+10,159,Testing on Living,147,885,43,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,160,159,129,0,0,0,0,0,128,0,-1--1--1,,1|(205,901)|
+10,161,Recent Detected Infections,1736,186,57,32,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,162,Positive Testing of Infected Untreated,1987,219,64,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,163,Time to Respond with Tests,1937,101,63,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,164,163,161,0,0,0,0,0,64,0,-1--1--1,,1|(1850,137)|
+1,165,161,6,0,0,0,0,0,128,0,-1--1--1,,1|(1636,336)|
+10,166,Multiplier Recent Infections to Test,1784,316,61,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,167,166,6,0,0,0,0,0,64,0,-1--1--1,,1|(1671,396)|
+10,168,Population,1746,565,48,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,169,168,6,0,0,0,0,0,64,0,-1--1--1,,1|(1673,540)|
+10,170,Poisson Subset Reaching Test Gate,1525,711,78,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,171,170,26,0,0,0,0,0,128,0,-1--1--1,,1|(1444,664)|
+10,172,Fraction of Additional Symptomatic,891,279,48,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,173,85,172,0,0,0,0,0,128,0,-1--1--1,,1|(1012,283)|
+10,174,Hospitalized Infectious Deaths,2127,1037,74,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,175,174,35,0,0,0,0,0,128,0,-1--1--1,,1|(2214,1035)|
+10,176,Cumulative Recovered at Hospitals,1484,346,49,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,177,176,6,0,0,0,0,0,128,0,-1--1--1,,1|(1505,413)|
+10,178,Frac Post Mortem from Untreated,2095,1164,55,28,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,179,37,178,0,0,0,0,0,128,0,-1--1--1,,1|(2145,1123)|
+1,180,174,178,1,0,0,0,0,128,0,-1--1--1,,1|(2073,1026)|
+1,181,41,178,0,0,0,0,0,64,0,-1--1--1,,1|(2260,1149)|
+10,182,Fraction Covid Death In Hospitals Previously Tested,1934,961,91,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,183,182,55,0,0,0,0,0,128,0,-1--1--1,,1|(2019,919)|
+10,184,Positive Tests of Infected,1707,68,57,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,185,184,161,0,0,0,0,0,128,0,-1--1--1,,1|(1717,113)|
+10,186,External Test Rate,2847,1016,48,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,187,Policy Test Rate,3094,901,59,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,188,187,186,0,0,0,0,0,128,0,-1--1--1,,1|(2985,951)|
+1,189,186,131,0,0,0,0,0,128,0,-1--1--1,,1|(2757,1063)|
+10,190,Population,2991,989,48,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,191,190,186,0,0,0,0,0,128,0,-1--1--1,,1|(2925,1001)|
+10,192,Time,2993,827,29,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,193,Response Policy Time On,3073,1078,60,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,194,Response Policy Weight,3057,1029,55,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,195,Fraction Tests Positive,2983,533,57,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,196,Population,3117,803,48,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,197,DataLastTestRate,3132,1201,67,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,198,118,197,0,0,0,0,0,128,1,-1--1--1,,1|(3025,1161)|
+10,199,New Testing Time,3358,1134,46,18,8,3,0,2,-1,0,0,0,-1--1--1,0-0-0,|12||255-128-0,0,0,0,0,0,0
+10,200,Current Test Rate per Capita,3201,1118,65,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,201,197,200,0,0,0,0,0,128,1,-1--1--1,,1|(3158,1169)|
+1,202,190,200,1,0,0,0,0,128,1,-1--1--1,,1|(3160,1024)|
+10,203,Final Test Rate Per Capita,3354,964,56,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,204,Max Test Rate per Capita,3392,833,53,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,205,200,203,1,0,0,0,0,128,1,-1--1--1,,1|(3337,1044)|
+1,206,204,203,1,0,0,0,0,128,1,-1--1--1,,1|(3403,881)|
+10,207,Weight Max in Test Goal,3272,852,52,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,208,207,203,0,0,0,0,0,128,1,-1--1--1,,1|(3308,902)|
+1,209,203,187,0,0,0,0,0,128,0,-1--1--1,,1|(3223,932)|
+1,210,199,187,0,0,0,0,0,128,0,-1--1--1,,1|(3226,1018)|
+1,211,192,187,0,0,0,0,0,128,0,-1--1--1,,1|(3037,859)|
+1,212,200,187,0,0,0,0,0,64,0,-1--1--1,,1|(3148,1011)|
+10,213,Time to Adjust Testing,2936,869,53,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,214,199,131,1,0,0,0,0,128,0,-1--1--1,,1|(2965,1172)|
+1,215,132,197,0,0,0,0,0,128,1,-1--1--1,,1|(2967,1175)|
+1,216,199,197,0,0,0,0,0,128,1,-1--1--1,,1|(3243,1167)|
+10,217,Covid Acuity Relative to Flu Net,1275,433,71,18,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,218,217,15,0,1,0,0,0,64,0,-1--1--1,,1|(1275,415)|
+10,219,InputAve,1021,223,41,10,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,220,SW Gen,1021,223,41,10,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,221,Total Asymptomatic Fraction Net,1157,333,53,27,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,222,221,85,0,1,0,0,0,64,0,-1--1--1,,1|(1157,317)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Diagnosis
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,75,0
+10,1,Cumulative Cases,2171,698,52,28,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,2,Cumulative Deaths,2201,398,53,33,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,3,48,1963,690,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,4,6,1,4,0,0,22,0,0,0,-1--1--1,,1|(2082,692)|
+1,5,6,3,100,0,0,22,0,0,0,-1--1--1,,1|(2002,692)|
+11,6,48,2039,692,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,7,New Cases,2039,718,44,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,8,48,1955,398,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,9,11,2,4,0,0,22,0,0,0,-1--1--1,,1|(2097,398)|
+1,10,11,8,100,0,0,22,0,0,0,-1--1--1,,1|(1998,398)|
+11,11,48,2039,398,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,12,Death Rate,2039,422,42,10,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,13,Infection Rate,2043,792,49,19,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,14,13,7,0,0,0,0,0,64,0,-1--1--1,,1|(2040,757)|
+10,15,Deaths of Symptomatic Untested,1976,488,64,29,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,16,15,12,0,0,0,0,0,64,0,-1--1--1,,1|(2011,450)|
+10,17,R Effective Reproduction Rate,2047,868,71,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,18,13,17,0,0,0,0,0,64,0,-1--1--1,,1|(2044,823)|
+10,19,Total Disease Duration,2228,868,56,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,20,19,17,0,0,0,0,0,64,0,-1--1--1,,1|(2152,868)|
+10,21,Total Weighted Infected Population,2047,982,64,19,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,22,21,17,0,0,0,0,0,64,0,-1--1--1,,1|(2047,932)|
+10,23,Cumulative Negative Tests,2215,1086,59,25,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,24,25,23,4,0,0,22,0,0,0,-1--1--1,,1|(2117,1086)|
+11,25,10826,2072,1086,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,26,Negative Test Results,2072,1112,52,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,27,Infectious Confirmed Not Hospitalized,1051,778,60,29,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,28,Cumulative Deaths of Confirmed Untreated,1051,980,64,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,29,Confirmed Recovered,1363,776,64,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,30,31,27,4,0,0,22,0,0,0,-1--1--1,,1|(943,785)|
+11,31,1410,889,785,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,32,Positive Testing of Infected Untreated,889,811,68,18,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+11,33,4314,820,1032,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,34,Post Mortem Test Rate,820,1060,52,20,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+1,35,37,29,4,0,0,22,0,0,0,-1--1--1,,1|(1271,779)|
+1,36,37,27,100,0,0,22,0,0,0,-1--1--1,,1|(1170,779)|
+11,37,2202,1236,779,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,38,Recovery of Confirmed,1236,805,44,18,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,39,"Post-Detection Phase Resolution Time",1256,909,51,24,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+11,40,8428,1059,906,8,7,33,3,0,0,4,0,0,0,0,0,0,0,0,0
+10,41,Deaths of Confirmed,1124,906,57,20,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+1,42,40,27,100,0,0,22,0,0,0,-1--1--1,,1|(1059,853)|
+1,43,40,28,4,0,0,22,0,0,0,-1--1--1,,1|(1059,931)|
+1,44,27,109,1,0,0,0,0,64,0,-1--1--1,,1|(1124,824)|
+10,45,"Post-Detection Phase Resolution Time",667,412,51,24,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,46,Deaths of Confirmed,2100,492,44,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,47,46,12,0,0,0,0,0,128,0,-1--1--1,,1|(2070,457)|
+10,48,Potential Test Demand from Susceptible Population,396,422,53,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,49,Fraction of Fatalities Screened Post Mortem,583,936,53,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,50,Switch for Government Response,164,206,51,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,51,Switch for Government Response,1652,542,51,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+12,52,48,835,778,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,53,31,52,100,0,0,22,0,0,0,-1--1--1,,1|(863,785)|
+10,54,Fraction Interseted not Correctly Tested,552,609,65,32,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,55,Positive Candidates Interested in Testing Poisson Subset,489,819,77,43,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,56,Testing on Living,2179,1166,43,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,57,56,26,0,0,0,0,0,128,0,-1--1--1,,1|(2131,1142)|
+12,58,48,1987,1084,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,59,25,58,100,0,0,22,0,0,0,-1--1--1,,1|(2031,1086)|
+10,60,Fraction Tests Positive,2279,1222,53,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,61,56,60,0,0,0,0,0,128,0,-1--1--1,,1|(2222,1190)|
+10,62,Hospitalized Infectious Deaths,843,458,65,27,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,63,Fatality Rate Untreated,1403,995,55,32,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,64,63,41,0,0,0,0,0,128,0,-1--1--1,,1|(1271,953)|
+10,65,Hospitalized Infectious,597,949,64,27,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,66,Positive Testing of Infected Untreated,1934,1192,72,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,67,"Post-Detection Phase Resolution Time",1672,1134,47,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,68,Deaths of Confirmed,1543,1086,44,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,69,Infectious Confirmed Not Hospitalized,1799,1074,54,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,70,Recovered Unconfirmed,1616,714,47,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,71,Cumulative Recoveries,2197,208,59,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,72,48,1933,210,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,73,75,71,4,0,0,22,0,0,0,-1--1--1,,1|(2093,210)|
+1,74,75,72,100,0,0,22,0,0,0,-1--1--1,,1|(1988,210)|
+11,75,48,2041,210,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,76,All Recovery,2041,228,45,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,77,Recovery of Confirmed,1771,237,48,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,78,Recovery of Untested,1772,153,48,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,79,77,76,0,0,0,0,0,128,0,-1--1--1,,1|(1900,234)|
+1,80,78,75,0,0,0,0,0,128,0,-1--1--1,,1|(1920,185)|
+10,81,Overall Death Fraction,2041,312,51,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,82,76,81,0,0,0,0,0,128,0,-1--1--1,,1|(2041,259)|
+1,83,12,81,0,0,0,0,0,128,0,-1--1--1,,1|(2039,378)|
+10,84,Cumulative Death Fraction,2203,305,55,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,85,2,84,0,0,0,0,0,128,0,-1--1--1,,1|(2201,351)|
+1,86,71,84,0,0,0,0,0,128,0,-1--1--1,,1|(2199,256)|
+10,87,Sim Pseudo Case Fatality,1169,1156,49,19,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,88,Cumulative Confirmed Cases,1055,1241,71,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,89,88,87,0,0,0,0,0,0,0,-1--1--1,,1|(1105,1202)|
+10,90,Post Mortem Tests Total,884,1120,52,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,91,90,34,0,0,0,0,0,64,0,-1--1--1,,1|(858,1095)|
+10,92,Sensitivity of COVID Test,968,1079,51,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,93,92,34,0,0,0,0,0,64,0,-1--1--1,,1|(901,1070)|
+10,94,Cumulative Tests Conducted,1482,240,55,33,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,95,48,1210,234,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,96,98,94,4,0,0,22,0,0,0,-1--1--1,,1|(1378,234)|
+1,97,98,95,100,0,0,22,0,0,0,-1--1--1,,1|(1268,234)|
+11,98,48,1323,234,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,99,SimTestRate,1323,252,48,10,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,100,Total Simulated Tests,1294,370,64,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,101,100,99,0,0,0,0,0,128,0,-1--1--1,,1|(1307,313)|
+10,102,Hospital Admission Infectious,1041,450,63,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,103,Positive Tests of Infected,653,712,61,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,104,54,103,0,0,0,0,0,128,0,-1--1--1,,1|(604,661)|
+1,105,55,103,0,0,0,0,0,128,0,-1--1--1,,1|(583,756)|
+1,106,103,31,0,0,0,0,0,128,0,-1--1--1,,1|(789,753)|
+10,107,Fraction Poisson not Hospitalized,709,841,67,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,108,107,32,0,0,0,0,0,64,0,-1--1--1,,1|(791,827)|
+10,109,Tested Untreated Resolution,1168,847,64,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,110,109,38,0,0,0,0,0,128,0,-1--1--1,,1|(1195,829)|
+1,111,109,41,0,0,0,0,0,128,0,-1--1--1,,1|(1150,870)|
+1,112,39,109,0,0,0,0,0,128,0,-1--1--1,,1|(1213,878)|
+1,113,63,38,0,0,0,0,0,128,0,-1--1--1,,1|(1317,898)|
+10,114,Poisson Subset Reaching Test Gate,732,530,78,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,115,Poisson Subset Not Tested Passing Gate,741,615,78,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,116,114,115,0,0,0,0,0,128,0,-1--1--1,,1|(735,565)|
+1,117,103,115,0,0,0,0,0,128,0,-1--1--1,,1|(691,668)|
+10,118,Average Acuity of Positively Tested,953,531,69,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,119,Average Acuity of Untested Poisson Subset,954,607,65,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,120,114,119,0,0,0,0,0,128,0,-1--1--1,,1|(829,563)|
+1,121,115,119,0,0,0,0,0,128,0,-1--1--1,,1|(847,611)|
+1,122,103,119,0,0,0,0,0,128,0,-1--1--1,,1|(789,663)|
+1,123,118,119,0,0,0,0,0,128,0,-1--1--1,,1|(953,557)|
+10,124,Covid Acuity,1126,569,55,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,125,124,119,0,0,0,0,0,64,0,-1--1--1,,1|(1056,584)|
+10,126,Hospital Discharges,2026,92,66,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,127,126,76,0,0,0,0,0,128,0,-1--1--1,,1|(2032,162)|
+10,128,Hospitalized Infectious Deaths,1789,468,74,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,129,128,12,0,0,0,0,0,128,0,-1--1--1,,1|(1923,443)|
+10,130,Cumulative Deaths of Confirmed,1301,1228,59,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,131,130,87,0,0,0,0,0,64,0,-1--1--1,,1|(1241,1195)|
+10,132,Frac Post Mortem from Untreated,854,895,71,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+12,133,48,828,975,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,134,136,28,4,0,0,22,0,0,0,-1--1--1,,1|(952,975)|
+1,135,136,133,100,0,0,22,0,0,0,-1--1--1,,1|(872,975)|
+11,136,48,912,975,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,137,Post Mortem Test Untreated,912,1001,65,18,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,138,132,137,0,0,0,0,0,128,0,-1--1--1,,1|(879,941)|
+1,139,34,137,0,0,0,0,0,128,0,-1--1--1,,1|(861,1033)|
+10,140,Positive Tests of Infected,2458,1204,57,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,141,140,60,0,0,0,0,0,128,0,-1--1--1,,1|(2373,1211)|
+1,142,140,26,0,0,0,0,0,128,0,-1--1--1,,1|(2269,1159)|
+10,143,Patient Zero Arrival,1908,765,50,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,144,143,7,0,0,0,0,0,128,0,-1--1--1,,1|(1976,740)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Hospitals and Fatality
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,75,0
+10,1,Expected Positive Poisson Covid Patients,726,526,67,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,2,Allocated Fraction COVID Hospitalized,525,670,95,27,8,131,0,32,0,0,0,0,0-0-0,0-0-0,Arial|12||0-0-0,0,0,0,0,0,0
+10,3,Effective Hospital Capacity,382,278,56,32,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,4,Nominal Hospital Capacity,238,172,62,18,8,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,5,Allocated Fration NonCOVID Hospitalized,513,436,63,27,8,3,0,32,0,0,0,0,0-0-0,0-0-0,Arial|12||0-0-0,0,0,0,0,0,0
+10,6,Initial Population,269,432,47,21,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,7,6,4,1,0,0,0,0,64,1,-1--1--1,,1|(324,293)|
+10,8,Covid Acuity,184,698,55,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,9,"Post-Detection Phase Resolution Time",726,637,77,23,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,10,9,1,1,0,0,0,0,64,0,-1--1--1,,1|(712,587)|
+10,11,Reaching Testing Gate,293,502,55,27,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,12,Beds per Thousand Population,845,62,41,28,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,13,Hospitalized Infectious,1659,304,55,29,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,14,16,126,4,0,0,22,0,0,0,-1--1--1,,1|(1886,311)|
+1,15,16,13,100,0,0,22,0,0,0,-1--1--1,,1|(1773,311)|
+11,16,2532,1840,311,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,17,Hospital Discharges,1840,344,43,18,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+1,18,19,13,100,0,0,22,0,0,0,-1--1--1,,1|(1642,348)|
+11,19,8362,1642,370,8,7,33,3,0,0,4,0,0,0,0,0,0,0,0,0
+10,20,Hospitalized Infectious Deaths,1713,370,63,18,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+12,21,48,1419,305,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,22,24,13,4,0,0,22,0,0,0,-1--1--1,,1|(1559,308)|
+1,23,24,21,100,0,0,22,0,0,0,-1--1--1,,1|(1464,308)|
+11,24,48,1507,308,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,25,Hospital Admission Infectious,1507,333,71,18,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,26,Hospital Outflow Covid Positive,1643,581,59,24,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,27,Potential Hospital Demand,1039,498,72,27,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,28,Probability of Missing Acuity Signal at Hospitals,1221,369,79,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,29,Fraction Poisson not Hospitalized,1323,285,63,19,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,30,28,29,1,0,0,0,0,128,0,-1--1--1,,1|(1255,320)|
+10,31,"Post-Detection Phase Resolution Time",2228,440,79,28,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,32,Hospital Admits All,1210,456,69,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,33,32,28,1,0,0,0,0,128,0,-1--1--1,,1|(1236,419)|
+10,34,Reaching Testing Gate,2214,917,61,23,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,35,Fatality Rate Treated,1811,464,40,24,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,36,35,17,1,0,0,0,0,128,0,-1--1--1,,1|(1839,414)|
+1,37,35,20,1,0,0,0,0,128,0,-1--1--1,,1|(1755,464)|
+10,38,Average Acuity of Positively Tested,1273,153,75,32,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,39,38,29,0,0,0,0,0,128,0,-1--1--1,,1|(1297,218)|
+10,40,Reaching Testing Gate,187,767,56,24,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,41,13,26,1,0,0,0,0,128,0,-1--1--1,,1|(1570,493)|
+1,42,26,20,1,0,0,0,0,128,0,-1--1--1,,1|(1730,530)|
+1,43,26,17,1,0,0,0,0,128,0,-1--1--1,,1|(1870,582)|
+10,44,Sensitivity of Fatality Rate to Acuity Net,1519,1248,55,27,8,3,0,2,-1,0,0,0,128-128-128,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,45,Fatality Rate Untreated,1409,1172,47,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,46,Fatality Rate Treated,1615,1168,77,11,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,47,Average Acuity Hospitalized,1645,1052,57,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,48,Average Acuity Not Hospitalized Poisson,1394,1055,79,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,49,Covid Acuity,2210,774,56,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,50,48,45,0,0,0,0,0,128,0,-1--1--1,,1|(1400,1106)|
+1,51,44,46,0,0,0,0,0,128,0,-1--1--1,,1|(1570,1204)|
+1,52,44,45,0,0,0,0,0,128,0,-1--1--1,,1|(1463,1209)|
+10,53,Impact of Treatment on Fatality Rate,2118,1250,76,19,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,54,Baseline Fatality Multiplier,1521,1441,61,19,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,55,Continue without Testing,1675,868,53,28,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,56,Probability of Missing Acuity Signal at Hospitals,1118,938,83,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,57,56,48,0,0,0,0,0,128,0,-1--1--1,,1|(1258,997)|
+10,58,Fraction Poisson not Hospitalized,1543,1102,67,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,59,58,48,1,0,0,0,0,128,0,-1--1--1,,1|(1516,1072)|
+1,60,58,47,1,0,0,0,0,128,0,-1--1--1,,1|(1591,1064)|
+10,61,Average Acuity of Positively Tested,1366,948,68,30,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,62,61,48,0,0,0,0,0,128,0,-1--1--1,,1|(1379,999)|
+10,63,Average Acuity of Positively Tested,1710,937,60,28,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,64,63,47,0,0,0,0,0,128,0,-1--1--1,,1|(1678,992)|
+10,65,Probability of Missing Acuity Signal at Hospitals,1811,986,83,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,66,65,47,0,0,0,0,0,128,0,-1--1--1,,1|(1724,1020)|
+1,67,12,4,1,0,0,0,0,128,1,-1--1--1,,1|(624,318)|
+10,68,Expected Positive Poisson Covid Patients,2232,834,71,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,69,Constant Data File,632,58,53,19,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,70,69,12,0,0,0,0,0,64,0,-1--1--1,,1|(737,59)|
+10,71,Base Fatality Rate for Unit Acuity Net,1539,1549,68,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,72,71,54,0,0,0,0,0,128,1,-1--1--1,,1|(1531,1502)|
+10,73,Demographic Impact on Fatality Relative to China,1391,1500,79,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,74,73,54,0,0,0,0,0,128,1,-1--1--1,,1|(1458,1469)|
+10,75,Constant Data File,1209,1516,59,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,76,75,73,0,0,0,0,0,128,0,-1--1--1,,1|(1283,1509)|
+1,77,54,45,1,0,0,0,0,128,0,-1--1--1,,1|(1401,1341)|
+1,78,54,46,1,0,0,0,0,128,0,-1--1--1,,1|(1655,1320)|
+1,79,47,46,0,0,0,0,0,128,0,-1--1--1,,1|(1630,1107)|
+1,80,53,245,0,0,0,0,0,128,0,-1--1--1,,1|(2011,1231)|
+1,81,4,3,0,0,0,0,0,64,0,-1--1--1,,1|(294,213)|
+10,82,Area of Region,377,61,55,11,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,83,69,82,0,0,0,0,0,64,0,-1--1--1,,1|(512,58)|
+10,84,Bed per Square Kilometer,567,128,59,19,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,85,82,84,0,0,0,0,0,128,1,-1--1--1,,1|(453,88)|
+10,86,Normalized Hospital density,371,124,59,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,87,84,86,0,0,0,0,0,128,1,-1--1--1,,1|(475,126)|
+1,88,4,84,0,0,0,0,0,64,1,-1--1--1,,1|(397,150)|
+10,89,Impact of Population Density on Hospital Availability,150,261,79,31,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,90,89,3,0,0,0,0,0,64,0,-1--1--1,,1|(270,268)|
+1,91,86,3,0,0,0,0,0,64,0,-1--1--1,,1|(375,187)|
+10,92,Reference Hospital Density,125,116,60,19,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,93,92,86,0,0,0,0,0,128,1,-1--1--1,,1|(241,119)|
+10,94,Additional Asymptomatic Relative to Symptomatic,242,599,53,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,95,Average Acuity Not Hospitalized,1118,1062,71,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,96,48,95,0,0,0,0,0,128,0,-1--1--1,,1|(1258,1058)|
+10,97,Infectious not Tested or in Hospitals Poisson,887,1060,80,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,98,"Infected Unconfirmed Post-Detection",1119,1170,85,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,99,98,95,0,0,0,0,0,128,0,-1--1--1,,1|(1118,1122)|
+1,100,97,95,0,0,0,0,0,128,0,-1--1--1,,1|(1000,1060)|
+10,101,W Ave Acuity Hospitalized,1873,1080,49,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,102,47,101,0,0,0,0,0,128,0,-1--1--1,,1|(1756,1065)|
+10,103,Hospitalized Infectious,1930,926,50,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,104,103,101,0,0,0,0,0,128,0,-1--1--1,,1|(1904,995)|
+10,105,Total Covid Hospitalized,1960,201,46,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,106,13,105,0,0,0,0,0,128,0,-1--1--1,,1|(1807,253)|
+10,107,Fraction of Population Hospitalized for Covid,1950,46,81,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,108,105,107,0,0,0,0,0,128,0,-1--1--1,,1|(1955,130)|
+10,109,Population,1687,35,48,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,110,109,107,0,0,0,0,0,64,0,-1--1--1,,1|(1795,39)|
+10,111,"Infected Unconfirmed Post-Detection",2197,697,85,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,112,Additional Asymptomatic Post Detection,2224,611,71,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,113,Covid Poisson Fraction in Hospital,2150,202,71,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,114,105,113,0,0,0,0,0,128,0,-1--1--1,,1|(2035,201)|
+10,115,Infectious Confirmed Not Hospitalized,2384,220,57,30,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,116,115,113,0,0,0,0,0,128,0,-1--1--1,,1|(2280,212)|
+10,117,Total Covid Hospitalized,2232,520,50,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,118,Reference COVID Hospitalization Fraction Confirmed,927,628,86,27,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,119,3,2,0,0,0,0,0,64,0,-1--1--1,,1|(451,469)|
+1,120,1,2,0,0,0,0,0,64,0,-1--1--1,,1|(631,593)|
+1,121,2,5,0,0,0,0,0,128,0,-1--1--1,,1|(519,559)|
+10,122,Fraction Covid Hospitalized Positively Tested,1798,179,74,29,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,123,13,122,0,0,0,0,0,128,0,-1--1--1,,1|(1722,246)|
+1,124,105,122,0,0,0,0,0,128,0,-1--1--1,,1|(1899,192)|
+10,125,Cumulative Deaths at Hospital,1659,514,49,26,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,126,Cumulative Recovered at Hospitals,1988,304,63,28,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,127,2,32,1,0,0,0,0,128,0,-1--1--1,,1|(1083,596)|
+1,128,27,1,1,0,0,0,0,128,0,-1--1--1,,1|(864,536)|
+10,129,Hospitalized Resolution Time,1536,640,59,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,130,129,26,0,0,0,0,0,64,0,-1--1--1,,1|(1577,616)|
+10,131,Hospital Demand from Tested,893,409,64,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,132,Hospital Demand from Not Tested,884,276,64,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,133,Untested PMAS Gap with Tested,644,287,60,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,134,132,32,0,0,0,0,0,128,0,-1--1--1,,1|(1046,366)|
+1,135,131,32,0,0,0,0,0,128,0,-1--1--1,,1|(1042,430)|
+1,136,118,139,0,0,0,0,0,128,0,-1--1--1,,1|(832,537)|
+10,137,Positive Tests of Infected,875,350,57,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,138,137,131,0,0,0,0,0,128,0,-1--1--1,,1|(881,372)|
+10,139,PMAS Confirmed for Hospital Demand,738,446,77,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,140,Average Acuity of Positively Tested,880,481,69,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,141,140,139,0,0,0,0,0,128,0,-1--1--1,,1|(817,465)|
+1,142,139,131,0,0,0,0,0,128,0,-1--1--1,,1|(814,427)|
+1,143,140,131,0,0,0,0,0,128,0,-1--1--1,,1|(884,451)|
+10,144,PMAS Unconfirmed for Hospital Demand,729,350,75,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,145,139,144,0,0,0,0,0,128,0,-1--1--1,,1|(734,404)|
+1,146,133,144,0,0,0,0,0,128,0,-1--1--1,,1|(680,314)|
+1,147,144,132,0,0,0,0,0,128,0,-1--1--1,,1|(799,316)|
+10,148,Average Acuity of Untested Poisson Subset,930,166,69,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,149,148,132,0,0,0,0,0,128,0,-1--1--1,,1|(907,219)|
+10,150,Poisson Subset Not Tested Passing Gate,1070,295,82,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,151,150,132,0,0,0,0,0,128,0,-1--1--1,,1|(974,285)|
+1,152,132,27,0,0,0,0,0,128,0,-1--1--1,,1|(953,376)|
+1,153,131,27,0,0,0,0,0,128,0,-1--1--1,,1|(952,445)|
+1,154,150,28,0,0,0,0,0,128,0,-1--1--1,,1|(1129,324)|
+1,155,137,28,0,0,0,0,0,128,0,-1--1--1,,1|(1030,358)|
+1,156,140,28,0,0,0,0,0,64,0,-1--1--1,,1|(1031,430)|
+1,157,148,28,0,0,0,0,0,64,0,-1--1--1,,1|(1069,263)|
+1,158,148,29,0,0,0,0,0,128,0,-1--1--1,,1|(1122,223)|
+1,159,32,25,0,0,0,0,0,128,0,-1--1--1,,1|(1343,400)|
+10,160,Average Acuity of Untested Poisson Subset,1534,970,69,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,161,160,48,0,0,0,0,0,128,0,-1--1--1,,1|(1463,1012)|
+1,162,160,47,0,0,0,0,0,128,0,-1--1--1,,1|(1588,1010)|
+10,163,Infectious not Tested or in Hospitals Poisson,2328,59,80,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,164,163,113,0,0,0,0,0,128,0,-1--1--1,,1|(2238,130)|
+10,165,Post Mortem Test Rate,1431,504,52,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,166,Frac Post Mortem from Untreated,1383,601,71,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,167,PostMortemCorrection,1372,444,83,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,168,166,167,0,0,0,0,0,64,0,-1--1--1,,1|(1377,524)|
+1,169,13,167,0,0,0,0,0,64,0,-1--1--1,,1|(1503,379)|
+10,170,MinAdjT,1325,520,31,10,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,171,170,167,0,0,0,0,0,64,0,-1--1--1,,1|(1344,487)|
+1,172,165,167,0,0,0,0,0,64,0,-1--1--1,,1|(1402,474)|
+12,173,48,1665,443,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,174,176,125,4,0,0,22,0,0,0,-1--1--1,,1|(1665,481)|
+1,175,176,173,100,0,0,22,0,0,0,-1--1--1,,1|(1665,457)|
+11,176,48,1665,469,8,6,33,3,0,0,4,0,0,0,0,0,0,0,0,0
+10,177,Cml Death Hsp Inc,1713,469,40,18,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,178,20,177,0,0,0,0,0,128,0,-1--1--1,,1|(1713,412)|
+1,179,167,177,0,0,0,0,0,128,0,-1--1--1,,1|(1557,457)|
+12,180,48,1641,406,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,181,19,180,4,0,0,22,0,0,0,-1--1--1,,1|(1642,387)|
+1,182,5,133,0,0,0,0,0,128,0,-1--1--1,,1|(577,362)|
+10,183,SensCovidUntestedAdmission,580,189,112,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,184,183,133,0,0,0,0,0,128,0,-1--1--1,,1|(604,227)|
+10,185,Hospital Adj T,591,496,51,10,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,186,185,5,0,0,0,0,0,64,0,-1--1--1,,1|(568,478)|
+10,187,Fraction Covid Death In Hospitals Previously Tested,2009,443,86,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,188,20,187,0,0,0,0,0,128,0,-1--1--1,,1|(1842,401)|
+10,189,Hospital Admit Ratio,1186,592,54,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,190,32,189,0,0,0,0,0,128,0,-1--1--1,,1|(1200,513)|
+1,191,27,189,0,0,0,0,0,128,0,-1--1--1,,1|(1113,545)|
+10,192,Obesity Impact on Fatality,1751,1396,55,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,193,Chronic Impact on Fatality,1750,1456,55,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,194,Liver Disease Impact on Fatality,1742,1527,64,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,195,Sens Liver Impact Net,1929,1559,40,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,196,Sens Chronic Impact Net,1916,1483,50,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,197,Sens Obesity Impact Net,1907,1395,49,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,198,197,192,0,0,0,0,0,128,1,-1--1--1,,1|(1839,1395)|
+1,199,196,193,0,0,0,0,0,128,1,-1--1--1,,1|(1842,1470)|
+1,200,195,194,0,0,0,0,0,128,1,-1--1--1,,1|(1854,1546)|
+10,201,Obesity Rates,1972,1314,51,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,202,Chronic Death Rate,2058,1438,53,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,203,Liver Disease Rate,2059,1523,52,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,204,203,194,0,0,0,0,0,128,1,-1--1--1,,1|(1913,1524)|
+1,205,202,193,0,0,0,0,0,128,1,-1--1--1,,1|(1911,1446)|
+1,206,201,192,0,0,0,0,0,128,1,-1--1--1,,1|(1879,1348)|
+10,207,Constant Data File,2255,1367,58,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,208,207,201,0,0,0,0,0,128,0,-1--1--1,,1|(2116,1341)|
+1,209,207,202,0,0,0,0,0,128,0,-1--1--1,,1|(2163,1400)|
+1,210,207,203,0,0,0,0,0,128,0,-1--1--1,,1|(2162,1440)|
+1,211,192,54,0,0,0,0,0,128,1,-1--1--1,,1|(1645,1416)|
+1,212,193,54,0,0,0,0,0,128,1,-1--1--1,,1|(1645,1449)|
+1,213,194,54,0,0,0,0,0,128,1,-1--1--1,,1|(1639,1487)|
+10,214,InputAve,2173,1315,41,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,215,214,44,0,0,0,0,0,64,1,-1--1--1,,1|(1860,1282)|
+10,216,Sensitivity of Fatality Rate to Acuity,1298,1264,55,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,217,216,44,0,0,0,0,0,64,1,-1--1--1,,1|(1401,1256)|
+10,218,SW Gen,1270,1385,41,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,219,218,44,0,0,0,0,0,64,1,-1--1--1,,1|(1372,1328)|
+10,220,Base Fatality Rate for Unit Acuity,1327,1597,72,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,221,220,71,0,0,0,0,0,64,1,-1--1--1,,1|(1428,1574)|
+1,222,214,71,0,0,0,0,0,64,1,-1--1--1,,1|(1873,1425)|
+1,223,218,71,0,0,0,0,0,64,1,-1--1--1,,1|(1391,1459)|
+1,224,214,195,0,0,0,0,0,64,1,-1--1--1,,1|(2059,1428)|
+10,225,Sens Liver Impact,2117,1584,44,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,226,225,195,0,0,0,0,0,64,1,-1--1--1,,1|(2027,1572)|
+1,227,218,195,0,0,0,0,0,64,1,-1--1--1,,1|(1591,1469)|
+1,228,214,196,0,0,0,0,0,64,1,-1--1--1,,1|(2056,1391)|
+10,229,Sens Chronic Impact,2087,1480,55,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,230,229,196,0,0,0,0,0,64,1,-1--1--1,,1|(2005,1480)|
+1,231,218,196,0,0,0,0,0,64,1,-1--1--1,,1|(1581,1431)|
+1,232,214,197,0,0,0,0,0,64,1,-1--1--1,,1|(2054,1350)|
+10,233,Sens Obesity Impact,2054,1379,54,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,234,233,197,0,0,0,0,0,64,1,-1--1--1,,1|(1984,1385)|
+1,235,218,197,0,0,0,0,0,64,1,-1--1--1,,1|(1577,1389)|
+10,236,MeanObesity,1841,1313,48,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,237,MeanChronic,1877,1437,49,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,238,MeanLiver,1846,1592,39,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,239,207,236,0,0,0,0,0,128,0,-1--1--1,,1|(2049,1340)|
+1,240,207,237,0,0,0,0,0,128,0,-1--1--1,,1|(2068,1400)|
+1,241,207,238,0,0,0,0,0,128,0,-1--1--1,,1|(2049,1480)|
+1,242,236,192,0,0,0,0,0,128,1,-1--1--1,,1|(1805,1345)|
+1,243,237,193,0,0,0,0,0,128,1,-1--1--1,,1|(1823,1444)|
+1,244,238,194,0,0,0,0,0,128,1,-1--1--1,,1|(1805,1567)|
+10,245,TimeVar Impact of Treatment on Fatality,1890,1211,77,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,246,Cumulative Cases,2354,1129,46,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,247,Initial Population,2295,1178,44,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,248,Learning and Death Reduction Rate,2176,1046,72,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,249,Baseline Cumulative Cases for Learning,2228,1089,75,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,250,245,46,0,0,0,0,0,128,0,-1--1--1,,1|(1755,1190)|
+10,251,Time variant change in fatality,2039,1145,61,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,252,251,245,0,0,0,0,0,128,0,-1--1--1,,1|(1970,1175)|
+1,253,249,251,0,0,0,0,0,64,0,-1--1--1,,1|(2140,1115)|
+1,254,246,251,0,0,0,0,0,64,0,-1--1--1,,1|(2210,1135)|
+1,255,248,251,0,0,0,0,0,64,0,-1--1--1,,1|(2113,1091)|
+1,256,247,251,0,0,0,0,0,64,0,-1--1--1,,1|(2182,1163)|
+1,257,251,45,1,0,0,0,0,128,0,-1--1--1,,1|(1781,1127)|
+10,258,Min Fatality Multiplier,2019,931,42,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,259,258,251,0,0,0,0,0,128,0,-1--1--1,,1|(2027,1031)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Risk Perception
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Indicated Risk of Life Loss,-42,394,61,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,2,Perceived Risk of Life Loss,154,394,67,31,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,3,1,2,0,0,0,0,0,128,0,-1--1--1,,1|(46,394)|
+10,4,Time to Upgrade Risk,154,267,51,18,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,5,4,2,0,0,0,0,0,64,0,-1--1--1,,1|(154,317)|
+10,6,Discount Rate Annual,52,143,65,20,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,7,Min Contact Fraction,650,388,77,11,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,8,Time to Downgrade Risk,194,765,61,19,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,9,8,44,0,0,0,0,0,64,0,-1--1--1,,1|(163,735)|
+10,10,Switch for Government Response,-79,106,85,35,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,11,Perceived Hazard of Death,-254,394,60,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,12,True Hazard of death,-450,328,54,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,13,Reported Hazard of Death,-450,490,63,18,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,14,12,11,0,0,0,0,0,128,0,-1--1--1,,1|(-360,358)|
+1,15,13,11,0,0,0,0,0,128,0,-1--1--1,,1|(-359,445)|
+10,16,Weight on Reported Probability of Infection,-254,288,83,19,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,17,16,11,0,0,0,0,0,128,0,-1--1--1,,1|(-254,334)|
+10,18,Sensitivity of Contact Reduction to Utility,378,485,77,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,19,Activities Allowed by Government,991,604,65,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+12,20,0,566,133,283,207,3,188,0,0,1,0,0,0,0,0,0,0,0,0
+Effect_of_Risk_on_Behavior
+10,21,Contacts Relative to Normal,831,496,67,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,22,19,21,1,0,0,0,0,128,0,-1--1--1,,1|(845,493)|
+10,23,Voluntary Reduction in Contacts,650,494,48,28,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,24,23,21,0,0,0,0,0,128,0,-1--1--1,,1|(724,494)|
+10,25,Discount Rate per Day,14,264,53,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,26,Susceptible,-483,170,53,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,27,25,1,0,0,0,0,0,128,0,-1--1--1,,1|(-12,322)|
+1,28,6,25,0,0,0,0,0,128,1,-1--1--1,,1|(34,197)|
+10,29,Days per Year,-329,94,45,20,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,30,29,25,0,0,0,0,0,128,1,-1--1--1,,1|(-164,176)|
+1,31,11,1,0,0,0,0,0,128,0,-1--1--1,,1|(-156,394)|
+10,32,Dread Factor in Risk Perception,194,928,59,19,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,33,7,23,0,0,0,0,0,128,0,-1--1--1,,1|(650,425)|
+10,34,PseudoCFR,-230,745,46,10,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||128-0-128,0,0,0,0,0,0
+10,35,Dread Factor Policy,348,964,49,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,36,Response Policy Time On,299,717,62,18,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||255-128-0,0,0,0,0,0,0
+10,37,Dread Factor in Risk Perception Net,331,827,73,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,38,32,37,0,0,0,0,0,128,0,-1--1--1,,1|(256,881)|
+1,39,36,37,0,0,0,0,0,128,0,-1--1--1,,1|(312,765)|
+1,40,35,37,0,0,0,0,0,128,0,-1--1--1,,1|(340,902)|
+10,41,Time,545,970,29,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,42,41,37,0,0,0,0,0,64,0,-1--1--1,,1|(449,906)|
+10,43,Time to Downgrade Risk Policy,-26,807,61,27,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,44,Time to Downgrade Risk Net,124,697,72,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,45,43,44,0,0,0,0,0,128,0,-1--1--1,,1|(48,751)|
+1,46,36,44,0,0,0,0,0,128,0,-1--1--1,,1|(223,708)|
+10,47,Response Policy Weight,-82,727,50,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,48,47,44,0,0,0,0,0,128,0,-1--1--1,,1|(3,714)|
+1,49,47,37,0,0,0,0,0,128,0,-1--1--1,,1|(106,772)|
+10,50,Time,223,553,29,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,51,50,44,0,0,0,0,0,64,0,-1--1--1,,1|(180,615)|
+10,52,Sensitivity of Contact Reduction to Utility Policy,239,666,77,27,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,53,Sensitivity of Contact Reduction to Utility Net,329,574,82,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,54,52,53,0,0,0,0,0,128,0,-1--1--1,,1|(283,620)|
+1,55,18,53,0,0,0,0,0,128,0,-1--1--1,,1|(357,523)|
+1,56,36,53,0,0,0,0,0,64,0,-1--1--1,,1|(312,652)|
+1,57,47,53,0,0,0,0,0,64,0,-1--1--1,,1|(116,652)|
+1,58,50,53,0,0,0,0,0,64,0,-1--1--1,,1|(242,556)|
+10,59,Recent Relative Contacts,767,647,52,24,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,60,Impact of Adherence Fatigue,557,670,70,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,61,59,60,1,0,0,0,0,128,0,-1--1--1,,1|(657,683)|
+1,62,21,59,1,0,0,0,0,128,0,-1--1--1,,1|(845,571)|
+1,63,60,53,1,0,0,0,0,128,0,-1--1--1,,1|(487,664)|
+10,64,Adherence Fatigue Time,904,727,49,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||64-160-98,0,0,0,0,0,0
+1,65,64,59,0,0,0,0,0,64,0,-1--1--1,,1|(847,693)|
+10,66,Strength of Adherence Fatigue,690,728,70,18,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,67,66,60,0,0,0,0,0,64,0,-1--1--1,,1|(629,701)|
+1,68,60,37,1,0,0,0,0,128,0,-1--1--1,,1|(376,826)|
+10,69,SWadhFtg,675,681,40,10,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,70,69,60,0,0,0,0,0,64,0,-1--1--1,,1|(637,678)|
+10,71,Time to Stop Adherence Fatigue,522,812,70,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,72,71,60,0,0,0,0,0,128,0,-1--1--1,,1|(537,747)|
+10,73,Time,636,796,29,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,74,73,60,0,0,0,0,0,64,0,-1--1--1,,1|(602,742)|
+10,75,Death Rate,-579,368,51,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,76,75,12,0,0,0,0,0,128,0,-1--1--1,,1|(-533,353)|
+10,77,SimFlowOverTime,-503,586,78,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,78,77,13,0,0,0,0,0,64,0,-1--1--1,,1|(-483,548)|
+10,79,Time to Downgrade Risk With Vaccine,35,495,72,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,80,MinTimeDwngRisk,-151,645,69,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,81,80,79,0,0,0,0,0,64,0,-1--1--1,,1|(-70,578)|
+10,82,SuscFrac,120,545,45,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,83,82,79,0,0,0,0,0,64,0,-1--1--1,,1|(90,527)|
+1,84,44,79,0,0,0,0,0,64,0,-1--1--1,,1|(82,602)|
+10,85,Vaccination On,7,573,48,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,86,85,79,0,0,0,0,0,64,0,-1--1--1,,1|(18,540)|
+1,87,79,2,1,0,0,0,0,128,0,-1--1--1,,1|(37,446)|
+10,88,Population,-573,428,48,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,89,88,12,0,0,0,0,0,64,0,-1--1--1,,1|(-523,386)|
+1,90,88,13,0,0,0,0,0,128,0,-1--1--1,,1|(-527,451)|
+1,91,37,23,0,0,0,0,0,128,0,-1--1--1,,1|(480,670)|
+1,92,18,23,0,0,0,0,0,64,0,-1--1--1,,1|(521,489)|
+1,93,2,23,0,0,0,0,0,128,0,-1--1--1,,1|(404,444)|
+1,94,53,23,0,0,0,0,0,128,0,-1--1--1,,1|(494,532)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Vaccine
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,75,0
+10,1,Covid Acuity Relative to Flu Net,808,414,69,23,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,2,Covid Acuity Relative to Flu,1060,90,52,18,8,3,0,2,-1,0,0,0,128-128-128,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,3,InputAve,1459,130,41,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,4,SW Gen,1330,117,41,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,5,Covid Acuity Relative to Flu Init Net,1470,232,64,27,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,6,2,5,0,0,0,0,0,64,1,-1--1--1,,1|(1251,156)|
+1,7,3,5,0,0,0,0,0,64,1,-1--1--1,,1|(1462,165)|
+1,8,4,5,0,0,0,0,0,64,1,-1--1--1,,1|(1384,161)|
+10,9,Total Asymptomatic Fraction Net,652,215,72,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,10,Total Asymptomatic Fraction,433,142,53,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,11,InputAve,505,232,41,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,12,SW Gen,587,103,41,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,13,Total Asymptomatic Fraction Init Net,967,176,72,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,14,3,13,0,0,0,0,0,64,1,-1--1--1,,1|(1235,150)|
+1,15,4,13,0,0,0,0,0,64,1,-1--1--1,,1|(1170,142)|
+10,16,Total Asymptomatic Fraction,908,50,53,27,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,17,16,13,0,0,0,0,0,64,1,-1--1--1,,1|(936,111)|
+10,18,Additional Asymptomatic Relative to Symptomatic Init,914,276,84,27,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,19,13,18,0,0,0,0,0,128,1,-1--1--1,,1|(946,215)|
+10,20,Covid Acuity,500,298,55,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,21,5,18,0,0,0,0,0,128,1,-1--1--1,,1|(1208,252)|
+10,22,Flu Acuity,255,229,45,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,23,22,18,0,0,0,0,0,64,1,-1--1--1,,1|(557,250)|
+1,24,20,9,0,0,0,0,0,128,0,-1--1--1,,1|(562,263)|
+10,25,Additional Asymptomatic Fraction Init,708,127,53,27,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,26,25,9,0,0,0,0,0,64,0,-1--1--1,,1|(680,169)|
+1,27,18,25,0,0,0,0,0,64,0,-1--1--1,,1|(816,205)|
+10,28,Vaccinated,1091,776,69,33,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,29,Sympthoms in Susceptible,727,953,78,39,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,30,48,788,765,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,31,33,28,4,0,0,22,0,0,0,-1--1--1,,1|(955,765)|
+1,32,33,30,100,0,0,22,0,0,0,-1--1--1,,1|(837,765)|
+11,33,48,882,765,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,34,Vaccination,882,783,43,10,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,35,36,29,100,0,0,22,0,0,0,-1--1--1,,1|(855,957)|
+11,36,530,912,957,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,37,Sympthom Reduction by Vaccination,912,992,48,27,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,38,48,1030,960,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,39,36,38,4,0,0,22,0,0,0,-1--1--1,,1|(969,957)|
+12,40,48,405,956,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,41,43,40,4,0,0,22,0,0,0,-1--1--1,,1|(470,956)|
+1,42,43,29,100,0,0,22,0,0,0,-1--1--1,,1|(593,956)|
+11,43,48,532,956,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,44,Sympthom Reduction by Infectioun,532,991,48,27,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,45,34,37,1,0,0,0,0,128,0,-1--1--1,,1|(888,860)|
+1,46,25,29,0,0,0,0,0,128,1,-1--1--1,,1|(716,527)|
+1,47,5,29,0,0,0,0,0,128,1,-1--1--1,,1|(1110,581)|
+10,48,Susceptible,395,820,52,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,49,48,29,0,0,0,0,0,64,1,-1--1--1,,1|(527,872)|
+10,50,Average Acuity in Susceptible,625,762,64,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,51,48,50,0,0,0,0,0,128,0,-1--1--1,,1|(490,795)|
+1,52,29,50,0,0,0,0,0,128,0,-1--1--1,,1|(673,853)|
+1,53,50,43,0,0,0,0,0,128,0,-1--1--1,,1|(578,858)|
+10,54,Infection Rate,608,1153,58,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,55,54,44,0,0,0,0,0,128,0,-1--1--1,,1|(577,1086)|
+1,56,50,36,1,0,0,0,0,128,0,-1--1--1,,1|(862,906)|
+10,57,Vaccination Priority Multiplier,949,1141,61,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,58,57,37,1,0,0,0,0,128,0,-1--1--1,,1|(922,1085)|
+1,59,50,1,1,0,0,0,0,128,0,-1--1--1,,1|(757,533)|
+1,60,25,1,1,0,0,0,0,128,0,-1--1--1,,1|(742,277)|
+1,61,48,34,0,0,0,0,0,64,0,-1--1--1,,1|(636,802)|
+10,62,Time,969,821,29,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,63,Vaccine Start Time,1028,438,50,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||128-0-64,0,0,0,0,0,0
+10,64,Vaccination Period,1376,475,44,18,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||128-0-64,0,0,0,0,0,0
+10,65,Total Vaccination Rate,1078,563,63,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,66,Fraction Infected,796,601,35,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,67,Min Vaccination Time,786,688,59,18,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,68,65,33,1,0,0,0,0,128,0,-1--1--1,,1|(926,707)|
+1,69,66,33,1,0,0,0,0,128,0,-1--1--1,,1|(853,648)|
+1,70,67,33,1,0,0,0,0,128,0,-1--1--1,,1|(848,712)|
+1,71,64,65,0,0,0,0,0,128,1,-1--1--1,,1|(1241,513)|
+10,72,Initial Population,1217,615,44,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,73,72,65,0,0,0,0,0,64,1,-1--1--1,,1|(1156,592)|
+10,74,Vaccination On,912,642,55,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,75,Time,897,536,29,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,76,75,74,0,0,0,0,0,64,0,-1--1--1,,1|(903,582)|
+1,77,63,74,0,0,0,0,0,64,0,-1--1--1,,1|(970,537)|
+1,78,74,33,0,0,0,0,0,128,0,-1--1--1,,1|(898,698)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Data&Payoffs
+$192-192-192,0,Arial|11||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,75,0
+10,1,DataCmltInfection,456,409,59,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,2,DataCmltDeath,449,474,51,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,3,DataCmltOverTime,615,474,64,8,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,4,1,3,0,0,0,0,0,128,0,-1--1--1,,1|(530,439)|
+1,5,2,3,0,0,0,0,0,128,0,-1--1--1,,1|(518,474)|
+10,6,Cumulative Confirmed Cases,1083,517,60,17,3,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,7,SimCmltOverTime,836,536,59,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,8,6,7,0,0,0,0,0,128,0,-1--1--1,,1|(965,525)|
+10,9,SeriesErrorTerm,772,474,55,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,10,3,9,0,0,0,0,0,128,0,-1--1--1,,1|(691,474)|
+1,11,7,9,0,0,0,0,0,128,0,-1--1--1,,1|(809,509)|
+10,12,BaseError,657,521,35,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,13,12,9,0,0,0,0,0,64,0,-1--1--1,,1|(707,500)|
+10,14,DataFlowOverTime,580,777,64,8,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,15,MeanFlowOverTime,908,785,67,8,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,16,DataFlowDeath,452,832,51,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,17,16,14,0,0,0,0,0,64,0,-1--1--1,,1|(510,806)|
+10,18,DataFlowInfection,443,781,59,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,19,18,14,0,0,0,0,0,64,0,-1--1--1,,1|(501,779)|
+10,20,DataFlowRecovery,260,855,63,8,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,21,Recovery of Confirmed,1566,831,49,20,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+11,22,8318,1041,800,8,7,33,3,0,0,4,0,0,0,0,0,0,0,0,0
+10,23,Deaths of Confirmed,1099,800,49,24,40,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+11,24,2224,1526,870,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,25,Positive Testing of Infected Untreated,1526,905,71,27,40,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+11,26,4314,813,860,7,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,27,Post Mortem Test Rate,813,886,60,19,40,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,28,27,15,0,0,0,0,0,128,0,-1--1--1,,1|(860,835)|
+10,29,Cumulative Deaths of Confirmed Untreated,841,613,51,28,3,130,0,3,0,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,30,Infectious Confirmed Not Hospitalized,1139,342,48,24,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+12,31,0,1366,672,89,89,6,135,0,1,-1,0,0,0,255-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+Most var names in this view not changed yet,   but most are not clear as to their meaning
+10,32,Post Mortem Testing Need,1597,974,67,31,3,130,0,3,0,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,33,Data Pseudo Case Fatality,255,461,44,16,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,34,2,33,0,0,0,0,0,128,0,-1--1--1,,1|(355,467)|
+1,35,1,33,0,0,0,0,0,128,0,-1--1--1,,1|(367,431)|
+10,36,Sim Pseudo Case Fatality,1021,357,44,16,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,37,6,36,0,0,0,0,0,128,0,-1--1--1,,1|(1054,443)|
+10,38,eps,803,820,14,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,39,TIME STEP,726,847,46,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,40,Data Excess Deaths,685,143,44,16,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,41,Excess Death Rate Error,595,233,46,16,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,42,Cumulative Missed Death,1017,228,68,29,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,43,48,1257,226,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,44,46,42,4,0,0,22,0,0,0,-1--1--1,,1|(1122,226)|
+1,45,46,43,100,0,0,22,0,0,0,-1--1--1,,1|(1209,226)|
+11,46,48,1166,226,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,47,Count Missed Death,1166,250,46,16,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,48,Deaths of Symptomatic Untested,1274,62,43,24,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,49,Post Mortem Test Rate,1302,273,46,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,50,Excess Death Start Count,1034,133,46,16,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,51,Excess Death End Count,1062,62,46,16,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,52,51,47,0,0,0,0,0,128,0,-1--1--1,,1|(1110,149)|
+1,53,50,47,0,0,0,0,0,128,0,-1--1--1,,1|(1094,186)|
+10,54,Time,1270,322,26,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,55,54,47,0,0,0,0,0,64,0,-1--1--1,,1|(1228,293)|
+1,56,42,41,0,0,0,0,0,128,0,-1--1--1,,1|(801,229)|
+10,57,Constant Data File,789,181,35,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,58,57,51,0,0,0,0,0,64,0,-1--1--1,,1|(918,124)|
+1,59,57,50,0,0,0,0,0,64,0,-1--1--1,,1|(899,159)|
+1,60,57,40,0,0,0,0,0,64,0,-1--1--1,,1|(747,166)|
+10,61,FlowResiduals,1162,728,48,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,62,14,61,0,0,0,0,0,128,0,-1--1--1,,1|(872,752)|
+1,63,15,61,0,0,0,0,0,128,0,-1--1--1,,1|(1025,758)|
+10,64,NBL1,747,671,19,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,65,NBL2,852,663,19,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,66,NBL3,913,681,19,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,67,Di,642,716,9,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,68,Mu,1008,652,12,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,69,14,67,0,0,0,0,0,128,0,-1--1--1,,1|(605,751)|
+1,70,15,68,0,0,0,0,0,128,0,-1--1--1,,1|(953,724)|
+1,71,67,65,0,0,0,0,0,128,0,-1--1--1,,1|(735,692)|
+1,72,68,64,0,0,0,0,0,128,0,-1--1--1,,1|(887,659)|
+10,73,alp,803,711,12,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,74,73,64,0,0,0,0,0,128,0,-1--1--1,,1|(780,695)|
+1,75,73,65,0,0,0,0,0,64,0,-1--1--1,,1|(822,691)|
+1,76,68,66,0,0,0,0,0,128,0,-1--1--1,,1|(970,662)|
+1,77,73,66,0,0,0,0,0,128,0,-1--1--1,,1|(847,698)|
+1,78,67,66,0,0,0,0,0,128,0,-1--1--1,,1|(765,699)|
+1,79,68,65,0,0,0,0,0,64,0,-1--1--1,,1|(940,655)|
+1,80,14,64,0,0,0,0,0,128,0,-1--1--1,,1|(656,728)|
+1,81,14,65,0,0,0,0,0,128,0,-1--1--1,,1|(709,722)|
+1,82,38,68,0,0,0,0,0,128,0,-1--1--1,,1|(899,740)|
+10,83,NBLLFlow,737,632,34,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,84,64,83,0,0,0,0,0,128,0,-1--1--1,,1|(743,658)|
+1,85,65,83,0,0,0,0,0,128,0,-1--1--1,,1|(808,651)|
+10,86,dalp,767,729,16,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,87,ialp,800,738,13,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,88,86,73,0,0,0,0,0,128,0,-1--1--1,,1|(780,722)|
+1,89,87,73,0,0,0,0,0,128,0,-1--1--1,,1|(800,731)|
+10,90,DataTestRate,471,884,46,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,91,Total Simulated Tests,882,945,58,16,8,2,0,3,0,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,92,alpR,883,719,17,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,93,talp,839,737,14,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,94,93,73,0,0,0,0,0,128,0,-1--1--1,,1|(826,727)|
+1,95,92,73,0,0,0,0,0,128,0,-1--1--1,,1|(847,715)|
+10,96,Cumulative Tests Conducted,654,579,62,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,97,96,7,0,0,0,0,0,128,0,-1--1--1,,1|(749,556)|
+10,98,DataCmltTest,426,516,45,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,99,98,3,0,0,0,0,0,128,0,-1--1--1,,1|(515,496)|
+10,100,Min Excess Death Attributable to COVID,595,339,71,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,101,FlowToInclude,629,616,48,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,102,101,83,0,0,0,0,0,64,0,-1--1--1,,1|(683,623)|
+10,103,TestFlowErr,650,907,40,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,104,15,103,0,0,0,0,0,128,0,-1--1--1,,1|(786,842)|
+1,105,14,103,0,0,0,0,0,128,0,-1--1--1,,1|(611,835)|
+10,106,WTestFlowErr,551,957,47,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,107,106,103,0,0,0,0,0,128,0,-1--1--1,,1|(593,935)|
+1,108,14,106,0,0,0,0,0,128,0,-1--1--1,,1|(566,859)|
+10,109,TestErrorFrac,545,1021,47,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,110,109,106,0,0,0,0,0,64,0,-1--1--1,,1|(546,995)|
+10,111,maxAlp,1015,729,25,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,112,111,73,0,0,0,0,0,64,0,-1--1--1,,1|(909,720)|
+10,113,DataIncluded,507,656,44,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,114,1,113,0,0,0,0,0,128,0,-1--1--1,,1|(479,525)|
+1,115,113,83,0,0,0,0,0,128,0,-1--1--1,,1|(620,644)|
+10,116,ThrsInc,453,689,26,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,117,116,113,0,0,0,0,0,64,0,-1--1--1,,1|(473,676)|
+1,118,90,14,0,0,0,0,0,128,0,-1--1--1,,1|(520,834)|
+1,119,91,15,0,0,0,0,0,128,0,-1--1--1,,1|(893,867)|
+10,120,CmltErrPW,659,409,37,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,121,120,9,0,0,0,0,0,64,0,-1--1--1,,1|(708,438)|
+10,122,CmltToInclude,785,352,47,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,123,122,9,0,0,0,0,0,128,0,-1--1--1,,1|(779,406)|
+10,124,CmltPenaltyScl,694,369,49,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,125,124,9,0,0,0,0,0,64,0,-1--1--1,,1|(728,415)|
+1,126,113,9,0,0,0,0,0,128,0,-1--1--1,,1|(633,568)|
+10,127,Hospitalized Infectious,1296,512,52,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,128,Cumulative Confirmed Recovered,1197,438,37,24,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,129,Confirmed Recovered,1351,443,41,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,130,129,128,0,0,0,0,0,128,0,-1--1--1,,1|(1278,440)|
+10,131,Cumulative Recovered at Hospitals,1317,373,45,24,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,132,131,128,0,0,0,0,0,64,0,-1--1--1,,1|(1259,403)|
+10,133,Cumulative Deaths at Hospital,898,337,65,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,134,Cumulative Deaths of Confirmed,934,439,40,20,3,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,135,134,7,0,0,0,0,0,128,0,-1--1--1,,1|(884,488)|
+1,136,134,36,0,0,0,0,0,128,0,-1--1--1,,1|(974,400)|
+10,137,Hospitalized Infectious Deaths,987,925,65,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,138,Positive Tests of Infected,1108,841,51,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,139,138,15,0,0,0,0,0,64,0,-1--1--1,,1|(1003,811)|
+10,140,MaxData,375,644,30,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,141,1,140,0,0,0,0,0,128,1,-1--1--1,,1|(417,519)|
+1,142,140,116,0,0,0,0,0,128,0,-1--1--1,,1|(407,663)|
+10,143,FracThresh,359,680,39,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,144,143,116,0,0,0,0,0,128,0,-1--1--1,,1|(405,683)|
+1,145,6,113,0,0,0,0,0,128,0,-1--1--1,,1|(790,587)|
+10,146,Cumulative Deaths,385,588,42,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,147,146,113,0,0,0,0,0,128,0,-1--1--1,,1|(445,622)|
+10,148,Chng Cml Dth Untst Untrt,1158,123,51,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,149,148,47,0,0,0,0,0,128,0,-1--1--1,,1|(1161,179)|
+10,150,Cml Death Hsp Inc,1397,168,40,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,151,150,47,0,0,0,0,0,128,0,-1--1--1,,1|(1290,205)|
+1,152,40,41,0,0,0,0,0,64,0,-1--1--1,,1|(644,183)|
+10,153,Time to Upgrade Risk,2291,384,45,16,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,154,PriorErrs,1823,221,30,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,155,Reference Force of Infection,2299,491,57,16,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,156,Sensitivity Post Mortem Testing to Capacity,2383,534,60,24,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,157,InputAve,1661,156,30,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,158,RegionalInputs,2035,603,49,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,159,156,158,0,0,0,0,0,128,0,-1--1--1,,1|(2208,568)|
+1,160,155,158,0,0,0,0,0,128,0,-1--1--1,,1|(2165,547)|
+1,161,153,158,0,0,0,0,0,128,1,-1--1--1,,1|(2164,492)|
+10,162,Time to Upgrade Risk,1324,1185,60,20,8,130,0,42,-1,0,0,0,128-128-128,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,163,Sensitivity of Fatality Rate to Acuity Net,1794,404,68,16,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-0-255,0,0,0,0,0,0
+10,164,Confirmation Impact on Contact,1988,744,60,16,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,165,Patient Zero Arrival Time,1338,1354,41,16,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,166,Impact of Treatment on Fatality Rate,1806,749,67,16,8,131,0,42,0,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,167,Time to Downgrade Risk,2187,503,55,16,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,168,Reference Force of Infection,1309,1253,57,16,8,130,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,169,Baseline Daily Fraction Susceptible Seeking Tests,2252,615,77,24,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,170,Weight on Reported Probability of Infection,2371,684,73,16,8,131,0,42,0,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,171,Sensitivity of Contact Reduction to Utility,2056,799,71,16,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,172,Base Fatality Rate for Unit Acuity Net,1635,553,56,24,8,3,0,42,-1,0,0,0,128-128-128,0-0-0,Arial|11||0-0-255,0,0,0,0,0,0
+10,173,Dread Factor in Risk Perception,1787,688,53,16,8,3,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,174,Impact of Population Density on Hospital Availability,1884,804,74,29,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,175,Multiplier Transmission Risk for Asymptomatic Net,2206,299,76,24,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-0-255,0,0,0,0,0,0
+10,176,Reference COVID Hospitalization Fraction Confirmed,1762,630,74,27,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,177,Multiplier Recent Infections to Test,2233,714,57,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,178,Sensitivity to Weather Net,1675,474,42,16,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-0-255,0,0,0,0,0,0
+1,179,173,158,0,0,0,0,0,128,0,-1--1--1,,1|(1913,644)|
+1,180,169,158,0,0,0,0,0,128,0,-1--1--1,,1|(2136,608)|
+1,181,170,158,0,0,0,0,0,128,0,-1--1--1,,1|(2195,641)|
+1,182,177,158,0,0,0,0,0,128,0,-1--1--1,,1|(2134,658)|
+1,183,164,158,0,0,0,0,0,128,0,-1--1--1,,1|(2010,676)|
+1,184,171,158,0,0,0,0,0,128,0,-1--1--1,,1|(2045,704)|
+1,185,174,158,0,0,0,0,0,128,0,-1--1--1,,1|(1962,699)|
+1,186,166,158,0,0,0,0,0,128,0,-1--1--1,,1|(1919,676)|
+1,187,167,158,0,0,0,0,0,128,0,-1--1--1,,1|(2111,552)|
+10,188,AbsStd,1917,103,25,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,189,Min Contact Fraction,2108,758,40,16,8,131,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,190,189,158,0,0,0,0,0,128,0,-1--1--1,,1|(2073,683)|
+1,191,158,154,0,0,0,0,0,128,1,-1--1--1,,1|(1932,418)|
+1,192,163,158,0,0,0,0,0,128,0,-1--1--1,,1|(1913,502)|
+1,193,178,158,0,0,0,0,0,128,0,-1--1--1,,1|(1856,539)|
+1,194,176,158,0,0,0,0,0,128,0,-1--1--1,,1|(1904,615)|
+1,195,164,158,0,0,0,0,0,128,0,-1--1--1,,1|(2010,676)|
+1,196,172,158,0,0,0,0,0,128,0,-1--1--1,,1|(1831,577)|
+10,197,Sens Liver Impact Net,2126,192,36,16,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-0-255,0,0,0,0,0,0
+10,198,Sens Chronic Impact Net,1996,369,45,16,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-0-255,0,0,0,0,0,0
+10,199,Sens Obesity Impact Net,1931,305,45,16,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-0-255,0,0,0,0,0,0
+1,200,198,158,0,0,0,0,0,128,0,-1--1--1,,1|(2014,482)|
+1,201,199,158,0,0,0,0,0,128,0,-1--1--1,,1|(1981,450)|
+1,202,197,158,0,0,0,0,0,128,0,-1--1--1,,1|(2081,394)|
+10,203,Excess Death Mean Frac,445,253,46,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,204,203,41,0,0,0,0,0,64,0,-1--1--1,,1|(513,243)|
+10,205,Excess Death Range Frac,460,203,46,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,206,205,41,0,0,0,0,0,64,0,-1--1--1,,1|(520,216)|
+1,207,157,172,0,0,0,0,0,128,1,-1--1--1,,1|(1648,340)|
+1,208,157,178,0,0,0,0,0,128,1,-1--1--1,,1|(1667,304)|
+1,209,157,163,0,0,0,0,0,128,1,-1--1--1,,1|(1721,270)|
+1,210,157,199,0,0,0,0,0,128,1,-1--1--1,,1|(1783,223)|
+1,211,157,198,0,0,0,0,0,128,1,-1--1--1,,1|(1816,255)|
+1,212,157,197,0,0,0,0,0,128,1,-1--1--1,,1|(1883,172)|
+10,213,SW Gen,2546,362,29,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||255-128-0,0,0,0,0,0,0
+1,214,213,172,0,0,0,0,0,64,1,-1--1--1,,1|(2110,453)|
+1,215,213,178,0,0,0,0,0,128,1,-1--1--1,,1|(2123,415)|
+1,216,213,163,0,0,0,0,0,128,1,-1--1--1,,1|(2196,381)|
+1,217,213,199,0,0,0,0,0,128,1,-1--1--1,,1|(2253,335)|
+1,218,213,198,0,0,0,0,0,128,1,-1--1--1,,1|(2285,364)|
+1,219,213,197,0,0,0,0,0,128,1,-1--1--1,,1|(2349,282)|
+10,220,Base Fatality Rate for Unit Acuity,1533,492,61,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,221,220,172,0,0,0,0,0,64,1,-1--1--1,,1|(1570,514)|
+10,222,Sensitivity to Weather,1543,420,42,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,223,222,178,0,0,0,0,0,64,1,-1--1--1,,1|(1602,444)|
+10,224,Covid Acuity Relative to Flu,1559,314,48,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,225,Sensitivity of Fatality Rate to Acuity,1645,288,51,24,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,226,225,163,0,0,0,0,0,64,1,-1--1--1,,1|(1718,345)|
+10,227,Total Asymptomatic Fraction,1738,265,65,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,228,Sens Obesity Impact,1923,254,45,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,229,228,199,0,0,0,0,0,64,1,-1--1--1,,1|(1925,272)|
+10,230,Sens Chronic Impact,2024,331,45,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,231,230,198,0,0,0,0,0,64,1,-1--1--1,,1|(2014,345)|
+10,232,Sens Liver Impact,2134,151,58,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,233,232,197,0,0,0,0,0,64,1,-1--1--1,,1|(2132,161)|
+1,234,157,175,0,0,0,0,0,64,1,-1--1--1,,1|(1903,219)|
+10,235,Multiplier Transmission Risk for Asymptomatic,2298,187,74,24,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,236,235,175,0,0,0,0,0,64,1,-1--1--1,,1|(2256,237)|
+1,237,213,175,0,0,0,0,0,64,1,-1--1--1,,1|(2406,336)|
+1,238,175,158,0,0,0,0,0,64,0,-1--1--1,,1|(2119,452)|
+10,239,CalcAve,1801,117,28,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,240,158,239,0,0,0,0,0,128,1,-1--1--1,,1|(1921,366)|
+10,241,ActiveAve,1769,177,33,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,242,157,241,0,0,0,0,0,128,1,-1--1--1,,1|(1706,164)|
+1,243,239,241,0,0,0,0,0,128,1,-1--1--1,,1|(1788,140)|
+1,244,241,154,0,0,0,0,0,128,1,-1--1--1,,1|(1790,194)|
+10,245,SW EndoAve,1633,32,44,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||255-128-0,0,0,0,0,0,0
+1,246,245,241,0,0,0,0,0,64,1,-1--1--1,,1|(1695,99)|
+10,247,Max Time Data Used,223,753,50,16,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||255-128-0,0,0,0,0,0,0
+10,248,DataLimitFromTime,505,724,65,8,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,249,248,113,0,0,0,0,0,128,0,-1--1--1,,1|(505,697)|
+10,250,Time,505,748,26,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,251,250,248,0,0,0,0,0,64,0,-1--1--1,,1|(505,742)|
+10,252,InpAveErr,1809,26,33,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,253,188,154,0,0,0,0,0,128,1,-1--1--1,,1|(1874,156)|
+10,254,InpAveErrCmp,1756,54,48,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,255,239,254,0,0,0,0,0,64,1,-1--1--1,,1|(1782,91)|
+1,256,157,254,0,0,0,0,0,64,1,-1--1--1,,1|(1703,110)|
+1,257,245,254,0,0,0,0,0,64,1,-1--1--1,,1|(1685,40)|
+1,258,254,252,0,0,0,0,0,128,1,-1--1--1,,1|(1775,43)|
+10,259,StdScale,1975,157,30,9,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,260,259,154,0,0,0,0,0,64,1,-1--1--1,,1|(1905,186)|
+10,261,Learning and Death Reduction Rate,2420,141,58,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,262,Strength of Adherence Fatigue,2530,84,64,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,263,261,158,0,0,0,0,0,128,0,-1--1--1,,1|(2228,370)|
+1,264,262,158,0,0,0,0,0,128,0,-1--1--1,,1|(2283,341)|
+10,265,PriorCounts,1934,31,40,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,266,265,252,0,0,0,0,0,64,1,-1--1--1,,1|(1874,28)|
+10,267,Recorded Deaths,942,839,58,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,268,267,15,0,0,0,0,0,64,0,-1--1--1,,1|(928,817)|
+1,269,23,267,0,0,0,0,0,64,0,-1--1--1,,1|(1020,819)|
+1,270,137,267,0,0,0,0,0,64,0,-1--1--1,,1|(965,884)|
+1,271,27,267,0,0,0,0,0,64,0,-1--1--1,,1|(884,859)|
+10,272,lastTestData,370,752,42,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,273,StopDataUseTime,364,701,59,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,274,272,273,0,0,0,0,0,128,1,-1--1--1,,1|(367,733)|
+1,275,90,272,0,0,0,0,0,64,1,-1--1--1,,1|(424,823)|
+1,276,247,273,0,0,0,0,0,64,1,-1--1--1,,1|(295,725)|
+1,277,273,248,0,0,0,0,0,128,0,-1--1--1,,1|(430,711)|
+10,278,successP,740,964,32,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,279,numTrial,812,1003,30,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,280,73,279,0,0,0,0,0,128,1,-1--1--1,,1|(806,850)|
+1,281,73,278,0,0,0,0,0,128,0,-1--1--1,,1|(773,830)|
+1,282,68,278,0,0,0,0,0,128,0,-1--1--1,,1|(878,802)|
+10,283,SimFlowOverTime,729,1023,59,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,284,278,283,0,0,0,0,0,128,0,-1--1--1,,1|(736,986)|
+1,285,279,283,0,0,0,0,0,128,0,-1--1--1,,1|(780,1010)|
+10,286,NSeed,748,1083,23,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+1,287,286,283,0,0,0,0,0,64,0,-1--1--1,,1|(740,1059)|
+1,288,68,283,0,0,0,0,0,64,0,-1--1--1,,1|(872,831)|
+10,289,SwitchRandFlowTime,569,1065,71,8,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,290,289,283,0,0,0,0,0,64,0,-1--1--1,,1|(639,1046)|
+10,291,InfectionUFractionCounted,228,516,84,8,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,292,DeathFractionCounted,250,563,76,8,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,293,1,291,0,0,0,0,0,128,0,-1--1--1,,1|(347,460)|
+1,294,2,292,0,0,0,0,0,128,0,-1--1--1,,1|(354,516)|
+1,295,146,292,0,0,0,0,0,128,0,-1--1--1,,1|(324,577)|
+10,296,Cumulative Cases,112,421,42,16,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,297,296,291,0,0,0,0,0,128,0,-1--1--1,,1|(169,468)|
+10,298,Time,650,1116,26,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,299,298,283,0,0,0,0,0,64,0,-1--1--1,,1|(684,1074)|
+1,300,283,6,1,0,0,0,0,128,0,-1--1--1,,1|(1174,971)|
+1,301,283,134,1,0,0,0,0,128,0,-1--1--1,,1|(1250,941)|
+10,302,SwitchRandFlow,336,1102,54,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||255-128-0,0,0,0,0,0,0
+1,303,247,289,0,0,0,0,0,128,0,-1--1--1,,1|(394,908)|
+10,304,RandFlowTime,528,1148,49,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||255-128-0,0,0,0,0,0,0
+1,305,304,289,0,0,0,0,0,64,0,-1--1--1,,1|(545,1112)|
+1,306,302,289,0,0,0,0,0,128,0,-1--1--1,,1|(447,1084)|
+10,307,Covid Acuity Relative to Flu Init Net,1650,391,60,24,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,308,307,158,0,0,0,0,0,64,0,-1--1--1,,1|(1849,501)|
+10,309,Total Asymptomatic Fraction Init Net,1812,318,57,24,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,310,309,158,0,0,0,0,0,64,0,-1--1--1,,1|(1924,462)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Measures
+$192-192-192,0,Arial|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,75,0
+10,1,DataCmltOverTime,496,469,72,8,8,2,0,11,0,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,2,SimCmltOverTime,273,311,68,8,8,2,0,11,0,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,3,DataFlowOverTime,83,632,72,8,8,2,0,11,0,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,4,MeanFlowOverTime,107,513,69,8,8,130,0,11,0,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,5,FlowResiduals,239,585,48,9,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+1,6,3,5,0,0,0,0,0,128,0,-1--1--1,,1|(152,611)|
+1,7,4,5,0,0,0,0,0,128,0,-1--1--1,,1|(165,545)|
+10,8,Fraction Tests Positive,333,397,53,16,8,2,0,11,0,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,9,Fraction Tests Positive Data,507,299,53,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,10,AbsPrcErr,218,688,34,9,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+10,11,SqrdErr,393,587,27,9,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+1,12,3,10,0,0,0,0,0,128,0,-1--1--1,,1|(142,656)|
+1,13,5,11,0,0,0,0,0,128,0,-1--1--1,,1|(319,585)|
+1,14,5,10,0,0,0,0,0,128,0,-1--1--1,,1|(230,629)|
+10,15,Time to Herd Immunity,896,306,43,16,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+10,16,Herd Immunity Fraction,651,174,47,16,8,3,0,8,-1,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+1,17,16,15,0,0,0,0,0,64,0,-1--1--1,,1|(766,236)|
+10,18,Susceptible,805,149,47,9,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,19,18,15,0,0,0,0,0,64,0,-1--1--1,,1|(844,217)|
+10,20,Total Disease Duration,911,152,50,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,21,20,15,0,0,0,0,0,64,0,-1--1--1,,1|(904,222)|
+10,22,Total Weighted Infected Population,1051,150,50,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,23,22,15,0,0,0,0,0,64,0,-1--1--1,,1|(978,223)|
+10,24,Cumulative Cases,807,550,42,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,25,Cumulative Deaths,1049,569,42,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,26,Cumulative Death Fraction,911,666,54,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,27,R Effective Reproduction Rate,732,659,67,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,28,Cumulative Tests Data,1324,306,40,20,3,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+12,29,48,1468,304,10,8,0,3,0,8,-1,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+1,30,32,28,4,0,0,22,0,0,0,-1--1--1,,1|(1384,305)|
+1,31,32,29,100,0,0,22,0,0,0,-1--1--1,,1|(1437,305)|
+11,32,48,1411,305,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,33,TstInc,1411,322,21,9,40,3,0,8,-1,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+10,34,Active Test Rate,1410,365,75,8,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,35,34,33,0,0,0,0,0,64,0,-1--1--1,,1|(1410,351)|
+10,36,Tests Per Million,1141,334,54,9,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+1,37,28,36,0,0,0,0,0,128,0,-1--1--1,,1|(1246,317)|
+10,38,Initial Population,1122,263,40,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,39,38,36,0,0,0,0,0,128,0,-1--1--1,,1|(1130,295)|
+10,40,Total to Official Cases Simulated,720,456,56,16,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+1,41,24,40,0,0,0,0,0,128,0,-1--1--1,,1|(768,508)|
+1,42,2,40,0,0,0,0,0,128,0,-1--1--1,,1|(476,377)|
+10,43,Hospital Outflow Covid Positive,1680,713,58,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,44,Hospitalized Infectious Deaths,1671,585,65,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,45,Hospitalized True CFR,1507,651,40,16,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+1,46,44,45,0,0,0,0,0,128,0,-1--1--1,,1|(1595,615)|
+1,47,43,45,0,0,0,0,0,128,0,-1--1--1,,1|(1598,683)|
+10,48,Cumulative Recovered at Hospitals,1663,841,45,24,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,49,Cumulative Deaths at Hospital,1659,937,65,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,50,Hospitalized CFR Cumulative,1454,839,57,16,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+10,51,Hospitalized True CFR Cumulative,1456,911,58,16,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+1,52,48,50,0,0,0,0,0,128,0,-1--1--1,,1|(1571,840)|
+1,53,49,50,0,0,0,0,0,128,0,-1--1--1,,1|(1562,891)|
+1,54,48,51,0,0,0,0,0,128,0,-1--1--1,,1|(1567,873)|
+1,55,49,51,0,0,0,0,0,128,0,-1--1--1,,1|(1560,924)|
+10,56,Cumulative Fraction Total Cases Hospitalized,1385,723,67,24,8,3,0,8,0,0,0,0,0-0-0,0-0-0,|11||0-0-0,0,0,0,0,0,0
+1,57,49,56,0,0,0,0,0,128,0,-1--1--1,,1|(1532,838)|
+1,58,48,56,0,0,0,0,0,128,0,-1--1--1,,1|(1535,787)|
+1,59,24,56,0,0,0,0,0,128,0,-1--1--1,,1|(1076,629)|
+10,60,Hospitalized Infectious,1312,596,52,16,8,2,0,11,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+1,61,60,56,0,0,0,0,0,128,0,-1--1--1,,1|(1342,649)|
+10,62,Infection Rate,492,1088,58,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,63,Global Cases,860,473,50,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,64,Global Deaths,1052,509,52,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,65,24,63,0,0,0,0,0,128,0,-1--1--1,,1|(831,514)|
+1,66,25,64,0,0,0,0,0,128,0,-1--1--1,,1|(1049,542)|
+10,67,DataIncluded,376,679,57,10,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,68,67,10,0,0,0,0,0,128,0,-1--1--1,,1|(292,683)|
+10,69,Global IFR,921,434,39,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,70,63,69,0,0,0,0,0,128,0,-1--1--1,,1|(884,457)|
+1,71,64,69,0,0,0,0,0,128,0,-1--1--1,,1|(992,474)|
+10,72,Fraction Infected,817,420,60,10,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,73,24,72,0,0,0,0,0,128,0,-1--1--1,,1|(811,488)|
+1,74,38,72,0,0,0,0,0,128,0,-1--1--1,,1|(969,341)|
+10,75,Different Infectious Counted,931,536,72,18,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,76,75,69,0,0,0,0,0,64,0,-1--1--1,,1|(926,487)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Control and Analysis
+$192-192-192,0,Arial|11||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,75,0
+12,1,0,285,1029,403,173,3,135,0,0,3,0,0,0,0,0,0,0,0,0
+Calibration-Rgn specific
+12,2,0,275,665,399,165,3,135,0,0,3,0,0,0,0,0,0,0,0,0
+Calibration-general
+12,3,2230118,893,657,200,175,3,188,0,40,1,0,0,0,0-0-0,0-0-0,Arial|11||0-0-0,0,0,0,0,0,0
+Effective_Reproduction_Rate
+12,4,918904,499,307,207,175,3,188,0,42,1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+Known_Cumulative_Cases
+12,5,787808,98,307,193,172,3,188,0,42,1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+Known_Death
+12,6,853282,915,303,208,175,3,188,0,40,1,0,0,0,0-0-0,0-0-0,Arial|11||0-0-0,0,0,0,0,0,0
+Positive_Test_Fraction_a
+12,7,658040,1309,659,212,173,3,188,0,40,1,0,0,0,0-0-0,0-0-0,Arial|11||0-0-0,0,0,0,0,0,0
+True_Cumulative_Death_vs
+12,8,1116832,1725,659,200,175,3,188,0,40,1,0,0,0,0-0-0,0-0-0,Arial|11||0-0-0,0,0,0,0,0,0
+Death_Fractions_All_Type
+12,9,1051292,1329,303,203,176,3,188,0,40,1,0,0,0,0-0-0,0-0-0,Arial|11||0-0-0,0,0,0,0,0,0
+Pseudo_Case_Fatality_Aga
+10,10,Min Contact Fraction,745,1109,40,16,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,11,Onset to Detection Delay,757,979,61,21,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,12,Time to Upgrade Risk,462,957,45,16,8,131,0,42,-1,0,0,0,128-128-128,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,13,"Post-Detection Phase Resolution Time",754,927,51,24,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,14,Relative Risk of Transmission by Hospitalized,1046,1110,55,24,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,15,Confirmation Impact on Contact,290,1031,60,16,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,16,Patient Zero Arrival Time,-25,1151,41,16,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,17,Impact of Treatment on Fatality Rate,329,906,67,16,8,131,0,42,0,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,18,Time to Downgrade Risk,466,1044,55,16,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,19,Reference Force of Infection,-19,1079,57,16,8,131,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,20,Baseline Daily Fraction Susceptible Seeking Tests,148,964,68,24,8,131,0,42,0,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,21,Discount Rate Annual,1017,941,47,16,8,131,0,42,0,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,22,Weight on Reported Probability of Infection,484,1160,73,16,8,131,0,42,0,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+10,23,Sensitivity of Contact Reduction to Utility,465,1108,71,16,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,24,FINAL TIME,1037,1149,39,9,8,3,0,40,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-0-0,0,0,0,0,0,0
+10,25,Dread Factor in Risk Perception,474,902,53,16,8,3,0,42,-1,0,0,0,0-0-0,0-0-0,Arial|11||0-128-0,0,0,0,0,0,0
+12,26,1051300,1309,1025,199,177,3,188,0,2,1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+True_Vs_Official_Cumulative_Cases
+12,27,1051306,-533,635,405,460,3,188,0,2,1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+Key_Parameters
+10,28,Impact of Population Density on Hospital Availability,324,958,68,24,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+12,29,1051294,1733,1024,200,175,3,188,0,40,1,0,0,0,0-0-0,0-0-0,Arial|11||0-0-0,0,0,0,0,0,0
+Death_Fractions_Overall
+10,30,Sensitivity of COVID Test,881,1056,43,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,31,Reference COVID Hospitalization Fraction Confirmed,609,1028,48,24,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,32,payoff,1019,1193,22,9,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,33,dalp,537,769,16,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,34,ialp,570,778,13,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,35,alpR,636,908,17,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+10,36,talp,609,777,14,9,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+12,37,2163996,1729,304,197,179,3,188,0,0,1,0,0,0,0,0,0,0,0,0
+Flow_Variables
+12,38,1640486,2125,303,197,179,3,188,0,0,1,0,0,0,0,0,0,0,0,0
+Flow_Variables_Death
+10,39,maxAlp,957,858,25,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|11||0-128-0,0,0,0,0,0,0
+12,40,1051286,2328,813,385,323,3,188,0,0,1,0,0,0,0,0,0,0,0,0
+Data_Test_Vs._Infection
+10,41,Multiplier Recent Infections to Test,153,904,57,16,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,42,SensCovidUntestedAdmission,807,859,99,8,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,43,CRW,795,1214,27,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,44,Sensitivity Post Mortem Testing to Capacity,139,1054,60,24,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0,0,0,0,0,0,0
+10,45,InputAve,160,1291,30,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,46,Sensitivity of Fatality Rate to Acuity,38,909,51,24,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,47,SW Gen,79,1266,29,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,48,Base Fatality Rate for Unit Acuity,-16,1004,61,16,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,49,Covid Acuity Relative to Flu,-87,896,48,16,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,50,Total Asymptomatic Fraction,290,1129,65,16,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,51,Sensitivity to Weather,128,1166,42,16,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,52,Sens Liver Impact,367,758,58,9,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,53,Sens Chronic Impact,354,689,45,16,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,54,Sens Obesity Impact,345,601,45,16,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,55,InputAve,407,1266,38,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,56,Multiplier Transmission Risk for Asymptomatic,1072,1279,72,24,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,57,SW Gen,782,1271,37,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,58,Baseline Transmission Multiplier for Untested Symptomatic,1026,1037,75,24,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,59,Baseline Transmission Multiplier for Untested Symptomatic,279,1265,79,24,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+10,60,Relative Risk of Transmission by Presymptomatic,918,1300,55,24,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,61,Multiplier Transmission Risk for Asymptomatic Net,1026,1037,72,24,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|11||128-128-128,0,0,0,0,0,0
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*RealityChecks
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,5,0
+10,1,Not too few susceptibles,1111,301,40,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,2,Realistic R0,1112,415,38,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,3,Cml Death fraction in hospitals large enough,1111,500,70,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,4,Known death fraction in hospitals large enough,1103,588,77,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,5,Susceptible,836,258,46,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,6,MinSuscTresh,1001,212,46,11,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,7,6,1,0,0,0,0,0,128,0,-1--1--1,,1|(1045,248)|
+10,8,R Effective Reproduction Rate,940,412,65,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,9,8,2,0,0,0,0,0,128,0,-1--1--1,,1|(1032,413)|
+10,10,MaxRTresh,1004,358,38,11,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,11,10,2,0,0,0,0,0,64,0,-1--1--1,,1|(1051,383)|
+10,12,Cumulative Deaths,953,551,41,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,13,Cumulative Deaths at Hospital,651,556,65,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,14,MinHspDTresh,1030,459,49,11,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,15,14,3,0,0,0,0,0,64,0,-1--1--1,,1|(1055,472)|
+10,16,AdvCntrs,1092,643,32,11,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,17,16,4,0,0,0,0,0,64,0,-1--1--1,,1|(1095,626)|
+10,18,MinHspDTreshAdv,1210,554,64,9,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||0-128-0,0,0,0,0,0,0
+1,19,18,4,0,0,0,0,0,64,0,-1--1--1,,1|(1178,563)|
+10,20,SuscFrac,989,294,31,11,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,21,20,1,0,0,0,0,0,64,0,-1--1--1,,1|(1038,296)|
+10,22,Population,804,333,43,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,23,22,20,0,0,0,0,0,64,0,-1--1--1,,1|(895,313)|
+1,24,5,20,0,0,0,0,0,64,0,-1--1--1,,1|(913,275)|
+10,25,Cml Death Frac In Hosp,913,488,52,19,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,26,25,3,0,0,0,0,0,64,0,-1--1--1,,1|(996,492)|
+1,27,12,25,0,0,0,0,0,128,0,-1--1--1,,1|(936,525)|
+1,28,13,25,0,0,0,0,0,128,0,-1--1--1,,1|(781,522)|
+10,29,Cml Known Death Frac Hosp,969,620,60,19,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,30,29,4,0,0,0,0,0,64,0,-1--1--1,,1|(1020,607)|
+1,31,12,29,0,0,0,0,0,128,0,-1--1--1,,1|(958,578)|
+1,32,13,29,0,0,0,0,0,128,0,-1--1--1,,1|(805,586)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*About
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,5,0
+12,1,0,438,354,99,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V7 changes from V6: Changing the test and hospitalization sector completely
+12,2,0,446,458,131,39,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V8 with JS changes added include changing variable names and cleaning up the model, as well as new risk perception formulations.
+12,3,0,458,582,127,39,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V9 with HR modifying risk perception and hospitalization equations. Also deomgrpahic impact on fatality added in V9-HR
+12,4,0,450,680,137,39,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V10 with HR modifying post-mortem and fatality equations to fix a bug and be more transparent in fatality rates using more linear alterantives.
+12,5,0,459,798,135,39,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V11: Modified testing and calibration parts so that testing data, when availble, is used to drive the model (ratther than simulated testing data)
+12,6,0,456,928,167,39,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V13: Modified improved reading of testing from data (removing countries with only a couple of test data). Reduced free parameters and ranges so calibration does not go to weird regions of parameter space.
+12,7,0,771,371,187,47,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V14: Update fatality equation to further reduce degrees of freedom and be mroe consistent with the analytical solution to death. Also further fine tuned the VOC ranges. Changed post-mortem test ratio to simplify. Added a new control panel for better tracking the data.
+12,8,0,785,519,205,57,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V15: Changed test capacity formulations to include a government response time for testing distinct from initial government response time. Also moved back to using simulation rather than data for testing, except for  when there is a lot of data (US). Updated voc not letting non-covid acuity get too low. Made sensitivity to risk country specific. 
+12,9,0,773,655,168,47,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V16: changed time constants for detection delay and resolution time to be based on data.; made  the acuity level fixed at 1.4, letting flu acuity to vary instead.  Made the  symptom density impact not increase beyong 1. 
+12,10,0,804,788,177,47,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V17: Removed travel section; Added pre-symptomatic stock different from those post onset but pre-testing and used a higher order delay; Removed Hospital Capacity Expansion; Added structure to capture hospital pressure depending on geographical distribution
+12,11,0,812,911,202,57,8,7,0,0,-1,0,0,0,0,0,0,0,0,0
+V18: Added zero-inflated poisson structure to capture asymptomatics beyond poisson segment; Added increase in infectivity with symptoms; Added test sensitivity (false negatives) to the structure; cleaned up and improved robustness of extrapolation equations for testing and hospital p(missing symptoms)
+12,12,0,1200,340,116,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V19: Add constraints for total death; fix sensitivity of testing that was missing for post-mortem tests;
+12,13,0,1199,403,104,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V20: Updating parameter ranges based on V19 run; fixing hospital contact rate; 
+12,14,0,1220,502,200,76,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V21: Improving hospital demand to be limited to 10% or so of Poisson part; Simplified hospital allocation problem which was too complex;  fixed two errors in formulations for average acuity in not tested and related concepts; Changed post mortem testing to be based on coverage of testing in hospitals with a general parameter; Changed impact of acuity to fatality to enable higher order nonlinear effects; Changed subscripts so that baseline mortality can vary by country, but not impact of treatment on fatality.
+12,15,0,1212,612,109,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V22: Limiting death drivers to only general parameters. Fixing post mortem testing equation.
+12,16,0,1215,696,159,47,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V23: Fixing a problem in negative demand for test, to include recovered notest. Removing country-specificity in negative demand for testing; adding min contact fraction to list of calibrated parameters. 
+12,17,0,1228,801,134,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V24: Getting to negative binomial for calibration; correcting ranges for R0 not to go crazy high.; making testing sector all read from data files;
+12,18,0,1196,900,104,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V25: Adding test capacity, rates, and cumulative to enhance calibration with test rate
+12,19,0,1575,333,134,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V26 and 27: Fixing the inaccurate approximation of alloction of test; Adding changes in negative demand in resposne to recent infections.
+12,20,0,1582,428,141,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V28: Making Total Asymptomatic Fracton a parameter; Removing time to test for negatives; cleaning unit errors; making dread factor country specific.
+12,21,0,1575,520,128,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V29: Fixing an error in hospital capacity; Expanding minimum excess death attributable to COVID;  Expanding Max Hospital Demand;
+12,22,0,1576,617,126,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V30: Simplifying hospital capacity to not cut admissions in stock management.; Excluding  data below 50 cumulative;
+12,23,0,1577,710,86,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V31: Separating hosptial to be indepednent of non-hospital part
+12,24,0,1576,803,97,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V33: Made infectiousness of symptomatic a step higher than asymptomatic.
+12,25,0,1577,877,129,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V34: Make the hospital priority for untested dynamically respond to recent allocation received by non-covid hospital demand
+12,26,0,1587,949,54,19,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V35: Add reality check test flags
+12,27,0,1849,331,131,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V36: Fixing bugs in positive test fraction; making adj T country specific.; adding priors for a few parameters with penalties for deviations
+12,28,0,1861,424,127,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V37: Improving prior penalty deviation; adding post-mortem as country specific; removing weight on reports as country specific
+12,29,0,1864,517,102,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V39: Adding impact of Weather; removing country-specific time constants. 
+12,30,0,1857,596,89,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V40: Making all parameters both general and country specific
+12,31,0,1855,672,147,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V42: extending V40 architecture to all conceptual parameters that may be reported in the paper and updating the likelihood function to penaize larger variance.
+12,32,0,1856,740,121,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V43: Simplifying variance formulation for random effects; making the penalty for  excess mortality a real likelihood.
+12,33,0,1859,781,86,11,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V44: Minor cleanups
+12,34,0,1887,827,142,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V45: Update variable names based on documentation writup. Add structure for policy sensitivity at the end.
+12,35,0,1888,884,90,19,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V46: Add flexibility to have real general variables as well
+12,36,0,1894,949,97,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V47: Incorporating differences in asymptomatic infection into estimation
+12,37,0,2096,325,115,38,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V48: Updating pre-symptomatic infectivity; adding parameter to stop  calibration ; adding test capacity for future.
+12,38,0,2115,423,110,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V49-51: changes in parameters for stdev of random effects and the excess death penalties.
+12,39,0,2107,509,107,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V58: Add impact of learning and patient mix on IFR and adherence fatigue on behavioral response
+12,40,0,2122,669,70,28,8,135,0,0,-1,0,0,0,0,0,0,0,0,0
+V62: Create a simpler behavioral response function
+///---\\\
+:GRAPH Known_Cumulative_Cases
+:TITLE Known Cumulative Cases
+:SCALE
+:VAR Cumulative Confirmed Cases[Rgn]
+:LINE-WIDTH 2
+:VAR DataCmltInfection[Rgn]
+:LINE-WIDTH 3
+
+:GRAPH Known_Death
+:TITLE Known Death
+:SCALE
+:VAR Cumulative Deaths of Confirmed[Rgn]
+:LINE-WIDTH 2
+:VAR DataCmltDeath[Rgn]
+:LINE-WIDTH 3
+
+:GRAPH Effect_of_Risk_on_Behavior
+:TITLE Effect_of_Risk_on_Behavior
+:SCALE
+:VAR Voluntary Reduction in Contacts
+:Y-MIN 0
+:Y-MAX 1
+:VAR Contacts Relative to Normal
+
+:GRAPH Populations_Stacked
+:TITLE Populations_Stacked
+:STACK-FILL 0
+:SCALE
+:VAR Cumulative Recovered
+:Y-MIN 0
+:VAR Cumulative Deaths
+:VAR Susceptible
+
+:GRAPH Populations
+:TITLE Populations
+:SCALE
+:VAR Cumulative Recovered
+:Y-MIN 0
+:VAR Cumulative Deaths
+:VAR Asymptomatic Infected
+:SCALE
+:VAR Susceptible
+
+:GRAPH Effective_Reproduction_Rate
+:TITLE Risk_and_Reproduction_Rate
+:SCALE
+:VAR R Effective Reproduction Rate
+:Y-MIN 0
+:LINE-WIDTH 3
+:SCALE
+:VAR Perceived Risk of Life Loss[Rgn]
+:LINE-WIDTH 3
+
+:GRAPH Known_Recovery
+:TITLE Known Recovery
+:SCALE
+:VAR Confirmed Recovered Recorded[Rgn]
+:LINE-WIDTH 2
+:VAR DataCmltRecovery[Rgn]
+:LINE-WIDTH 3
+
+:GRAPH Iran_Specific_Stats
+:TITLE Iran Specific Stats
+:SCALE
+:VAR IranSpecificSim[Rgn,IrD]
+:VAR IranSpecificData[Rgn,IrD]
+
+:GRAPH Flow_Variables
+:TITLE Flow Variables Infection
+:SCALE
+:VAR SimFlowOverTime[Rgn,Infection]
+:LINE-WIDTH 2
+:VAR DataFlowOverTime[Rgn,Infection]
+:LINE-WIDTH 2
+
+:GRAPH True_Vs_Official_Cumulative_Cases
+:TITLE True Cumulative Cases vs. Official
+:SCALE
+:VAR Cumulative Cases[Rgn]
+:LINE-WIDTH 2
+:VAR SimCmltOverTime[Rgn,Infection]
+:LINE-WIDTH 3
+
+:GRAPH Cumulative_Tests
+:TITLE Cumulative Tests
+:SCALE
+:VAR SimCmltTest[Rgn]
+:LINE-WIDTH 2
+:VAR DataCmltTest[Rgn]
+:LINE-WIDTH 3
+
+:TABLE Key_Parameters
+:TITLE Key Parameters
+:PRETTYNUM
+:X-MIN 0
+:X-MAX 1
+:NOTIME
+:FIRST-CELLWIDTH 46
+:CELLWIDTH 14
+:FONT Times New Roman|12||0-0-0
+:VAR Confirmation Impact on Contact
+:VAR Covid Acuity Relative to Flu
+:VAR Dread Factor in Risk Perception[Rgn]
+:VAR Flu Acuity
+:VAR Fraction of Confirmed Recovered Recorded[Rgn]
+:VAR Fraction of Recoveries Tracked[Rgn]
+:VAR Impact of Treatment on Fatality Rate[Rgn]
+:VAR Initial Test Capacity[Rgn]
+:VAR Max Testing Capacity Expansion[Rgn]
+:VAR Min Contact Fraction[Rgn]
+:VAR Patient Zero Arrival Time[Rgn]
+:VAR Reference Force of Infection[Rgn]
+:VAR Reference Fraction Susceptible Seeking Tests[Rgn]
+:VAR Relative Priority of Post Mortem Testing to Hospitalized[Rgn]
+:VAR Relative Acuity of NonCOVID Hospital Demand to COVID[Rgn]
+:VAR Relative Risk of Transmission by Hospitalized
+:VAR Sensitivity of Contact Reduction to Utility
+:VAR Sensitivity of Fatality Rate to Acuity
+:VAR Testing Capacity Adjustment Time[Rgn]
+:VAR Time to Track Recovered[Rgn]
+:VAR Time to Upgrade Risk
+:VAR Weight on Reported Probability of Infection[Rgn]
+
+:GRAPH Key_metrics
+:TITLE Key metrics
+:SCALE
+:VAR R0[Rgn]
+:SCALE
+:VAR Fraction not tested[Rgn]
+:VAR Perceived Risk[Rgn]
+:Y-MIN 0
+:Y-MAX 1
+:VAR Fraction Tests Positive[Rgn]
+
+:GRAPH Cumulative_Infections_an
+:TITLE Cumulative Infections and Testing
+:X-DIV 1
+:Y-DIV 1
+:X-MIN 120
+:SCALE
+:VAR DataCmltInfection[Rgn]
+:LINE-WIDTH 3
+:VAR SimCmltOverTime[Rgn,Infection]
+:LINE-WIDTH 3
+:VAR DataCmltTest[Rgn]
+:LINE-WIDTH 3
+:VAR SimCmltTest[Rgn]
+:LINE-WIDTH 3
+
+:GRAPH Positive_Test_Fraction_a
+:TITLE Positive Test Fraction and Data
+:SCALE
+:VAR Fraction Tests Positive[Rgn]
+:Y-MIN 0
+:LINE-WIDTH 3
+:VAR Fraction Tests Positive Data[Rgn]
+:LINE-WIDTH 3
+
+:GRAPH Death_Fractions_All_Type
+:TITLE Death Fractions All Types
+:SCALE
+:VAR Fatality Rate Treated[Rgn,TstSts]
+:Y-MIN 0
+:LINE-WIDTH 3
+:VAR Fatality Rate Untreated[Rgn,TstSts]
+:LINE-WIDTH 3
+
+:GRAPH Average_Acuity_All_Types
+:TITLE Average Acuity All Types
+:SCALE
+:VAR Average Acuity Hospitalized[Rgn,TstSts]
+:LINE-WIDTH 3
+:VAR Average Acuity Not Hospitalized[Rgn,TstSts]
+:LINE-WIDTH 3
+
+:GRAPH Pseudo_Case_Fatality_Aga
+:TITLE Pseudo Case Fatality Against Data
+:SCALE
+:VAR Sim Pseudo Case Fatality[Rgn]
+:Y-MIN 0
+:LINE-WIDTH 3
+:VAR Data Pseudo Case Fatality[Rgn]
+:LINE-WIDTH 3
+
+:GRAPH Death_Fractions_Overall
+:TITLE Overall Death Fractions
+:SCALE
+:VAR Overall Death Fraction[Rgn]
+:Y-MIN 0
+:LINE-WIDTH 3
+:VAR Cumulative Death Fraction[Rgn]
+:LINE-WIDTH 3
+
+:GRAPH True_Cumulative_Death_vs
+:TITLE True Cumulative Death vs. Official
+:SCALE
+:VAR Cumulative Deaths[Rgn]
+:LINE-WIDTH 3
+:VAR SimCmltOverTime[Rgn,Death]
+:LINE-WIDTH 3
+
+:GRAPH Data_Test_Vs._Infection
+:TITLE Data Test Vs. Infection
+:SCALE
+:VAR DataTestRate[Rgn]
+:SCALE
+:VAR DataFlowInfection
+
+:GRAPH Flow_Variables_Death
+:TITLE Flow Variables Death
+:SCALE
+:VAR SimFlowOverTime[Rgn,Death]
+:LINE-WIDTH 2
+:VAR DataFlowOverTime[Rgn,Death]
+:LINE-WIDTH 2
+
+:GRAPH Data_Flows
+:TITLE Data Flows
+:SCALE
+:VAR DataFlowDeath[Rgn]
+:SCALE
+:VAR DataFlowInfection[Rgn]
+
+:GRAPH test_capacity
+:TITLE test capacity
+:SCALE
+:VAR Endogenous Test Capacity[Rgn]
+:VAR DataTestCapacity[Rgn]
+:SCALE
+:VAR Fraction Tests Positive Goal
+:L<%^E!@
+9:Updated_main_full
+10:D:\Dropbox (MIT)\COVID-19-TestHealth\Models and Analysis\V62\C_IterCal\C_main_full.out
+11:COVID-V62-All-edit.voc
+12:PayoffFlowV54-Policy.vpd
+13:CovidModelInputs - TestData.vdf,CovidModelInputs - FormattedData.vdf,CovidModelInputs - FlowData.vdf,CovidModelInputs - ConstantData.vdf
+17:Updated.lst
+15:1,0,0,0,0,0
+19:100,4
+27:0,
+34:0,
+4:Time
+5:Sensitivity of Contact Reduction to Utility Net[Rgn]
+35:Date
+36:YYYY-MM-DD
+37:2019
+38:10
+39:15
+40:4
+41:1
+42:0
+24:30
+25:429
+26:429
+57:1
+54:0
+55:0
+59:0
+56:0
+58:0
+44:0
+46:0
+45:0
+49:0
+50:0
+51:
+52:
+53:
+43:
+47:
+48:
+6:AdhrFtg
+6:Australia
+6:Austria
+6:Bahrain
+6:Bangladesh
+6:Belarus
+6:Belgium
+6:Bolivia
+6:Bulgaria
+6:Canada
+6:Chile
+6:Colombia
+6:CostaRica
+6:Croatia
+6:Cuba
+6:Cyprus
+6:CzechRepublic
+6:Death
+6:Denmark
+6:DominicanRepublic
+6:Ecuador
+6:ElSalvador
+6:Estonia
+6:Ethiopia
+6:Finland
+6:France
+6:Germany
+6:Ghana
+6:Greece
+6:Hungary
+6:Iceland
+6:India
+6:Indonesia
+6:Infection
+6:Iran
+6:Iraq
+6:Ireland
+6:Israel
+6:Italy
+6:Jamaica
+6:Japan
+6:Kazakhstan
+6:Kenya
+6:Kuwait
+6:Latvia
+6:Lithuania
+6:Luxembourg
+6:Madagascar
+6:Malawi
+6:Malaysia
+6:Maldives
+6:Malta
+6:Mexico
+6:Morocco
+6:Mozambique
+6:Nepal
+6:Netherlands
+6:NewZealand
+6:Nigeria
+6:NorthMacedonia
+6:Norway
+6:p2
+6:Pakistan
+6:Panama
+6:Paraguay
+6:Peru
+6:PG
+6:Philippines
+6:Poland
+6:Portugal
+6:Qatar
+6:Romania
+6:Russia
+6:Rwanda
+6:SaudiArabia
+6:Senegal
+6:Serbia
+6:Singapore
+6:Slovakia
+6:Slovenia
+6:SouthAfrica
+6:SouthKorea
+6:Spain
+6:SriLanka
+6:Sweden
+6:Switzerland
+6:Tested
+6:Thailand
+6:Togo
+6:Travel
+6:tstP
+6:Tunisia
+6:Turkey
+6:UAE
+6:UK
+6:Ukraine
+6:Uruguay
+6:USA
+6:Zambia

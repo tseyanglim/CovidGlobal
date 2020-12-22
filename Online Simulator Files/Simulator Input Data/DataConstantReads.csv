@@ -1,0 +1,1003 @@
+Time,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427
+Initial Population[Australia],2.54999e+07
+Initial Population[Austria],9.0064e+06
+Initial Population[Bahrain],1.70158e+06
+Initial Population[Bangladesh],1.64689e+08
+Initial Population[Belarus],9.44932e+06
+Initial Population[Belgium],1.15896e+07
+Initial Population[Bolivia],1.1673e+07
+Initial Population[Bulgaria],6.94845e+06
+Initial Population[Canada],3.77422e+07
+Initial Population[Chile],1.91162e+07
+Initial Population[Colombia],5.08829e+07
+Initial Population[CostaRica],5.09412e+06
+Initial Population[Croatia],4.10527e+06
+Initial Population[Cuba],1.13266e+07
+Initial Population[Cyprus],1.20736e+06
+Initial Population[CzechRepublic],1.0709e+07
+Initial Population[Denmark],5.7922e+06
+Initial Population[DominicanRepublic],1.08479e+07
+Initial Population[Ecuador],1.76431e+07
+Initial Population[ElSalvador],6.48621e+06
+Initial Population[Estonia],1.32654e+06
+Initial Population[Ethiopia],1.14964e+08
+Initial Population[Finland],5.54072e+06
+Initial Population[France],6.52735e+07
+Initial Population[Germany],8.37839e+07
+Initial Population[Ghana],3.10729e+07
+Initial Population[Greece],1.04231e+07
+Initial Population[Hungary],9.66035e+06
+Initial Population[Iceland],341243
+Initial Population[India],1.38e+09
+Initial Population[Indonesia],2.73524e+08
+Initial Population[Iran],8.3993e+07
+Initial Population[Iraq],4.02225e+07
+Initial Population[Ireland],4.93779e+06
+Initial Population[Israel],8.65554e+06
+Initial Population[Italy],6.04618e+07
+Initial Population[Jamaica],2.96117e+06
+Initial Population[Japan],1.26476e+08
+Initial Population[Kazakhstan],1.87767e+07
+Initial Population[Kenya],5.37713e+07
+Initial Population[Kuwait],4.27057e+06
+Initial Population[Latvia],1.8862e+06
+Initial Population[Lithuania],2.72229e+06
+Initial Population[Luxembourg],625978
+Initial Population[Madagascar],2.7691e+07
+Initial Population[Malawi],1.913e+07
+Initial Population[Malaysia],3.2366e+07
+Initial Population[Maldives],540544
+Initial Population[Malta],441543
+Initial Population[Mexico],1.28933e+08
+Initial Population[Morocco],3.69106e+07
+Initial Population[Mozambique],3.12554e+07
+Initial Population[Nepal],2.91368e+07
+Initial Population[Netherlands],1.71349e+07
+Initial Population[NewZealand],4.82223e+06
+Initial Population[Nigeria],2.0614e+08
+Initial Population[NorthMacedonia],2.08337e+06
+Initial Population[Norway],5.42124e+06
+Initial Population[Pakistan],2.20892e+08
+Initial Population[Panama],4.31477e+06
+Initial Population[Paraguay],7.13254e+06
+Initial Population[Peru],3.29719e+07
+Initial Population[Philippines],1.09581e+08
+Initial Population[Poland],3.78466e+07
+Initial Population[Portugal],1.01967e+07
+Initial Population[Qatar],2.88105e+06
+Initial Population[Romania],1.92377e+07
+Initial Population[Russia],1.45934e+08
+Initial Population[Rwanda],1.29522e+07
+Initial Population[SaudiArabia],3.48139e+07
+Initial Population[Senegal],1.67439e+07
+Initial Population[Serbia],8.73737e+06
+Initial Population[Singapore],5.85034e+06
+Initial Population[Slovakia],5.45964e+06
+Initial Population[Slovenia],2.07894e+06
+Initial Population[SouthAfrica],5.93087e+07
+Initial Population[SouthKorea],5.12692e+07
+Initial Population[Spain],4.67548e+07
+Initial Population[SriLanka],2.14132e+07
+Initial Population[Sweden],1.00993e+07
+Initial Population[Switzerland],8.65462e+06
+Initial Population[Thailand],6.98e+07
+Initial Population[Togo],8.27872e+06
+Initial Population[Tunisia],1.18186e+07
+Initial Population[Turkey],8.43391e+07
+Initial Population[UAE],9.8904e+06
+Initial Population[UK],6.7886e+07
+Initial Population[Ukraine],4.37338e+07
+Initial Population[Uruguay],3.47373e+06
+Initial Population[USA],3.31003e+08
+Initial Population[Zambia],1.8384e+07
+Area of Region[Australia],7.6823e+06
+Area of Region[Austria],82409
+Area of Region[Bahrain],760
+Area of Region[Bangladesh],130170
+Area of Region[Belarus],202910
+Area of Region[Belgium],30280
+Area of Region[Bolivia],1.0833e+06
+Area of Region[Bulgaria],108560
+Area of Region[Canada],9.09351e+06
+Area of Region[Chile],743532
+Area of Region[Colombia],1.1095e+06
+Area of Region[CostaRica],51060
+Area of Region[Croatia],55960
+Area of Region[Cuba],106440
+Area of Region[Cyprus],9240
+Area of Region[CzechRepublic],77240
+Area of Region[Denmark],42430
+Area of Region[DominicanRepublic],48320
+Area of Region[Ecuador],248360
+Area of Region[ElSalvador],20720
+Area of Region[Estonia],42390
+Area of Region[Ethiopia],1e+06
+Area of Region[Finland],303890
+Area of Region[France],547557
+Area of Region[Germany],348560
+Area of Region[Ghana],227540
+Area of Region[Greece],128900
+Area of Region[Hungary],90530
+Area of Region[Iceland],100250
+Area of Region[India],2.97319e+06
+Area of Region[Indonesia],1.81157e+06
+Area of Region[Iran],1.62855e+06
+Area of Region[Iraq],434320
+Area of Region[Ireland],68890
+Area of Region[Israel],21640
+Area of Region[Italy],294140
+Area of Region[Jamaica],10830
+Area of Region[Japan],364555
+Area of Region[Kazakhstan],2.6997e+06
+Area of Region[Kenya],569140
+Area of Region[Kuwait],17820
+Area of Region[Latvia],62200
+Area of Region[Lithuania],62674
+Area of Region[Luxembourg],2590
+Area of Region[Madagascar],581795
+Area of Region[Malawi],94280
+Area of Region[Malaysia],328550
+Area of Region[Maldives],300
+Area of Region[Malta],320
+Area of Region[Mexico],1.94395e+06
+Area of Region[Morocco],446300
+Area of Region[Mozambique],786380
+Area of Region[Nepal],143350
+Area of Region[Netherlands],33720
+Area of Region[NewZealand],263310
+Area of Region[Nigeria],910770
+Area of Region[NorthMacedonia],25220
+Area of Region[Norway],365268
+Area of Region[Pakistan],770880
+Area of Region[Panama],74340
+Area of Region[Paraguay],397300
+Area of Region[Peru],1.28e+06
+Area of Region[Philippines],298170
+Area of Region[Poland],306230
+Area of Region[Portugal],91590
+Area of Region[Qatar],11610
+Area of Region[Romania],230170
+Area of Region[Russia],1.63769e+07
+Area of Region[Rwanda],24670
+Area of Region[SaudiArabia],2.14969e+06
+Area of Region[Senegal],192530
+Area of Region[Serbia],87460
+Area of Region[Singapore],700
+Area of Region[Slovakia],48088
+Area of Region[Slovenia],20140
+Area of Region[SouthAfrica],1.21309e+06
+Area of Region[SouthKorea],97230
+Area of Region[Spain],498800
+Area of Region[SriLanka],62710
+Area of Region[Sweden],410340
+Area of Region[Switzerland],39516
+Area of Region[Thailand],510890
+Area of Region[Togo],54390
+Area of Region[Tunisia],155360
+Area of Region[Turkey],769630
+Area of Region[UAE],83600
+Area of Region[UK],241930
+Area of Region[Ukraine],579320
+Area of Region[Uruguay],175020
+Area of Region[USA],9.14742e+06
+Area of Region[Zambia],743390
+Beds per Thousand Population[Australia],3.8
+Beds per Thousand Population[Austria],7.6
+Beds per Thousand Population[Bahrain],2
+Beds per Thousand Population[Bangladesh],0.8
+Beds per Thousand Population[Belarus],11
+Beds per Thousand Population[Belgium],6.2
+Beds per Thousand Population[Bolivia],1.1
+Beds per Thousand Population[Bulgaria],6.8
+Beds per Thousand Population[Canada],2.7
+Beds per Thousand Population[Chile],2.2
+Beds per Thousand Population[Colombia],1.5
+Beds per Thousand Population[CostaRica],1.2
+Beds per Thousand Population[Croatia],5.6
+Beds per Thousand Population[Cuba],5.2
+Beds per Thousand Population[Cyprus],3.4
+Beds per Thousand Population[CzechRepublic],6.5
+Beds per Thousand Population[Denmark],2.5
+Beds per Thousand Population[DominicanRepublic],1.6
+Beds per Thousand Population[Ecuador],1.5
+Beds per Thousand Population[ElSalvador],1.3
+Beds per Thousand Population[Estonia],5
+Beds per Thousand Population[Ethiopia],6.3
+Beds per Thousand Population[Finland],4.4
+Beds per Thousand Population[France],6.5
+Beds per Thousand Population[Germany],8.3
+Beds per Thousand Population[Ghana],0.9
+Beds per Thousand Population[Greece],4.3
+Beds per Thousand Population[Hungary],7
+Beds per Thousand Population[Iceland],3.2
+Beds per Thousand Population[India],0.7
+Beds per Thousand Population[Indonesia],1.2
+Beds per Thousand Population[Iran],1.5
+Beds per Thousand Population[Iraq],1.4
+Beds per Thousand Population[Ireland],2.8
+Beds per Thousand Population[Israel],3.1
+Beds per Thousand Population[Italy],3.4
+Beds per Thousand Population[Jamaica],1.7
+Beds per Thousand Population[Japan],13.4
+Beds per Thousand Population[Kazakhstan],6.7
+Beds per Thousand Population[Kenya],1.4
+Beds per Thousand Population[Kuwait],2
+Beds per Thousand Population[Latvia],5.8
+Beds per Thousand Population[Lithuania],7.3
+Beds per Thousand Population[Luxembourg],4.8
+Beds per Thousand Population[Madagascar],0.2
+Beds per Thousand Population[Malawi],1.3
+Beds per Thousand Population[Malaysia],1.9
+Beds per Thousand Population[Maldives],4.3
+Beds per Thousand Population[Malta],4.7
+Beds per Thousand Population[Mexico],1.5
+Beds per Thousand Population[Morocco],1.1
+Beds per Thousand Population[Mozambique],0.7
+Beds per Thousand Population[Nepal],0.3
+Beds per Thousand Population[Netherlands],4.7
+Beds per Thousand Population[NewZealand],2.8
+Beds per Thousand Population[Nigeria],0.5
+Beds per Thousand Population[NorthMacedonia],4.4
+Beds per Thousand Population[Norway],3.9
+Beds per Thousand Population[Pakistan],0.6
+Beds per Thousand Population[Panama],2.3
+Beds per Thousand Population[Paraguay],1.3
+Beds per Thousand Population[Peru],1.6
+Beds per Thousand Population[Philippines],1
+Beds per Thousand Population[Poland],6.5
+Beds per Thousand Population[Portugal],3.4
+Beds per Thousand Population[Qatar],1.2
+Beds per Thousand Population[Romania],6.3
+Beds per Thousand Population[Russia],8.2
+Beds per Thousand Population[Rwanda],1.6
+Beds per Thousand Population[SaudiArabia],2.7
+Beds per Thousand Population[Senegal],0.3
+Beds per Thousand Population[Serbia],5.7
+Beds per Thousand Population[Singapore],2.4
+Beds per Thousand Population[Slovakia],5.8
+Beds per Thousand Population[Slovenia],4.6
+Beds per Thousand Population[SouthAfrica],2.8
+Beds per Thousand Population[SouthKorea],11.5
+Beds per Thousand Population[Spain],3
+Beds per Thousand Population[SriLanka],3.6
+Beds per Thousand Population[Sweden],2.6
+Beds per Thousand Population[Switzerland],4.7
+Beds per Thousand Population[Thailand],2.1
+Beds per Thousand Population[Togo],0.7
+Beds per Thousand Population[Tunisia],2.3
+Beds per Thousand Population[Turkey],2.7
+Beds per Thousand Population[UAE],1.2
+Beds per Thousand Population[UK],2.8
+Beds per Thousand Population[Ukraine],8.8
+Beds per Thousand Population[Uruguay],2.8
+Beds per Thousand Population[USA],2.9
+Beds per Thousand Population[Zambia],2
+Chronic Death Rate[Australia],9.1
+Chronic Death Rate[Austria],11.4
+Chronic Death Rate[Bahrain],11.3
+Chronic Death Rate[Bangladesh],21.6
+Chronic Death Rate[Belarus],23.7
+Chronic Death Rate[Belgium],11.4
+Chronic Death Rate[Bolivia],17.2
+Chronic Death Rate[Bulgaria],23.6
+Chronic Death Rate[Canada],9.8
+Chronic Death Rate[Chile],12.4
+Chronic Death Rate[Colombia],15.8
+Chronic Death Rate[CostaRica],11.5
+Chronic Death Rate[Croatia],16.7
+Chronic Death Rate[Cuba],16.4
+Chronic Death Rate[Cyprus],11.3
+Chronic Death Rate[CzechRepublic],15
+Chronic Death Rate[Denmark],11.3
+Chronic Death Rate[DominicanRepublic],19
+Chronic Death Rate[Ecuador],13
+Chronic Death Rate[ElSalvador],14
+Chronic Death Rate[Estonia],17
+Chronic Death Rate[Ethiopia],18.3
+Chronic Death Rate[Finland],10.2
+Chronic Death Rate[France],10.6
+Chronic Death Rate[Germany],12.1
+Chronic Death Rate[Ghana],20.8
+Chronic Death Rate[Greece],12.4
+Chronic Death Rate[Hungary],23
+Chronic Death Rate[Iceland],9.1
+Chronic Death Rate[India],23.3
+Chronic Death Rate[Indonesia],26.4
+Chronic Death Rate[Iran],14.8
+Chronic Death Rate[Iraq],21.3
+Chronic Death Rate[Ireland],10.3
+Chronic Death Rate[Israel],9.6
+Chronic Death Rate[Italy],9.5
+Chronic Death Rate[Jamaica],14.7
+Chronic Death Rate[Japan],8.4
+Chronic Death Rate[Kazakhstan],26.8
+Chronic Death Rate[Kenya],13.4
+Chronic Death Rate[Kuwait],17.4
+Chronic Death Rate[Latvia],21.9
+Chronic Death Rate[Lithuania],20.7
+Chronic Death Rate[Luxembourg],10
+Chronic Death Rate[Madagascar],22.9
+Chronic Death Rate[Malawi],16.4
+Chronic Death Rate[Malaysia],17.2
+Chronic Death Rate[Maldives],13.4
+Chronic Death Rate[Malta],10.8
+Chronic Death Rate[Mexico],15.7
+Chronic Death Rate[Morocco],12.4
+Chronic Death Rate[Mozambique],18.4
+Chronic Death Rate[Nepal],21.8
+Chronic Death Rate[Netherlands],11.2
+Chronic Death Rate[NewZealand],10.1
+Chronic Death Rate[Nigeria],22.5
+Chronic Death Rate[NorthMacedonia],20.3
+Chronic Death Rate[Norway],9.2
+Chronic Death Rate[Pakistan],24.7
+Chronic Death Rate[Panama],13
+Chronic Death Rate[Paraguay],17.5
+Chronic Death Rate[Peru],12.6
+Chronic Death Rate[Philippines],26.8
+Chronic Death Rate[Poland],18.7
+Chronic Death Rate[Portugal],11.1
+Chronic Death Rate[Qatar],15.3
+Chronic Death Rate[Romania],21.4
+Chronic Death Rate[Russia],25.4
+Chronic Death Rate[Rwanda],18.2
+Chronic Death Rate[SaudiArabia],16.4
+Chronic Death Rate[Senegal],18.1
+Chronic Death Rate[Serbia],19.1
+Chronic Death Rate[Singapore],9.3
+Chronic Death Rate[Slovakia],17.2
+Chronic Death Rate[Slovenia],12.7
+Chronic Death Rate[SouthAfrica],26.2
+Chronic Death Rate[SouthKorea],7.8
+Chronic Death Rate[Spain],9.9
+Chronic Death Rate[SriLanka],17.4
+Chronic Death Rate[Sweden],9.1
+Chronic Death Rate[Switzerland],8.6
+Chronic Death Rate[Thailand],17.9
+Chronic Death Rate[Togo],23.6
+Chronic Death Rate[Tunisia],16.1
+Chronic Death Rate[Turkey],16.1
+Chronic Death Rate[UAE],16.8
+Chronic Death Rate[UK],10.9
+Chronic Death Rate[Ukraine],24.7
+Chronic Death Rate[Uruguay],16.7
+Chronic Death Rate[USA],14.6
+Chronic Death Rate[Zambia],17.9
+Data Excess Deaths[Australia],29
+Data Excess Deaths[Austria],97
+Data Excess Deaths[Bahrain],29.8
+Data Excess Deaths[Bangladesh],3.6
+Data Excess Deaths[Belarus],24.5
+Data Excess Deaths[Belgium],1352
+Data Excess Deaths[Bolivia],20.2
+Data Excess Deaths[Bulgaria],25
+Data Excess Deaths[Canada],29.4
+Data Excess Deaths[Chile],2200
+Data Excess Deaths[Colombia],22.3
+Data Excess Deaths[CostaRica],25.7
+Data Excess Deaths[Croatia],24.4
+Data Excess Deaths[Cuba],24.6
+Data Excess Deaths[Cyprus],21.8
+Data Excess Deaths[CzechRepublic],26
+Data Excess Deaths[Denmark],-527
+Data Excess Deaths[DominicanRepublic],27.6
+Data Excess Deaths[Ecuador],22712
+Data Excess Deaths[ElSalvador],24.6
+Data Excess Deaths[Estonia],21.2
+Data Excess Deaths[Ethiopia],4.5
+Data Excess Deaths[Finland],200
+Data Excess Deaths[France],-727
+Data Excess Deaths[Germany],-2003
+Data Excess Deaths[Ghana],10.9
+Data Excess Deaths[Greece],24.9
+Data Excess Deaths[Hungary],26.4
+Data Excess Deaths[Iceland],21.9
+Data Excess Deaths[India],3.9
+Data Excess Deaths[Indonesia],6.9
+Data Excess Deaths[Iran],8100
+Data Excess Deaths[Iraq],30.4
+Data Excess Deaths[Ireland],25.3
+Data Excess Deaths[Israel],100
+Data Excess Deaths[Italy],16816
+Data Excess Deaths[Jamaica],24.7
+Data Excess Deaths[Japan],301
+Data Excess Deaths[Kazakhstan],21
+Data Excess Deaths[Kenya],7.1
+Data Excess Deaths[Kuwait],37.9
+Data Excess Deaths[Latvia],23.6
+Data Excess Deaths[Lithuania],26.3
+Data Excess Deaths[Luxembourg],22.6
+Data Excess Deaths[Madagascar],5.3
+Data Excess Deaths[Malawi],5.8
+Data Excess Deaths[Malaysia],15.6
+Data Excess Deaths[Maldives],8.6
+Data Excess Deaths[Malta],28.9
+Data Excess Deaths[Mexico],94581
+Data Excess Deaths[Morocco],26.1
+Data Excess Deaths[Mozambique],7.2
+Data Excess Deaths[Nepal],4.1
+Data Excess Deaths[Netherlands],3386
+Data Excess Deaths[NewZealand],30.8
+Data Excess Deaths[Nigeria],8.9
+Data Excess Deaths[NorthMacedonia],22.4
+Data Excess Deaths[Norway],23.1
+Data Excess Deaths[Pakistan],8.6
+Data Excess Deaths[Panama],22.7
+Data Excess Deaths[Paraguay],20.3
+Data Excess Deaths[Peru],44445
+Data Excess Deaths[Philippines],6.4
+Data Excess Deaths[Poland],23.1
+Data Excess Deaths[Portugal],4844
+Data Excess Deaths[Qatar],35.1
+Data Excess Deaths[Romania],22.5
+Data Excess Deaths[Russia],69412
+Data Excess Deaths[Rwanda],5.8
+Data Excess Deaths[SaudiArabia],35.4
+Data Excess Deaths[Senegal],8.8
+Data Excess Deaths[Serbia],21.5
+Data Excess Deaths[Singapore],6.1
+Data Excess Deaths[Slovakia],20.5
+Data Excess Deaths[Slovenia],20.2
+Data Excess Deaths[SouthAfrica],14959
+Data Excess Deaths[SouthKorea],2215
+Data Excess Deaths[Spain],22343
+Data Excess Deaths[SriLanka],5.2
+Data Excess Deaths[Sweden],491
+Data Excess Deaths[Switzerland],100
+Data Excess Deaths[Thailand],2316
+Data Excess Deaths[Togo],8.4
+Data Excess Deaths[Tunisia],26.9
+Data Excess Deaths[Turkey],32.1
+Data Excess Deaths[UAE],31.7
+Data Excess Deaths[UK],7317
+Data Excess Deaths[Ukraine],24.1
+Data Excess Deaths[Uruguay],27.9
+Data Excess Deaths[USA],71064
+Data Excess Deaths[Zambia],8.1
+DataAttentionTime[Australia],4
+DataAttentionTime[Austria],34
+DataAttentionTime[Bahrain],33
+DataAttentionTime[Bangladesh],46
+DataAttentionTime[Belarus],37
+DataAttentionTime[Belgium],13
+DataAttentionTime[Bolivia],49
+DataAttentionTime[Bulgaria],46
+DataAttentionTime[Canada],4
+DataAttentionTime[Chile],32
+DataAttentionTime[Colombia],44
+DataAttentionTime[CostaRica],44
+DataAttentionTime[Croatia],34
+DataAttentionTime[Cuba],50
+DataAttentionTime[Cyprus],47
+DataAttentionTime[CzechRepublic],39
+DataAttentionTime[Denmark],36
+DataAttentionTime[DominicanRepublic],39
+DataAttentionTime[Ecuador],39
+DataAttentionTime[ElSalvador],57
+DataAttentionTime[Estonia],36
+DataAttentionTime[Ethiopia],51
+DataAttentionTime[Finland],7
+DataAttentionTime[France],2
+DataAttentionTime[Germany],5
+DataAttentionTime[Ghana],52
+DataAttentionTime[Greece],35
+DataAttentionTime[Hungary],42
+DataAttentionTime[Iceland],37
+DataAttentionTime[India],8
+DataAttentionTime[Indonesia],40
+DataAttentionTime[Iran],28
+DataAttentionTime[Iraq],33
+DataAttentionTime[Ireland],38
+DataAttentionTime[Israel],30
+DataAttentionTime[Italy],9
+DataAttentionTime[Jamaica],49
+DataAttentionTime[Japan],0
+DataAttentionTime[Kazakhstan],51
+DataAttentionTime[Kenya],51
+DataAttentionTime[Kuwait],33
+DataAttentionTime[Latvia],40
+DataAttentionTime[Lithuania],37
+DataAttentionTime[Luxembourg],38
+DataAttentionTime[Madagascar],58
+DataAttentionTime[Malawi],71
+DataAttentionTime[Malaysia],3
+DataAttentionTime[Maldives],46
+DataAttentionTime[Malta],45
+DataAttentionTime[Mexico],37
+DataAttentionTime[Morocco],40
+DataAttentionTime[Mozambique],60
+DataAttentionTime[Nepal],3
+DataAttentionTime[Netherlands],36
+DataAttentionTime[NewZealand],37
+DataAttentionTime[Nigeria],37
+DataAttentionTime[NorthMacedonia],35
+DataAttentionTime[Norway],35
+DataAttentionTime[Pakistan],34
+DataAttentionTime[Panama],48
+DataAttentionTime[Paraguay],46
+DataAttentionTime[Peru],44
+DataAttentionTime[Philippines],8
+DataAttentionTime[Poland],42
+DataAttentionTime[Portugal],40
+DataAttentionTime[Qatar],38
+DataAttentionTime[Romania],35
+DataAttentionTime[Russia],9
+DataAttentionTime[Rwanda],52
+DataAttentionTime[SaudiArabia],40
+DataAttentionTime[Senegal],40
+DataAttentionTime[Serbia],44
+DataAttentionTime[Singapore],1
+DataAttentionTime[Slovakia],44
+DataAttentionTime[Slovenia],43
+DataAttentionTime[SouthAfrica],43
+DataAttentionTime[SouthKorea],0
+DataAttentionTime[Spain],10
+DataAttentionTime[SriLanka],5
+DataAttentionTime[Sweden],10
+DataAttentionTime[Switzerland],34
+DataAttentionTime[Thailand],0
+DataAttentionTime[Togo],44
+DataAttentionTime[Tunisia],42
+DataAttentionTime[Turkey],49
+DataAttentionTime[UAE],7
+DataAttentionTime[UK],9
+DataAttentionTime[Ukraine],41
+DataAttentionTime[Uruguay],51
+DataAttentionTime[USA],0
+DataAttentionTime[Zambia],56
+Demographic Impact on Fatality Relative to China[Australia],1.41877
+Demographic Impact on Fatality Relative to China[Austria],1.75969
+Demographic Impact on Fatality Relative to China[Bahrain],0.37294
+Demographic Impact on Fatality Relative to China[Bangladesh],0.544342
+Demographic Impact on Fatality Relative to China[Belarus],1.42332
+Demographic Impact on Fatality Relative to China[Belgium],1.73505
+Demographic Impact on Fatality Relative to China[Bolivia],0.681997
+Demographic Impact on Fatality Relative to China[Bulgaria],1.8016
+Demographic Impact on Fatality Relative to China[Canada],1.55627
+Demographic Impact on Fatality Relative to China[Chile],1.08539
+Demographic Impact on Fatality Relative to China[Colombia],0.814158
+Demographic Impact on Fatality Relative to China[CostaRica],0.911945
+Demographic Impact on Fatality Relative to China[Croatia],1.83629
+Demographic Impact on Fatality Relative to China[Cuba],1.38251
+Demographic Impact on Fatality Relative to China[Cyprus],1.23654
+Demographic Impact on Fatality Relative to China[CzechRepublic],1.64323
+Demographic Impact on Fatality Relative to China[Denmark],1.68969
+Demographic Impact on Fatality Relative to China[DominicanRepublic],0.701303
+Demographic Impact on Fatality Relative to China[Ecuador],0.701303
+Demographic Impact on Fatality Relative to China[ElSalvador],0.78151
+Demographic Impact on Fatality Relative to China[Estonia],1.7859
+Demographic Impact on Fatality Relative to China[Ethiopia],0.355517
+Demographic Impact on Fatality Relative to China[Finland],1.84555
+Demographic Impact on Fatality Relative to China[France],1.80254
+Demographic Impact on Fatality Relative to China[Germany],1.99717
+Demographic Impact on Fatality Relative to China[Ghana],0.344844
+Demographic Impact on Fatality Relative to China[Greece],1.99576
+Demographic Impact on Fatality Relative to China[Hungary],1.66222
+Demographic Impact on Fatality Relative to China[Iceland],1.35002
+Demographic Impact on Fatality Relative to China[India],0.611207
+Demographic Impact on Fatality Relative to China[Indonesia],0.604458
+Demographic Impact on Fatality Relative to China[Iran],0.641658
+Demographic Impact on Fatality Relative to China[Iraq],0.352221
+Demographic Impact on Fatality Relative to China[Ireland],1.22932
+Demographic Impact on Fatality Relative to China[Israel],1.08131
+Demographic Impact on Fatality Relative to China[Italy],2.06906
+Demographic Impact on Fatality Relative to China[Jamaica],0.861874
+Demographic Impact on Fatality Relative to China[Japan],2.36776
+Demographic Impact on Fatality Relative to China[Kazakhstan],0.750903
+Demographic Impact on Fatality Relative to China[Kenya],0.271386
+Demographic Impact on Fatality Relative to China[Kuwait],0.399466
+Demographic Impact on Fatality Relative to China[Latvia],1.85057
+Demographic Impact on Fatality Relative to China[Lithuania],1.8286
+Demographic Impact on Fatality Relative to China[Luxembourg],1.37231
+Demographic Impact on Fatality Relative to China[Madagascar],0.330246
+Demographic Impact on Fatality Relative to China[Malawi],0.281902
+Demographic Impact on Fatality Relative to China[Malaysia],0.649035
+Demographic Impact on Fatality Relative to China[Maldives],0.454874
+Demographic Impact on Fatality Relative to China[Malta],1.71245
+Demographic Impact on Fatality Relative to China[Mexico],0.718726
+Demographic Impact on Fatality Relative to China[Morocco],1.1
+Demographic Impact on Fatality Relative to China[Mozambique],0.302621
+Demographic Impact on Fatality Relative to China[Nepal],0.548893
+Demographic Impact on Fatality Relative to China[Netherlands],1.67729
+Demographic Impact on Fatality Relative to China[NewZealand],1.39852
+Demographic Impact on Fatality Relative to China[Nigeria],0.297755
+Demographic Impact on Fatality Relative to China[NorthMacedonia],1.2243
+Demographic Impact on Fatality Relative to China[Norway],1.51468
+Demographic Impact on Fatality Relative to China[Pakistan],0.447183
+Demographic Impact on Fatality Relative to China[Panama],0.792811
+Demographic Impact on Fatality Relative to China[Paraguay],0.617642
+Demographic Impact on Fatality Relative to China[Peru],0.770523
+Demographic Impact on Fatality Relative to China[Philippines],0.519228
+Demographic Impact on Fatality Relative to China[Poland],1.56428
+Demographic Impact on Fatality Relative to China[Portugal],1.96139
+Demographic Impact on Fatality Relative to China[Qatar],0.27327
+Demographic Impact on Fatality Relative to China[Romania],1.63334
+Demographic Impact on Fatality Relative to China[Russia],1.37153
+Demographic Impact on Fatality Relative to China[Rwanda],0.32695
+Demographic Impact on Fatality Relative to China[SaudiArabia],0.417831
+Demographic Impact on Fatality Relative to China[Senegal],0.325067
+Demographic Impact on Fatality Relative to China[Serbia],1.57338
+Demographic Impact on Fatality Relative to China[Singapore],1.09826
+Demographic Impact on Fatality Relative to China[Slovakia],1.38817
+Demographic Impact on Fatality Relative to China[Slovenia],1.77146
+Demographic Impact on Fatality Relative to China[SouthAfrica],0.537749
+Demographic Impact on Fatality Relative to China[SouthKorea],1.34186
+Demographic Impact on Fatality Relative to China[Spain],1.81651
+Demographic Impact on Fatality Relative to China[SriLanka],0.934704
+Demographic Impact on Fatality Relative to China[Sweden],1.75451
+Demographic Impact on Fatality Relative to China[Switzerland],1.70005
+Demographic Impact on Fatality Relative to China[Thailand],1.12887
+Demographic Impact on Fatality Relative to China[Togo],0.310469
+Demographic Impact on Fatality Relative to China[Tunisia],0.827343
+Demographic Impact on Fatality Relative to China[Turkey],0.811176
+Demographic Impact on Fatality Relative to China[UAE],0.262753
+Demographic Impact on Fatality Relative to China[UK],1.65516
+Demographic Impact on Fatality Relative to China[Ukraine],1.5051
+Demographic Impact on Fatality Relative to China[Uruguay],1.39272
+Demographic Impact on Fatality Relative to China[USA],1.42489
+Demographic Impact on Fatality Relative to China[Zambia],0.241092
+Excess Death End Count[Australia],1.41877
+Excess Death End Count[Austria],362
+Excess Death End Count[Bahrain],0.37294
+Excess Death End Count[Bangladesh],0.544342
+Excess Death End Count[Belarus],1.42332
+Excess Death End Count[Belgium],350
+Excess Death End Count[Bolivia],0.681997
+Excess Death End Count[Bulgaria],1.8016
+Excess Death End Count[Canada],1.55627
+Excess Death End Count[Chile],259
+Excess Death End Count[Colombia],0.814158
+Excess Death End Count[CostaRica],0.911945
+Excess Death End Count[Croatia],1.83629
+Excess Death End Count[Cuba],1.38251
+Excess Death End Count[Cyprus],1.23654
+Excess Death End Count[CzechRepublic],1.64323
+Excess Death End Count[Denmark],364
+Excess Death End Count[DominicanRepublic],0.701303
+Excess Death End Count[Ecuador],351
+Excess Death End Count[ElSalvador],0.78151
+Excess Death End Count[Estonia],1.7859
+Excess Death End Count[Ethiopia],0.355517
+Excess Death End Count[Finland],229
+Excess Death End Count[France],350
+Excess Death End Count[Germany],336
+Excess Death End Count[Ghana],0.344844
+Excess Death End Count[Greece],1.99576
+Excess Death End Count[Hungary],1.66222
+Excess Death End Count[Iceland],1.35002
+Excess Death End Count[India],0.611207
+Excess Death End Count[Indonesia],0.604458
+Excess Death End Count[Iran],157
+Excess Death End Count[Iraq],0.352221
+Excess Death End Count[Ireland],1.22932
+Excess Death End Count[Israel],229
+Excess Death End Count[Italy],315
+Excess Death End Count[Jamaica],0.861874
+Excess Death End Count[Japan],167
+Excess Death End Count[Kazakhstan],0.750903
+Excess Death End Count[Kenya],0.271386
+Excess Death End Count[Kuwait],0.399466
+Excess Death End Count[Latvia],1.85057
+Excess Death End Count[Lithuania],1.8286
+Excess Death End Count[Luxembourg],1.37231
+Excess Death End Count[Madagascar],0.330246
+Excess Death End Count[Malawi],0.281902
+Excess Death End Count[Malaysia],0.649035
+Excess Death End Count[Maldives],0.454874
+Excess Death End Count[Malta],1.71245
+Excess Death End Count[Mexico],319
+Excess Death End Count[Morocco],26.1
+Excess Death End Count[Mozambique],0.302621
+Excess Death End Count[Nepal],0.548893
+Excess Death End Count[Netherlands],369
+Excess Death End Count[NewZealand],1.39852
+Excess Death End Count[Nigeria],0.297755
+Excess Death End Count[NorthMacedonia],1.2243
+Excess Death End Count[Norway],1.51468
+Excess Death End Count[Pakistan],0.447183
+Excess Death End Count[Panama],0.792811
+Excess Death End Count[Paraguay],0.617642
+Excess Death End Count[Peru],351
+Excess Death End Count[Philippines],0.519228
+Excess Death End Count[Poland],1.56428
+Excess Death End Count[Portugal],371
+Excess Death End Count[Qatar],0.27327
+Excess Death End Count[Romania],1.63334
+Excess Death End Count[Russia],290
+Excess Death End Count[Rwanda],0.32695
+Excess Death End Count[SaudiArabia],0.417831
+Excess Death End Count[Senegal],0.325067
+Excess Death End Count[Serbia],1.57338
+Excess Death End Count[Singapore],1.09826
+Excess Death End Count[Slovakia],1.38817
+Excess Death End Count[Slovenia],1.77146
+Excess Death End Count[SouthAfrica],364
+Excess Death End Count[SouthKorea],167
+Excess Death End Count[Spain],371
+Excess Death End Count[SriLanka],0.934704
+Excess Death End Count[Sweden],357
+Excess Death End Count[Switzerland],201
+Excess Death End Count[Thailand],229
+Excess Death End Count[Togo],0.310469
+Excess Death End Count[Tunisia],0.827343
+Excess Death End Count[Turkey],0.811176
+Excess Death End Count[UAE],0.262753
+Excess Death End Count[UK],360
+Excess Death End Count[Ukraine],1.5051
+Excess Death End Count[Uruguay],1.39272
+Excess Death End Count[USA],354
+Excess Death End Count[Zambia],0.241092
+Excess Death Start Count[Australia],1.41877
+Excess Death Start Count[Austria],153
+Excess Death Start Count[Bahrain],0.37294
+Excess Death Start Count[Bangladesh],0.544342
+Excess Death Start Count[Belarus],1.42332
+Excess Death Start Count[Belgium],155
+Excess Death Start Count[Bolivia],0.681997
+Excess Death Start Count[Bulgaria],1.8016
+Excess Death Start Count[Canada],1.55627
+Excess Death Start Count[Chile],138
+Excess Death Start Count[Colombia],0.814158
+Excess Death Start Count[CostaRica],0.911945
+Excess Death Start Count[Croatia],1.83629
+Excess Death Start Count[Cuba],1.38251
+Excess Death Start Count[Cyprus],1.23654
+Excess Death Start Count[CzechRepublic],1.64323
+Excess Death Start Count[Denmark],162
+Excess Death Start Count[DominicanRepublic],0.701303
+Excess Death Start Count[Ecuador],138
+Excess Death Start Count[ElSalvador],0.78151
+Excess Death Start Count[Estonia],1.7859
+Excess Death Start Count[Ethiopia],0.355517
+Excess Death Start Count[Finland],153
+Excess Death Start Count[France],148
+Excess Death Start Count[Germany],155
+Excess Death Start Count[Ghana],0.344844
+Excess Death Start Count[Greece],1.99576
+Excess Death Start Count[Hungary],1.66222
+Excess Death Start Count[Iceland],1.35002
+Excess Death Start Count[India],0.611207
+Excess Death Start Count[Indonesia],0.604458
+Excess Death Start Count[Iran],78
+Excess Death Start Count[Iraq],0.352221
+Excess Death Start Count[Ireland],1.22932
+Excess Death Start Count[Israel],138
+Excess Death Start Count[Italy],134
+Excess Death Start Count[Jamaica],0.861874
+Excess Death Start Count[Japan],138
+Excess Death Start Count[Kazakhstan],0.750903
+Excess Death Start Count[Kenya],0.271386
+Excess Death Start Count[Kuwait],0.399466
+Excess Death Start Count[Latvia],1.85057
+Excess Death Start Count[Lithuania],1.8286
+Excess Death Start Count[Luxembourg],1.37231
+Excess Death Start Count[Madagascar],0.330246
+Excess Death Start Count[Malawi],0.281902
+Excess Death Start Count[Malaysia],0.649035
+Excess Death Start Count[Maldives],0.454874
+Excess Death Start Count[Malta],1.71245
+Excess Death Start Count[Mexico],166
+Excess Death Start Count[Morocco],1.1
+Excess Death Start Count[Mozambique],0.302621
+Excess Death Start Count[Nepal],0.548893
+Excess Death Start Count[Netherlands],153
+Excess Death Start Count[NewZealand],1.39852
+Excess Death Start Count[Nigeria],0.297755
+Excess Death Start Count[NorthMacedonia],1.2243
+Excess Death Start Count[Norway],1.51468
+Excess Death Start Count[Pakistan],0.447183
+Excess Death Start Count[Panama],0.792811
+Excess Death Start Count[Paraguay],0.617642
+Excess Death Start Count[Peru],169
+Excess Death Start Count[Philippines],0.519228
+Excess Death Start Count[Poland],1.56428
+Excess Death Start Count[Portugal],162
+Excess Death Start Count[Qatar],0.27327
+Excess Death Start Count[Romania],1.63334
+Excess Death Start Count[Russia],169
+Excess Death Start Count[Rwanda],0.32695
+Excess Death Start Count[SaudiArabia],0.417831
+Excess Death Start Count[Senegal],0.325067
+Excess Death Start Count[Serbia],1.57338
+Excess Death Start Count[Singapore],1.09826
+Excess Death Start Count[Slovakia],1.38817
+Excess Death Start Count[Slovenia],1.77146
+Excess Death Start Count[SouthAfrica],183
+Excess Death Start Count[SouthKorea],109
+Excess Death Start Count[Spain],141
+Excess Death Start Count[SriLanka],0.934704
+Excess Death Start Count[Sweden],155
+Excess Death Start Count[Switzerland],153
+Excess Death Start Count[Thailand],138
+Excess Death Start Count[Togo],0.310469
+Excess Death Start Count[Tunisia],0.827343
+Excess Death Start Count[Turkey],0.811176
+Excess Death Start Count[UAE],0.262753
+Excess Death Start Count[UK],151
+Excess Death Start Count[Ukraine],1.5051
+Excess Death Start Count[Uruguay],1.39272
+Excess Death Start Count[USA],145
+Excess Death Start Count[Zambia],0.241092
+Initial Population[Australia],2.54999e+07
+Initial Population[Austria],9.0064e+06
+Initial Population[Bahrain],1.70158e+06
+Initial Population[Bangladesh],1.64689e+08
+Initial Population[Belarus],9.44932e+06
+Initial Population[Belgium],1.15896e+07
+Initial Population[Bolivia],1.1673e+07
+Initial Population[Bulgaria],6.94845e+06
+Initial Population[Canada],3.77422e+07
+Initial Population[Chile],1.91162e+07
+Initial Population[Colombia],5.08829e+07
+Initial Population[CostaRica],5.09412e+06
+Initial Population[Croatia],4.10527e+06
+Initial Population[Cuba],1.13266e+07
+Initial Population[Cyprus],1.20736e+06
+Initial Population[CzechRepublic],1.0709e+07
+Initial Population[Denmark],5.7922e+06
+Initial Population[DominicanRepublic],1.08479e+07
+Initial Population[Ecuador],1.76431e+07
+Initial Population[ElSalvador],6.48621e+06
+Initial Population[Estonia],1.32654e+06
+Initial Population[Ethiopia],1.14964e+08
+Initial Population[Finland],5.54072e+06
+Initial Population[France],6.52735e+07
+Initial Population[Germany],8.37839e+07
+Initial Population[Ghana],3.10729e+07
+Initial Population[Greece],1.04231e+07
+Initial Population[Hungary],9.66035e+06
+Initial Population[Iceland],341243
+Initial Population[India],1.38e+09
+Initial Population[Indonesia],2.73524e+08
+Initial Population[Iran],8.3993e+07
+Initial Population[Iraq],4.02225e+07
+Initial Population[Ireland],4.93779e+06
+Initial Population[Israel],8.65554e+06
+Initial Population[Italy],6.04618e+07
+Initial Population[Jamaica],2.96117e+06
+Initial Population[Japan],1.26476e+08
+Initial Population[Kazakhstan],1.87767e+07
+Initial Population[Kenya],5.37713e+07
+Initial Population[Kuwait],4.27057e+06
+Initial Population[Latvia],1.8862e+06
+Initial Population[Lithuania],2.72229e+06
+Initial Population[Luxembourg],625978
+Initial Population[Madagascar],2.7691e+07
+Initial Population[Malawi],1.913e+07
+Initial Population[Malaysia],3.2366e+07
+Initial Population[Maldives],540544
+Initial Population[Malta],441543
+Initial Population[Mexico],1.28933e+08
+Initial Population[Morocco],3.69106e+07
+Initial Population[Mozambique],3.12554e+07
+Initial Population[Nepal],2.91368e+07
+Initial Population[Netherlands],1.71349e+07
+Initial Population[NewZealand],4.82223e+06
+Initial Population[Nigeria],2.0614e+08
+Initial Population[NorthMacedonia],2.08337e+06
+Initial Population[Norway],5.42124e+06
+Initial Population[Pakistan],2.20892e+08
+Initial Population[Panama],4.31477e+06
+Initial Population[Paraguay],7.13254e+06
+Initial Population[Peru],3.29719e+07
+Initial Population[Philippines],1.09581e+08
+Initial Population[Poland],3.78466e+07
+Initial Population[Portugal],1.01967e+07
+Initial Population[Qatar],2.88105e+06
+Initial Population[Romania],1.92377e+07
+Initial Population[Russia],1.45934e+08
+Initial Population[Rwanda],1.29522e+07
+Initial Population[SaudiArabia],3.48139e+07
+Initial Population[Senegal],1.67439e+07
+Initial Population[Serbia],8.73737e+06
+Initial Population[Singapore],5.85034e+06
+Initial Population[Slovakia],5.45964e+06
+Initial Population[Slovenia],2.07894e+06
+Initial Population[SouthAfrica],5.93087e+07
+Initial Population[SouthKorea],5.12692e+07
+Initial Population[Spain],4.67548e+07
+Initial Population[SriLanka],2.14132e+07
+Initial Population[Sweden],1.00993e+07
+Initial Population[Switzerland],8.65462e+06
+Initial Population[Thailand],6.98e+07
+Initial Population[Togo],8.27872e+06
+Initial Population[Tunisia],1.18186e+07
+Initial Population[Turkey],8.43391e+07
+Initial Population[UAE],9.8904e+06
+Initial Population[UK],6.7886e+07
+Initial Population[Ukraine],4.37338e+07
+Initial Population[Uruguay],3.47373e+06
+Initial Population[USA],3.31003e+08
+Initial Population[Zambia],1.8384e+07
+Liver Disease Rate[Australia],6.65
+Liver Disease Rate[Austria],14.25
+Liver Disease Rate[Bahrain],12.05
+Liver Disease Rate[Bangladesh],25.5
+Liver Disease Rate[Belarus],25.45
+Liver Disease Rate[Belgium],10.75
+Liver Disease Rate[Bolivia],41.95
+Liver Disease Rate[Bulgaria],20.35
+Liver Disease Rate[Canada],8.05
+Liver Disease Rate[Chile],18.15
+Liver Disease Rate[Colombia],10
+Liver Disease Rate[CostaRica],9.75
+Liver Disease Rate[Croatia],18.7
+Liver Disease Rate[Cuba],12.4
+Liver Disease Rate[Cyprus],6.1
+Liver Disease Rate[CzechRepublic],15.3
+Liver Disease Rate[Denmark],10.65
+Liver Disease Rate[DominicanRepublic],27.4
+Liver Disease Rate[Ecuador],25.3
+Liver Disease Rate[ElSalvador],39.45
+Liver Disease Rate[Estonia],21.5
+Liver Disease Rate[Ethiopia],42
+Liver Disease Rate[Finland],18.35
+Liver Disease Rate[France],10
+Liver Disease Rate[Germany],13.35
+Liver Disease Rate[Ghana],56.75
+Liver Disease Rate[Greece],5.6
+Liver Disease Rate[Hungary],27.65
+Liver Disease Rate[Iceland],3.1
+Liver Disease Rate[India],30.25
+Liver Disease Rate[Indonesia],39.1
+Liver Disease Rate[Iran],9.55
+Liver Disease Rate[Iraq],7.35
+Liver Disease Rate[Ireland],6.9
+Liver Disease Rate[Israel],4.95
+Liver Disease Rate[Italy],8.3
+Liver Disease Rate[Jamaica],7.45
+Liver Disease Rate[Japan],7.6
+Liver Disease Rate[Kazakhstan],64.65
+Liver Disease Rate[Kenya],15.7
+Liver Disease Rate[Kuwait],7.5
+Liver Disease Rate[Latvia],20.5
+Liver Disease Rate[Lithuania],27.6
+Liver Disease Rate[Luxembourg],11.5
+Liver Disease Rate[Madagascar],22.25
+Liver Disease Rate[Malawi],24.05
+Liver Disease Rate[Malaysia],13.4
+Liver Disease Rate[Maldives],9.7
+Liver Disease Rate[Malta],4.35
+Liver Disease Rate[Mexico],35.05
+Liver Disease Rate[Morocco],12.85
+Liver Disease Rate[Mozambique],14.2
+Liver Disease Rate[Nepal],27.6
+Liver Disease Rate[Netherlands],4.35
+Liver Disease Rate[NewZealand],3.45
+Liver Disease Rate[Nigeria],86.9
+Liver Disease Rate[NorthMacedonia],8.25
+Liver Disease Rate[Norway],3.7
+Liver Disease Rate[Pakistan],29.4
+Liver Disease Rate[Panama],11.75
+Liver Disease Rate[Paraguay],17.5
+Liver Disease Rate[Peru],42.3
+Liver Disease Rate[Philippines],13.7
+Liver Disease Rate[Poland],16.2
+Liver Disease Rate[Portugal],11.35
+Liver Disease Rate[Qatar],17.15
+Liver Disease Rate[Romania],37.35
+Liver Disease Rate[Russia],29.35
+Liver Disease Rate[Rwanda],31.25
+Liver Disease Rate[SaudiArabia],26.85
+Liver Disease Rate[Senegal],37.1
+Liver Disease Rate[Serbia],7.75
+Liver Disease Rate[Singapore],3.4
+Liver Disease Rate[Slovakia],26.8
+Liver Disease Rate[Slovenia],19.95
+Liver Disease Rate[SouthAfrica],19.4
+Liver Disease Rate[SouthKorea],11.5
+Liver Disease Rate[Spain],8.45
+Liver Disease Rate[SriLanka],33.55
+Liver Disease Rate[Sweden],6.3
+Liver Disease Rate[Switzerland],6.55
+Liver Disease Rate[Thailand],31.05
+Liver Disease Rate[Togo],67.2
+Liver Disease Rate[Tunisia],17.65
+Liver Disease Rate[Turkey],10.85
+Liver Disease Rate[UAE],11.55
+Liver Disease Rate[UK],11.3
+Liver Disease Rate[Ukraine],35.9
+Liver Disease Rate[Uruguay],6.65
+Liver Disease Rate[USA],14.85
+Liver Disease Rate[Zambia],39.35
+Max Time Data Used,427

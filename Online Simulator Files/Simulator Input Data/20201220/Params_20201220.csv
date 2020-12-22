@@ -1,0 +1,2030 @@
+Time,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429
+Sensitivity to Weather,2.64031
+dalp,0.846258
+ialp,1
+InputAve[UpAdj],1.24397
+InputAve[DwnAdj],2.1457
+InputAve[RFI],0.40118
+InputAve[RfSkTs],0.00074358
+InputAve[WRpPIn],0.435564
+InputAve[MInfTs],34.1833
+InputAve[MnCnFrc],0.0889236
+InputAve[SnCnRdUt],3.46212
+InputAve[CfImCn],0.229094
+InputAve[ImPDnHs],0.158007
+InputAve[ImTrFt],0.4741
+InputAve[DrdFac],3.10931
+InputAve[MxHsFr],0.635918
+InputAve[BsFtRt],0.00055
+InputAve[SnsWth],2.64026
+InputAve[Acty],5.91546
+InputAve[SnFtAc],2.12855
+InputAve[TtAsyFr],0.506095
+InputAve[ObsImp],1e-06
+InputAve[ChrImp],1e-06
+InputAve[LivImp],1e-06
+InputAve[MTrAsym],0.291674
+InputAve[HspLrng],0.775227
+InputAve[AdhrFtg],1.25466
+alpR[Australia],0.419818
+alpR[Austria],0.209832
+alpR[Bahrain],0.226729
+alpR[Bangladesh],0.0332179
+alpR[Belarus],0.0733889
+alpR[Belgium],0.266209
+alpR[Bolivia],0.149411
+alpR[Bulgaria],0.251949
+alpR[Canada],0.0867028
+alpR[Chile],0.0982233
+alpR[Colombia],0.11073
+alpR[CostaRica],0.111213
+alpR[Croatia],0.181432
+alpR[Cuba],0.0457208
+alpR[Cyprus],0.0870873
+alpR[CzechRepublic],0.154912
+alpR[Denmark],0.0789031
+alpR[DominicanRepublic],0.125353
+alpR[Ecuador],0.466583
+alpR[ElSalvador],0.0506105
+alpR[Estonia],0.0473606
+alpR[Ethiopia],0.0799797
+alpR[Finland],0.109786
+alpR[France],1
+alpR[Germany],0.0726317
+alpR[Ghana],0.159101
+alpR[Greece],0.157733
+alpR[Hungary],0.136597
+alpR[Iceland],0.199837
+alpR[India],0.0396958
+alpR[Indonesia],0.0886041
+alpR[Iran],0.0804761
+alpR[Iraq],0.444098
+alpR[Ireland],0.110531
+alpR[Israel],0.318154
+alpR[Italy],0.151498
+alpR[Jamaica],0.0761041
+alpR[Japan],0.359238
+alpR[Kazakhstan],0.152306
+alpR[Kenya],0.126047
+alpR[Kuwait],0.0889561
+alpR[Latvia],0.066821
+alpR[Lithuania],0.059319
+alpR[Luxembourg],0.401707
+alpR[Madagascar],0.175154
+alpR[Malawi],0.25463
+alpR[Malaysia],0.159309
+alpR[Maldives],0.0637002
+alpR[Malta],0.0809442
+alpR[Mexico],0.172925
+alpR[Morocco],0.0826784
+alpR[Mozambique],0.0755537
+alpR[Nepal],0.143116
+alpR[Netherlands],0.115797
+alpR[NewZealand],0.286433
+alpR[Nigeria],0.226643
+alpR[NorthMacedonia],0.0795895
+alpR[Norway],0.0844023
+alpR[Pakistan],0.125257
+alpR[Panama],0.14617
+alpR[Paraguay],0.0883468
+alpR[Peru],0.359238
+alpR[Philippines],0.0894478
+alpR[Poland],0.118717
+alpR[Portugal],0.235292
+alpR[Qatar],0.173226
+alpR[Romania],0.0347669
+alpR[Russia],0.00592041
+alpR[Rwanda],0.189231
+alpR[SaudiArabia],0.143528
+alpR[Senegal],0.0670288
+alpR[Serbia],0.632602
+alpR[Singapore],0.455428
+alpR[Slovakia],0.267874
+alpR[Slovenia],0.445377
+alpR[SouthAfrica],0.110527
+alpR[SouthKorea],0.343308
+alpR[Spain],0.586819
+alpR[SriLanka],0.356219
+alpR[Sweden],1
+alpR[Switzerland],0.233631
+alpR[Thailand],0.738331
+alpR[Togo],0.0858827
+alpR[Tunisia],0.273937
+alpR[Turkey],0.214383
+alpR[UAE],0.11649
+alpR[UK],0.16764
+alpR[Ukraine],0.0247859
+alpR[Uruguay],0.00957649
+alpR[USA],0.0419789
+alpR[Zambia],0.46875
+Base Fatality Rate for Unit Acuity[Australia],0.000568238
+Base Fatality Rate for Unit Acuity[Austria],0.000589334
+Base Fatality Rate for Unit Acuity[Bahrain],0.000582134
+Base Fatality Rate for Unit Acuity[Bangladesh],0.000605986
+Base Fatality Rate for Unit Acuity[Belarus],0.000586557
+Base Fatality Rate for Unit Acuity[Belgium],0.000589922
+Base Fatality Rate for Unit Acuity[Bolivia],0.000586294
+Base Fatality Rate for Unit Acuity[Bulgaria],0.000599104
+Base Fatality Rate for Unit Acuity[Canada],0.000594711
+Base Fatality Rate for Unit Acuity[Chile],0.000595734
+Base Fatality Rate for Unit Acuity[Colombia],0.00058707
+Base Fatality Rate for Unit Acuity[CostaRica],0.000588422
+Base Fatality Rate for Unit Acuity[Croatia],0.000591874
+Base Fatality Rate for Unit Acuity[Cuba],0.000588215
+Base Fatality Rate for Unit Acuity[Cyprus],0.000587785
+Base Fatality Rate for Unit Acuity[CzechRepublic],0.000589509
+Base Fatality Rate for Unit Acuity[Denmark],0.000588589
+Base Fatality Rate for Unit Acuity[DominicanRepublic],0.000576249
+Base Fatality Rate for Unit Acuity[Ecuador],0.000590705
+Base Fatality Rate for Unit Acuity[ElSalvador],0.000587269
+Base Fatality Rate for Unit Acuity[Estonia],0.00058735
+Base Fatality Rate for Unit Acuity[Ethiopia],0.000588072
+Base Fatality Rate for Unit Acuity[Finland],0.0005912
+Base Fatality Rate for Unit Acuity[France],0.000570794
+Base Fatality Rate for Unit Acuity[Germany],0.000588153
+Base Fatality Rate for Unit Acuity[Ghana],0.000587587
+Base Fatality Rate for Unit Acuity[Greece],0.000589374
+Base Fatality Rate for Unit Acuity[Hungary],0.000598585
+Base Fatality Rate for Unit Acuity[Iceland],0.000581714
+Base Fatality Rate for Unit Acuity[India],0.000590252
+Base Fatality Rate for Unit Acuity[Indonesia],0.000566334
+Base Fatality Rate for Unit Acuity[Iran],0.000592065
+Base Fatality Rate for Unit Acuity[Iraq],0.000557187
+Base Fatality Rate for Unit Acuity[Ireland],0.000590084
+Base Fatality Rate for Unit Acuity[Israel],0.000593346
+Base Fatality Rate for Unit Acuity[Italy],0.000590235
+Base Fatality Rate for Unit Acuity[Jamaica],0.000588835
+Base Fatality Rate for Unit Acuity[Japan],0.000588934
+Base Fatality Rate for Unit Acuity[Kazakhstan],0.00058973
+Base Fatality Rate for Unit Acuity[Kenya],0.000591202
+Base Fatality Rate for Unit Acuity[Kuwait],0.00059585
+Base Fatality Rate for Unit Acuity[Latvia],0.000593182
+Base Fatality Rate for Unit Acuity[Lithuania],0.000601532
+Base Fatality Rate for Unit Acuity[Luxembourg],0.000588928
+Base Fatality Rate for Unit Acuity[Madagascar],0.000588163
+Base Fatality Rate for Unit Acuity[Malawi],0.000589495
+Base Fatality Rate for Unit Acuity[Malaysia],0.000589335
+Base Fatality Rate for Unit Acuity[Maldives],0.00059196
+Base Fatality Rate for Unit Acuity[Malta],0.000588638
+Base Fatality Rate for Unit Acuity[Mexico],0.000595362
+Base Fatality Rate for Unit Acuity[Morocco],0.000593105
+Base Fatality Rate for Unit Acuity[Mozambique],0.000589272
+Base Fatality Rate for Unit Acuity[Nepal],0.000591181
+Base Fatality Rate for Unit Acuity[Netherlands],0.000593497
+Base Fatality Rate for Unit Acuity[NewZealand],0.00058813
+Base Fatality Rate for Unit Acuity[Nigeria],0.00058368
+Base Fatality Rate for Unit Acuity[NorthMacedonia],0.000593835
+Base Fatality Rate for Unit Acuity[Norway],0.000588899
+Base Fatality Rate for Unit Acuity[Pakistan],0.000588097
+Base Fatality Rate for Unit Acuity[Panama],0.000590076
+Base Fatality Rate for Unit Acuity[Paraguay],0.000593882
+Base Fatality Rate for Unit Acuity[Peru],0.000588479
+Base Fatality Rate for Unit Acuity[Philippines],0.000591914
+Base Fatality Rate for Unit Acuity[Poland],0.000598022
+Base Fatality Rate for Unit Acuity[Portugal],0.000591652
+Base Fatality Rate for Unit Acuity[Qatar],0.000587366
+Base Fatality Rate for Unit Acuity[Romania],0.00059493
+Base Fatality Rate for Unit Acuity[Russia],0.000586989
+Base Fatality Rate for Unit Acuity[Rwanda],0.000585419
+Base Fatality Rate for Unit Acuity[SaudiArabia],0.000620696
+Base Fatality Rate for Unit Acuity[Senegal],0.000591212
+Base Fatality Rate for Unit Acuity[Serbia],0.000587238
+Base Fatality Rate for Unit Acuity[Singapore],0.000580242
+Base Fatality Rate for Unit Acuity[Slovakia],0.000589595
+Base Fatality Rate for Unit Acuity[Slovenia],0.000600331
+Base Fatality Rate for Unit Acuity[SouthAfrica],0.000587244
+Base Fatality Rate for Unit Acuity[SouthKorea],0.000591624
+Base Fatality Rate for Unit Acuity[Spain],0.000597464
+Base Fatality Rate for Unit Acuity[SriLanka],0.000586364
+Base Fatality Rate for Unit Acuity[Sweden],0.000513509
+Base Fatality Rate for Unit Acuity[Switzerland],0.000592627
+Base Fatality Rate for Unit Acuity[Thailand],0.000588211
+Base Fatality Rate for Unit Acuity[Togo],0.000592785
+Base Fatality Rate for Unit Acuity[Tunisia],0.000589477
+Base Fatality Rate for Unit Acuity[Turkey],0.00060604
+Base Fatality Rate for Unit Acuity[UAE],0.000592054
+Base Fatality Rate for Unit Acuity[UK],0.000594879
+Base Fatality Rate for Unit Acuity[Ukraine],0.000591811
+Base Fatality Rate for Unit Acuity[Uruguay],0.000588487
+Base Fatality Rate for Unit Acuity[USA],0.000608839
+Base Fatality Rate for Unit Acuity[Zambia],0.000590202
+Baseline Daily Fraction Susceptible Seeking Tests[Australia],0.00066506
+Baseline Daily Fraction Susceptible Seeking Tests[Austria],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Bahrain],0.000456306
+Baseline Daily Fraction Susceptible Seeking Tests[Bangladesh],0.00308742
+Baseline Daily Fraction Susceptible Seeking Tests[Belarus],0.000988187
+Baseline Daily Fraction Susceptible Seeking Tests[Belgium],0.000959675
+Baseline Daily Fraction Susceptible Seeking Tests[Bolivia],0.00138504
+Baseline Daily Fraction Susceptible Seeking Tests[Bulgaria],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Canada],0.00111521
+Baseline Daily Fraction Susceptible Seeking Tests[Chile],0.000213487
+Baseline Daily Fraction Susceptible Seeking Tests[Colombia],0.00049319
+Baseline Daily Fraction Susceptible Seeking Tests[CostaRica],0.00131514
+Baseline Daily Fraction Susceptible Seeking Tests[Croatia],0.000175041
+Baseline Daily Fraction Susceptible Seeking Tests[Cuba],0.00145127
+Baseline Daily Fraction Susceptible Seeking Tests[Cyprus],0.00107119
+Baseline Daily Fraction Susceptible Seeking Tests[CzechRepublic],0.000930769
+Baseline Daily Fraction Susceptible Seeking Tests[Denmark],0.000147898
+Baseline Daily Fraction Susceptible Seeking Tests[DominicanRepublic],0.00142255
+Baseline Daily Fraction Susceptible Seeking Tests[Ecuador],0.000147576
+Baseline Daily Fraction Susceptible Seeking Tests[ElSalvador],0.000220401
+Baseline Daily Fraction Susceptible Seeking Tests[Estonia],0.000837759
+Baseline Daily Fraction Susceptible Seeking Tests[Ethiopia],0.00131234
+Baseline Daily Fraction Susceptible Seeking Tests[Finland],0.00158585
+Baseline Daily Fraction Susceptible Seeking Tests[France],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Germany],0.00225695
+Baseline Daily Fraction Susceptible Seeking Tests[Ghana],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Greece],0.00138846
+Baseline Daily Fraction Susceptible Seeking Tests[Hungary],0.000527371
+Baseline Daily Fraction Susceptible Seeking Tests[Iceland],0.00101233
+Baseline Daily Fraction Susceptible Seeking Tests[India],0.000422223
+Baseline Daily Fraction Susceptible Seeking Tests[Indonesia],0.000652972
+Baseline Daily Fraction Susceptible Seeking Tests[Iran],0.0020504
+Baseline Daily Fraction Susceptible Seeking Tests[Iraq],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Ireland],0.00123288
+Baseline Daily Fraction Susceptible Seeking Tests[Israel],0.00062763
+Baseline Daily Fraction Susceptible Seeking Tests[Italy],0.00136463
+Baseline Daily Fraction Susceptible Seeking Tests[Jamaica],0.000698644
+Baseline Daily Fraction Susceptible Seeking Tests[Japan],0.000138988
+Baseline Daily Fraction Susceptible Seeking Tests[Kazakhstan],0.000301875
+Baseline Daily Fraction Susceptible Seeking Tests[Kenya],0.000821839
+Baseline Daily Fraction Susceptible Seeking Tests[Kuwait],0.000898113
+Baseline Daily Fraction Susceptible Seeking Tests[Latvia],0.00113951
+Baseline Daily Fraction Susceptible Seeking Tests[Lithuania],0.00110647
+Baseline Daily Fraction Susceptible Seeking Tests[Luxembourg],0.000943298
+Baseline Daily Fraction Susceptible Seeking Tests[Madagascar],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Malawi],0.000464381
+Baseline Daily Fraction Susceptible Seeking Tests[Malaysia],0.000679304
+Baseline Daily Fraction Susceptible Seeking Tests[Maldives],0.000907566
+Baseline Daily Fraction Susceptible Seeking Tests[Malta],0.00102733
+Baseline Daily Fraction Susceptible Seeking Tests[Mexico],0.00140479
+Baseline Daily Fraction Susceptible Seeking Tests[Morocco],0.000470274
+Baseline Daily Fraction Susceptible Seeking Tests[Mozambique],0.000153201
+Baseline Daily Fraction Susceptible Seeking Tests[Nepal],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Netherlands],0.00243102
+Baseline Daily Fraction Susceptible Seeking Tests[NewZealand],0.000741434
+Baseline Daily Fraction Susceptible Seeking Tests[Nigeria],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[NorthMacedonia],0.00113384
+Baseline Daily Fraction Susceptible Seeking Tests[Norway],0.000785254
+Baseline Daily Fraction Susceptible Seeking Tests[Pakistan],0.000100012
+Baseline Daily Fraction Susceptible Seeking Tests[Panama],0.0010802
+Baseline Daily Fraction Susceptible Seeking Tests[Paraguay],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Peru],0.000600488
+Baseline Daily Fraction Susceptible Seeking Tests[Philippines],0.000537476
+Baseline Daily Fraction Susceptible Seeking Tests[Poland],0.000587966
+Baseline Daily Fraction Susceptible Seeking Tests[Portugal],0.00137255
+Baseline Daily Fraction Susceptible Seeking Tests[Qatar],0.00080145
+Baseline Daily Fraction Susceptible Seeking Tests[Romania],0.000671352
+Baseline Daily Fraction Susceptible Seeking Tests[Russia],0.00169845
+Baseline Daily Fraction Susceptible Seeking Tests[Rwanda],0.00113445
+Baseline Daily Fraction Susceptible Seeking Tests[SaudiArabia],0.000323418
+Baseline Daily Fraction Susceptible Seeking Tests[Senegal],0.000320223
+Baseline Daily Fraction Susceptible Seeking Tests[Serbia],0.000533363
+Baseline Daily Fraction Susceptible Seeking Tests[Singapore],0.000224236
+Baseline Daily Fraction Susceptible Seeking Tests[Slovakia],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Slovenia],0.000586644
+Baseline Daily Fraction Susceptible Seeking Tests[SouthAfrica],0.00166048
+Baseline Daily Fraction Susceptible Seeking Tests[SouthKorea],0.00213146
+Baseline Daily Fraction Susceptible Seeking Tests[Spain],0.00128552
+Baseline Daily Fraction Susceptible Seeking Tests[SriLanka],0.0015343
+Baseline Daily Fraction Susceptible Seeking Tests[Sweden],0.0001
+Baseline Daily Fraction Susceptible Seeking Tests[Switzerland],0.000939862
+Baseline Daily Fraction Susceptible Seeking Tests[Thailand],0.00216651
+Baseline Daily Fraction Susceptible Seeking Tests[Togo],0.000165428
+Baseline Daily Fraction Susceptible Seeking Tests[Tunisia],0.00108118
+Baseline Daily Fraction Susceptible Seeking Tests[Turkey],0.000996746
+Baseline Daily Fraction Susceptible Seeking Tests[UAE],0.000965016
+Baseline Daily Fraction Susceptible Seeking Tests[UK],0.000193707
+Baseline Daily Fraction Susceptible Seeking Tests[Ukraine],0.000257959
+Baseline Daily Fraction Susceptible Seeking Tests[Uruguay],0.000957671
+Baseline Daily Fraction Susceptible Seeking Tests[USA],0.00188574
+Baseline Daily Fraction Susceptible Seeking Tests[Zambia],0.000776135
+Confirmation Impact on Contact[Australia],1.85114e-05
+Confirmation Impact on Contact[Austria],1e-06
+Confirmation Impact on Contact[Bahrain],0.5
+Confirmation Impact on Contact[Bangladesh],0.269057
+Confirmation Impact on Contact[Belarus],1e-06
+Confirmation Impact on Contact[Belgium],0.173893
+Confirmation Impact on Contact[Bolivia],0.5
+Confirmation Impact on Contact[Bulgaria],1e-06
+Confirmation Impact on Contact[Canada],0.305362
+Confirmation Impact on Contact[Chile],0.5
+Confirmation Impact on Contact[Colombia],0.287114
+Confirmation Impact on Contact[CostaRica],0.23629
+Confirmation Impact on Contact[Croatia],1e-06
+Confirmation Impact on Contact[Cuba],0.200455
+Confirmation Impact on Contact[Cyprus],0.114144
+Confirmation Impact on Contact[CzechRepublic],0.260294
+Confirmation Impact on Contact[Denmark],0.218884
+Confirmation Impact on Contact[DominicanRepublic],0.21339
+Confirmation Impact on Contact[Ecuador],0.235907
+Confirmation Impact on Contact[ElSalvador],1e-06
+Confirmation Impact on Contact[Estonia],0.0939749
+Confirmation Impact on Contact[Ethiopia],0.248681
+Confirmation Impact on Contact[Finland],0.433957
+Confirmation Impact on Contact[France],0.334161
+Confirmation Impact on Contact[Germany],0.170732
+Confirmation Impact on Contact[Ghana],1e-06
+Confirmation Impact on Contact[Greece],0.386938
+Confirmation Impact on Contact[Hungary],1e-06
+Confirmation Impact on Contact[Iceland],0.247282
+Confirmation Impact on Contact[India],1e-06
+Confirmation Impact on Contact[Indonesia],0.244397
+Confirmation Impact on Contact[Iran],0.281775
+Confirmation Impact on Contact[Iraq],0.184162
+Confirmation Impact on Contact[Ireland],0.264651
+Confirmation Impact on Contact[Israel],0.258248
+Confirmation Impact on Contact[Italy],0.116703
+Confirmation Impact on Contact[Jamaica],0.273791
+Confirmation Impact on Contact[Japan],0.194523
+Confirmation Impact on Contact[Kazakhstan],0.5
+Confirmation Impact on Contact[Kenya],0.489303
+Confirmation Impact on Contact[Kuwait],0.307919
+Confirmation Impact on Contact[Latvia],0.0783794
+Confirmation Impact on Contact[Lithuania],0.181399
+Confirmation Impact on Contact[Luxembourg],0.16771
+Confirmation Impact on Contact[Madagascar],0.322997
+Confirmation Impact on Contact[Malawi],0.227539
+Confirmation Impact on Contact[Malaysia],0.0243774
+Confirmation Impact on Contact[Maldives],0.206584
+Confirmation Impact on Contact[Malta],0.307811
+Confirmation Impact on Contact[Mexico],0.242661
+Confirmation Impact on Contact[Morocco],0.112613
+Confirmation Impact on Contact[Mozambique],0.5
+Confirmation Impact on Contact[Nepal],0.0572812
+Confirmation Impact on Contact[Netherlands],0.34148
+Confirmation Impact on Contact[NewZealand],0.399303
+Confirmation Impact on Contact[Nigeria],0.171716
+Confirmation Impact on Contact[NorthMacedonia],0.155205
+Confirmation Impact on Contact[Norway],0.333243
+Confirmation Impact on Contact[Pakistan],0.5
+Confirmation Impact on Contact[Panama],0.323937
+Confirmation Impact on Contact[Paraguay],0.0819467
+Confirmation Impact on Contact[Peru],0.244939
+Confirmation Impact on Contact[Philippines],0.262322
+Confirmation Impact on Contact[Poland],0.0422846
+Confirmation Impact on Contact[Portugal],0.250371
+Confirmation Impact on Contact[Qatar],0.399543
+Confirmation Impact on Contact[Romania],0.276315
+Confirmation Impact on Contact[Russia],0.049929
+Confirmation Impact on Contact[Rwanda],0.257179
+Confirmation Impact on Contact[SaudiArabia],0.185452
+Confirmation Impact on Contact[Senegal],0.350085
+Confirmation Impact on Contact[Serbia],0.113056
+Confirmation Impact on Contact[Singapore],0.203926
+Confirmation Impact on Contact[Slovakia],0.124096
+Confirmation Impact on Contact[Slovenia],1e-06
+Confirmation Impact on Contact[SouthAfrica],0.384089
+Confirmation Impact on Contact[SouthKorea],0.206608
+Confirmation Impact on Contact[Spain],0.227306
+Confirmation Impact on Contact[SriLanka],0.373407
+Confirmation Impact on Contact[Sweden],0.341413
+Confirmation Impact on Contact[Switzerland],0.0542422
+Confirmation Impact on Contact[Thailand],0.278192
+Confirmation Impact on Contact[Togo],0.450132
+Confirmation Impact on Contact[Tunisia],0.35941
+Confirmation Impact on Contact[Turkey],0.0294898
+Confirmation Impact on Contact[UAE],0.458683
+Confirmation Impact on Contact[UK],0.344556
+Confirmation Impact on Contact[Ukraine],0.400831
+Confirmation Impact on Contact[Uruguay],0.158607
+Confirmation Impact on Contact[USA],1.01044e-06
+Confirmation Impact on Contact[Zambia],0.234614
+Covid Acuity Relative to Flu[Australia],5.90887
+Covid Acuity Relative to Flu[Austria],5.91665
+Covid Acuity Relative to Flu[Bahrain],5.91457
+Covid Acuity Relative to Flu[Bangladesh],5.91644
+Covid Acuity Relative to Flu[Belarus],5.91536
+Covid Acuity Relative to Flu[Belgium],5.9159
+Covid Acuity Relative to Flu[Bolivia],5.91512
+Covid Acuity Relative to Flu[Bulgaria],5.91821
+Covid Acuity Relative to Flu[Canada],5.91667
+Covid Acuity Relative to Flu[Chile],5.91735
+Covid Acuity Relative to Flu[Colombia],5.91533
+Covid Acuity Relative to Flu[CostaRica],5.91556
+Covid Acuity Relative to Flu[Croatia],5.9165
+Covid Acuity Relative to Flu[Cuba],5.91533
+Covid Acuity Relative to Flu[Cyprus],5.91561
+Covid Acuity Relative to Flu[CzechRepublic],5.91593
+Covid Acuity Relative to Flu[Denmark],5.91578
+Covid Acuity Relative to Flu[DominicanRepublic],5.91153
+Covid Acuity Relative to Flu[Ecuador],5.91623
+Covid Acuity Relative to Flu[ElSalvador],5.91478
+Covid Acuity Relative to Flu[Estonia],5.91588
+Covid Acuity Relative to Flu[Ethiopia],5.91543
+Covid Acuity Relative to Flu[Finland],5.91521
+Covid Acuity Relative to Flu[France],5.9088
+Covid Acuity Relative to Flu[Germany],5.91402
+Covid Acuity Relative to Flu[Ghana],5.91602
+Covid Acuity Relative to Flu[Greece],5.91585
+Covid Acuity Relative to Flu[Hungary],5.91758
+Covid Acuity Relative to Flu[Iceland],5.91457
+Covid Acuity Relative to Flu[India],5.91623
+Covid Acuity Relative to Flu[Indonesia],5.91354
+Covid Acuity Relative to Flu[Iran],5.91554
+Covid Acuity Relative to Flu[Iraq],5.91385
+Covid Acuity Relative to Flu[Ireland],5.91569
+Covid Acuity Relative to Flu[Israel],5.91659
+Covid Acuity Relative to Flu[Italy],5.91583
+Covid Acuity Relative to Flu[Jamaica],5.91601
+Covid Acuity Relative to Flu[Japan],5.91594
+Covid Acuity Relative to Flu[Kazakhstan],5.91614
+Covid Acuity Relative to Flu[Kenya],5.91644
+Covid Acuity Relative to Flu[Kuwait],5.91683
+Covid Acuity Relative to Flu[Latvia],5.91639
+Covid Acuity Relative to Flu[Lithuania],5.91858
+Covid Acuity Relative to Flu[Luxembourg],5.91574
+Covid Acuity Relative to Flu[Madagascar],5.916
+Covid Acuity Relative to Flu[Malawi],5.91611
+Covid Acuity Relative to Flu[Malaysia],5.91581
+Covid Acuity Relative to Flu[Maldives],5.91672
+Covid Acuity Relative to Flu[Malta],5.91558
+Covid Acuity Relative to Flu[Mexico],5.91681
+Covid Acuity Relative to Flu[Morocco],5.91669
+Covid Acuity Relative to Flu[Mozambique],5.91607
+Covid Acuity Relative to Flu[Nepal],5.91612
+Covid Acuity Relative to Flu[Netherlands],5.91507
+Covid Acuity Relative to Flu[NewZealand],5.91564
+Covid Acuity Relative to Flu[Nigeria],5.91511
+Covid Acuity Relative to Flu[NorthMacedonia],5.91676
+Covid Acuity Relative to Flu[Norway],5.91581
+Covid Acuity Relative to Flu[Pakistan],5.91533
+Covid Acuity Relative to Flu[Panama],5.91597
+Covid Acuity Relative to Flu[Paraguay],5.91682
+Covid Acuity Relative to Flu[Peru],5.91579
+Covid Acuity Relative to Flu[Philippines],5.91655
+Covid Acuity Relative to Flu[Poland],5.91733
+Covid Acuity Relative to Flu[Portugal],5.91513
+Covid Acuity Relative to Flu[Qatar],5.91549
+Covid Acuity Relative to Flu[Romania],5.91705
+Covid Acuity Relative to Flu[Russia],5.91499
+Covid Acuity Relative to Flu[Rwanda],5.91533
+Covid Acuity Relative to Flu[SaudiArabia],5.92277
+Covid Acuity Relative to Flu[Senegal],5.91662
+Covid Acuity Relative to Flu[Serbia],5.91558
+Covid Acuity Relative to Flu[Singapore],5.91355
+Covid Acuity Relative to Flu[Slovakia],5.91609
+Covid Acuity Relative to Flu[Slovenia],5.91842
+Covid Acuity Relative to Flu[SouthAfrica],5.91474
+Covid Acuity Relative to Flu[SouthKorea],5.91519
+Covid Acuity Relative to Flu[Spain],5.91668
+Covid Acuity Relative to Flu[SriLanka],5.91492
+Covid Acuity Relative to Flu[Sweden],5.91532
+Covid Acuity Relative to Flu[Switzerland],5.91648
+Covid Acuity Relative to Flu[Thailand],5.91462
+Covid Acuity Relative to Flu[Togo],5.91662
+Covid Acuity Relative to Flu[Tunisia],5.91572
+Covid Acuity Relative to Flu[Turkey],5.91938
+Covid Acuity Relative to Flu[UAE],5.91618
+Covid Acuity Relative to Flu[UK],5.91678
+Covid Acuity Relative to Flu[Ukraine],5.91653
+Covid Acuity Relative to Flu[Uruguay],5.91573
+Covid Acuity Relative to Flu[USA],5.9193
+Covid Acuity Relative to Flu[Zambia],5.91609
+Dread Factor in Risk Perception[Australia],10363.6
+Dread Factor in Risk Perception[Austria],661.579
+Dread Factor in Risk Perception[Bahrain],471.754
+Dread Factor in Risk Perception[Bangladesh],465.633
+Dread Factor in Risk Perception[Belarus],1625.36
+Dread Factor in Risk Perception[Belgium],67.766
+Dread Factor in Risk Perception[Bolivia],195.901
+Dread Factor in Risk Perception[Bulgaria],6202.93
+Dread Factor in Risk Perception[Canada],178.861
+Dread Factor in Risk Perception[Chile],16.112
+Dread Factor in Risk Perception[Colombia],92.2898
+Dread Factor in Risk Perception[CostaRica],2119.66
+Dread Factor in Risk Perception[Croatia],59655.6
+Dread Factor in Risk Perception[Cuba],25782.9
+Dread Factor in Risk Perception[Cyprus],76412.9
+Dread Factor in Risk Perception[CzechRepublic],63.1177
+Dread Factor in Risk Perception[Denmark],358.646
+Dread Factor in Risk Perception[DominicanRepublic],125.502
+Dread Factor in Risk Perception[Ecuador],188.69
+Dread Factor in Risk Perception[ElSalvador],401.98
+Dread Factor in Risk Perception[Estonia],5147.35
+Dread Factor in Risk Perception[Ethiopia],1510.65
+Dread Factor in Risk Perception[Finland],13831.2
+Dread Factor in Risk Perception[France],126.865
+Dread Factor in Risk Perception[Germany],237.587
+Dread Factor in Risk Perception[Ghana],9664.33
+Dread Factor in Risk Perception[Greece],1494.3
+Dread Factor in Risk Perception[Hungary],26283.6
+Dread Factor in Risk Perception[Iceland],1146.95
+Dread Factor in Risk Perception[India],1348.31
+Dread Factor in Risk Perception[Indonesia],393.48
+Dread Factor in Risk Perception[Iran],144.713
+Dread Factor in Risk Perception[Iraq],920.107
+Dread Factor in Risk Perception[Ireland],353.362
+Dread Factor in Risk Perception[Israel],1068.42
+Dread Factor in Risk Perception[Italy],144.447
+Dread Factor in Risk Perception[Jamaica],2417.57
+Dread Factor in Risk Perception[Japan],4482.8
+Dread Factor in Risk Perception[Kazakhstan],305.471
+Dread Factor in Risk Perception[Kenya],3128.93
+Dread Factor in Risk Perception[Kuwait],2187.84
+Dread Factor in Risk Perception[Latvia],1310.54
+Dread Factor in Risk Perception[Lithuania],2598.98
+Dread Factor in Risk Perception[Luxembourg],566.823
+Dread Factor in Risk Perception[Madagascar],2736.73
+Dread Factor in Risk Perception[Malawi],2674.17
+Dread Factor in Risk Perception[Malaysia],1647.74
+Dread Factor in Risk Perception[Maldives],1071.77
+Dread Factor in Risk Perception[Malta],31832.6
+Dread Factor in Risk Perception[Mexico],6332.98
+Dread Factor in Risk Perception[Morocco],1190.47
+Dread Factor in Risk Perception[Mozambique],5715.96
+Dread Factor in Risk Perception[Nepal],2799.81
+Dread Factor in Risk Perception[Netherlands],745.292
+Dread Factor in Risk Perception[NewZealand],7596.33
+Dread Factor in Risk Perception[Nigeria],14069.9
+Dread Factor in Risk Perception[NorthMacedonia],24668.1
+Dread Factor in Risk Perception[Norway],1418.08
+Dread Factor in Risk Perception[Pakistan],13981.7
+Dread Factor in Risk Perception[Panama],51.3346
+Dread Factor in Risk Perception[Paraguay],60.0451
+Dread Factor in Risk Perception[Peru],106.347
+Dread Factor in Risk Perception[Philippines],2545.35
+Dread Factor in Risk Perception[Poland],42261.1
+Dread Factor in Risk Perception[Portugal],33.9304
+Dread Factor in Risk Perception[Qatar],430.749
+Dread Factor in Risk Perception[Romania],1242.5
+Dread Factor in Risk Perception[Russia],71.7556
+Dread Factor in Risk Perception[Rwanda],6226.06
+Dread Factor in Risk Perception[SaudiArabia],135.157
+Dread Factor in Risk Perception[Senegal],46458.7
+Dread Factor in Risk Perception[Serbia],9329.33
+Dread Factor in Risk Perception[Singapore],12316.6
+Dread Factor in Risk Perception[Slovakia],1539.51
+Dread Factor in Risk Perception[Slovenia],238.55
+Dread Factor in Risk Perception[SouthAfrica],35.4228
+Dread Factor in Risk Perception[SouthKorea],9761.93
+Dread Factor in Risk Perception[Spain],1391.11
+Dread Factor in Risk Perception[SriLanka],76600.1
+Dread Factor in Risk Perception[Sweden],11847
+Dread Factor in Risk Perception[Switzerland],236.442
+Dread Factor in Risk Perception[Thailand],1016.04
+Dread Factor in Risk Perception[Togo],30474.5
+Dread Factor in Risk Perception[Tunisia],5685.3
+Dread Factor in Risk Perception[Turkey],227.768
+Dread Factor in Risk Perception[UAE],376.369
+Dread Factor in Risk Perception[UK],230.825
+Dread Factor in Risk Perception[Ukraine],1211.13
+Dread Factor in Risk Perception[Uruguay],1210.2
+Dread Factor in Risk Perception[USA],87.3884
+Dread Factor in Risk Perception[Zambia],1995.47
+Impact of Population Density on Hospital Availability[Australia],1.44732e-05
+Impact of Population Density on Hospital Availability[Austria],0.275075
+Impact of Population Density on Hospital Availability[Bahrain],0.0621381
+Impact of Population Density on Hospital Availability[Bangladesh],0.372838
+Impact of Population Density on Hospital Availability[Belarus],0.00168921
+Impact of Population Density on Hospital Availability[Belgium],0.209775
+Impact of Population Density on Hospital Availability[Bolivia],1e-06
+Impact of Population Density on Hospital Availability[Bulgaria],0.16901
+Impact of Population Density on Hospital Availability[Canada],1e-06
+Impact of Population Density on Hospital Availability[Chile],1.2646e-06
+Impact of Population Density on Hospital Availability[Colombia],1e-06
+Impact of Population Density on Hospital Availability[CostaRica],0.260271
+Impact of Population Density on Hospital Availability[Croatia],0.258765
+Impact of Population Density on Hospital Availability[Cuba],0.157352
+Impact of Population Density on Hospital Availability[Cyprus],0.156907
+Impact of Population Density on Hospital Availability[CzechRepublic],0.0294531
+Impact of Population Density on Hospital Availability[Denmark],0.114634
+Impact of Population Density on Hospital Availability[DominicanRepublic],0.615034
+Impact of Population Density on Hospital Availability[Ecuador],0.0733004
+Impact of Population Density on Hospital Availability[ElSalvador],1e-06
+Impact of Population Density on Hospital Availability[Estonia],0.165958
+Impact of Population Density on Hospital Availability[Ethiopia],0.14924
+Impact of Population Density on Hospital Availability[Finland],0.0210799
+Impact of Population Density on Hospital Availability[France],0.749176
+Impact of Population Density on Hospital Availability[Germany],0.0392881
+Impact of Population Density on Hospital Availability[Ghana],0.0217722
+Impact of Population Density on Hospital Availability[Greece],0.0958892
+Impact of Population Density on Hospital Availability[Hungary],0.195432
+Impact of Population Density on Hospital Availability[Iceland],1e-06
+Impact of Population Density on Hospital Availability[India],1e-06
+Impact of Population Density on Hospital Availability[Indonesia],0.312901
+Impact of Population Density on Hospital Availability[Iran],1e-06
+Impact of Population Density on Hospital Availability[Iraq],0.00763241
+Impact of Population Density on Hospital Availability[Ireland],1e-06
+Impact of Population Density on Hospital Availability[Israel],0.186289
+Impact of Population Density on Hospital Availability[Italy],1e-06
+Impact of Population Density on Hospital Availability[Jamaica],0.0865671
+Impact of Population Density on Hospital Availability[Japan],0.155272
+Impact of Population Density on Hospital Availability[Kazakhstan],0.283992
+Impact of Population Density on Hospital Availability[Kenya],0.150874
+Impact of Population Density on Hospital Availability[Kuwait],1e-06
+Impact of Population Density on Hospital Availability[Latvia],0.26513
+Impact of Population Density on Hospital Availability[Lithuania],0.344218
+Impact of Population Density on Hospital Availability[Luxembourg],0.0185805
+Impact of Population Density on Hospital Availability[Madagascar],0.0527522
+Impact of Population Density on Hospital Availability[Malawi],0.30638
+Impact of Population Density on Hospital Availability[Malaysia],0.152181
+Impact of Population Density on Hospital Availability[Maldives],0.165227
+Impact of Population Density on Hospital Availability[Malta],0.15692
+Impact of Population Density on Hospital Availability[Mexico],0.143534
+Impact of Population Density on Hospital Availability[Morocco],0.536454
+Impact of Population Density on Hospital Availability[Mozambique],0.0848188
+Impact of Population Density on Hospital Availability[Nepal],0.214906
+Impact of Population Density on Hospital Availability[Netherlands],0.111281
+Impact of Population Density on Hospital Availability[NewZealand],0.179447
+Impact of Population Density on Hospital Availability[Nigeria],1e-06
+Impact of Population Density on Hospital Availability[NorthMacedonia],0.2345
+Impact of Population Density on Hospital Availability[Norway],0.231827
+Impact of Population Density on Hospital Availability[Pakistan],0.00290693
+Impact of Population Density on Hospital Availability[Panama],0.170531
+Impact of Population Density on Hospital Availability[Paraguay],0.248627
+Impact of Population Density on Hospital Availability[Peru],0.0196779
+Impact of Population Density on Hospital Availability[Philippines],0.248071
+Impact of Population Density on Hospital Availability[Poland],0.306645
+Impact of Population Density on Hospital Availability[Portugal],1e-06
+Impact of Population Density on Hospital Availability[Qatar],2.09506e-06
+Impact of Population Density on Hospital Availability[Romania],0.0943033
+Impact of Population Density on Hospital Availability[Russia],0.182994
+Impact of Population Density on Hospital Availability[Rwanda],0.15985
+Impact of Population Density on Hospital Availability[SaudiArabia],1e-06
+Impact of Population Density on Hospital Availability[Senegal],0.0659776
+Impact of Population Density on Hospital Availability[Serbia],0.0880556
+Impact of Population Density on Hospital Availability[Singapore],0.392049
+Impact of Population Density on Hospital Availability[Slovakia],0.262062
+Impact of Population Density on Hospital Availability[Slovenia],0.0530127
+Impact of Population Density on Hospital Availability[SouthAfrica],1.0482e-06
+Impact of Population Density on Hospital Availability[SouthKorea],0.157416
+Impact of Population Density on Hospital Availability[Spain],0.0862004
+Impact of Population Density on Hospital Availability[SriLanka],0.163488
+Impact of Population Density on Hospital Availability[Sweden],1
+Impact of Population Density on Hospital Availability[Switzerland],0.112544
+Impact of Population Density on Hospital Availability[Thailand],0.256073
+Impact of Population Density on Hospital Availability[Togo],0.337169
+Impact of Population Density on Hospital Availability[Tunisia],0.182995
+Impact of Population Density on Hospital Availability[Turkey],0.0501053
+Impact of Population Density on Hospital Availability[UAE],0.162523
+Impact of Population Density on Hospital Availability[UK],0.307458
+Impact of Population Density on Hospital Availability[Ukraine],0.3366
+Impact of Population Density on Hospital Availability[Uruguay],0.110683
+Impact of Population Density on Hospital Availability[USA],1.00162e-06
+Impact of Population Density on Hospital Availability[Zambia],0.248106
+Impact of Treatment on Fatality Rate[Australia],0.454496
+Impact of Treatment on Fatality Rate[Austria],0.488573
+Impact of Treatment on Fatality Rate[Bahrain],0.406676
+Impact of Treatment on Fatality Rate[Bangladesh],0.8
+Impact of Treatment on Fatality Rate[Belarus],0.184097
+Impact of Treatment on Fatality Rate[Belgium],0.58284
+Impact of Treatment on Fatality Rate[Bolivia],0.378819
+Impact of Treatment on Fatality Rate[Bulgaria],0.8
+Impact of Treatment on Fatality Rate[Canada],0.795505
+Impact of Treatment on Fatality Rate[Chile],0.560252
+Impact of Treatment on Fatality Rate[Colombia],0.472385
+Impact of Treatment on Fatality Rate[CostaRica],0.1
+Impact of Treatment on Fatality Rate[Croatia],0.563652
+Impact of Treatment on Fatality Rate[Cuba],0.1
+Impact of Treatment on Fatality Rate[Cyprus],0.520311
+Impact of Treatment on Fatality Rate[CzechRepublic],0.257858
+Impact of Treatment on Fatality Rate[Denmark],0.496013
+Impact of Treatment on Fatality Rate[DominicanRepublic],0.420694
+Impact of Treatment on Fatality Rate[Ecuador],0.426672
+Impact of Treatment on Fatality Rate[ElSalvador],0.60965
+Impact of Treatment on Fatality Rate[Estonia],0.491789
+Impact of Treatment on Fatality Rate[Ethiopia],0.376334
+Impact of Treatment on Fatality Rate[Finland],0.102895
+Impact of Treatment on Fatality Rate[France],0.159742
+Impact of Treatment on Fatality Rate[Germany],0.194078
+Impact of Treatment on Fatality Rate[Ghana],0.350051
+Impact of Treatment on Fatality Rate[Greece],0.457523
+Impact of Treatment on Fatality Rate[Hungary],0.8
+Impact of Treatment on Fatality Rate[Iceland],0.11889
+Impact of Treatment on Fatality Rate[India],0.782176
+Impact of Treatment on Fatality Rate[Indonesia],0.57721
+Impact of Treatment on Fatality Rate[Iran],0.558131
+Impact of Treatment on Fatality Rate[Iraq],0.652355
+Impact of Treatment on Fatality Rate[Ireland],0.488668
+Impact of Treatment on Fatality Rate[Israel],0.680599
+Impact of Treatment on Fatality Rate[Italy],0.730341
+Impact of Treatment on Fatality Rate[Jamaica],0.444349
+Impact of Treatment on Fatality Rate[Japan],0.109798
+Impact of Treatment on Fatality Rate[Kazakhstan],0.406047
+Impact of Treatment on Fatality Rate[Kenya],0.641052
+Impact of Treatment on Fatality Rate[Kuwait],0.799999
+Impact of Treatment on Fatality Rate[Latvia],0.608528
+Impact of Treatment on Fatality Rate[Lithuania],0.8
+Impact of Treatment on Fatality Rate[Luxembourg],0.44871
+Impact of Treatment on Fatality Rate[Madagascar],0.343036
+Impact of Treatment on Fatality Rate[Malawi],0.304677
+Impact of Treatment on Fatality Rate[Malaysia],0.121949
+Impact of Treatment on Fatality Rate[Maldives],0.740443
+Impact of Treatment on Fatality Rate[Malta],0.342791
+Impact of Treatment on Fatality Rate[Mexico],0.735676
+Impact of Treatment on Fatality Rate[Morocco],0.141238
+Impact of Treatment on Fatality Rate[Mozambique],0.507637
+Impact of Treatment on Fatality Rate[Nepal],0.116372
+Impact of Treatment on Fatality Rate[Netherlands],0.261854
+Impact of Treatment on Fatality Rate[NewZealand],0.310993
+Impact of Treatment on Fatality Rate[Nigeria],0.406535
+Impact of Treatment on Fatality Rate[NorthMacedonia],0.8
+Impact of Treatment on Fatality Rate[Norway],0.274984
+Impact of Treatment on Fatality Rate[Pakistan],0.467971
+Impact of Treatment on Fatality Rate[Panama],0.280202
+Impact of Treatment on Fatality Rate[Paraguay],0.655347
+Impact of Treatment on Fatality Rate[Peru],0.513405
+Impact of Treatment on Fatality Rate[Philippines],0.654828
+Impact of Treatment on Fatality Rate[Poland],0.427155
+Impact of Treatment on Fatality Rate[Portugal],0.196685
+Impact of Treatment on Fatality Rate[Qatar],0.545905
+Impact of Treatment on Fatality Rate[Romania],0.788055
+Impact of Treatment on Fatality Rate[Russia],0.291456
+Impact of Treatment on Fatality Rate[Rwanda],0.382423
+Impact of Treatment on Fatality Rate[SaudiArabia],0.8
+Impact of Treatment on Fatality Rate[Senegal],0.584547
+Impact of Treatment on Fatality Rate[Serbia],0.25784
+Impact of Treatment on Fatality Rate[Singapore],0.1
+Impact of Treatment on Fatality Rate[Slovakia],0.380013
+Impact of Treatment on Fatality Rate[Slovenia],0.8
+Impact of Treatment on Fatality Rate[SouthAfrica],0.484733
+Impact of Treatment on Fatality Rate[SouthKorea],0.1
+Impact of Treatment on Fatality Rate[Spain],0.8
+Impact of Treatment on Fatality Rate[SriLanka],0.1
+Impact of Treatment on Fatality Rate[Sweden],0.8
+Impact of Treatment on Fatality Rate[Switzerland],0.8
+Impact of Treatment on Fatality Rate[Thailand],0.1
+Impact of Treatment on Fatality Rate[Togo],0.761151
+Impact of Treatment on Fatality Rate[Tunisia],0.176552
+Impact of Treatment on Fatality Rate[Turkey],0.8
+Impact of Treatment on Fatality Rate[UAE],0.520527
+Impact of Treatment on Fatality Rate[UK],0.8
+Impact of Treatment on Fatality Rate[Ukraine],0.487312
+Impact of Treatment on Fatality Rate[Uruguay],0.320097
+Impact of Treatment on Fatality Rate[USA],0.8
+Impact of Treatment on Fatality Rate[Zambia],0.549798
+Learning and Death Reduction Rate[Australia],0.778474
+Learning and Death Reduction Rate[Austria],3.89109
+Learning and Death Reduction Rate[Bahrain],0.321228
+Learning and Death Reduction Rate[Bangladesh],3.73158
+Learning and Death Reduction Rate[Belarus],1e-06
+Learning and Death Reduction Rate[Belgium],0.293307
+Learning and Death Reduction Rate[Bolivia],1e-06
+Learning and Death Reduction Rate[Bulgaria],1.41812
+Learning and Death Reduction Rate[Canada],0.686885
+Learning and Death Reduction Rate[Chile],1e-06
+Learning and Death Reduction Rate[Colombia],0.335564
+Learning and Death Reduction Rate[CostaRica],1.74066
+Learning and Death Reduction Rate[Croatia],1.02995
+Learning and Death Reduction Rate[Cuba],0.781952
+Learning and Death Reduction Rate[Cyprus],2.86538
+Learning and Death Reduction Rate[CzechRepublic],0.0695539
+Learning and Death Reduction Rate[Denmark],1.27884
+Learning and Death Reduction Rate[DominicanRepublic],0.680846
+Learning and Death Reduction Rate[Ecuador],0.156474
+Learning and Death Reduction Rate[ElSalvador],0.334476
+Learning and Death Reduction Rate[Estonia],2.10499
+Learning and Death Reduction Rate[Ethiopia],1.04457
+Learning and Death Reduction Rate[Finland],0.153292
+Learning and Death Reduction Rate[France],1e-06
+Learning and Death Reduction Rate[Germany],0.33084
+Learning and Death Reduction Rate[Ghana],1.09917
+Learning and Death Reduction Rate[Greece],0.247662
+Learning and Death Reduction Rate[Hungary],1.36631
+Learning and Death Reduction Rate[Iceland],0.576936
+Learning and Death Reduction Rate[India],0.493407
+Learning and Death Reduction Rate[Indonesia],0.394893
+Learning and Death Reduction Rate[Iran],0.0446427
+Learning and Death Reduction Rate[Iraq],0.123328
+Learning and Death Reduction Rate[Ireland],0.223686
+Learning and Death Reduction Rate[Israel],1.44135
+Learning and Death Reduction Rate[Italy],0.323479
+Learning and Death Reduction Rate[Jamaica],0.202369
+Learning and Death Reduction Rate[Japan],0.216621
+Learning and Death Reduction Rate[Kazakhstan],1e-06
+Learning and Death Reduction Rate[Kenya],0.57857
+Learning and Death Reduction Rate[Kuwait],0.893044
+Learning and Death Reduction Rate[Latvia],1.35004
+Learning and Death Reduction Rate[Lithuania],2.04382
+Learning and Death Reduction Rate[Luxembourg],0.419149
+Learning and Death Reduction Rate[Madagascar],0.775495
+Learning and Death Reduction Rate[Malawi],0.346004
+Learning and Death Reduction Rate[Malaysia],1.69307
+Learning and Death Reduction Rate[Maldives],2.00608
+Learning and Death Reduction Rate[Malta],0.277913
+Learning and Death Reduction Rate[Mexico],0.194387
+Learning and Death Reduction Rate[Morocco],0.761772
+Learning and Death Reduction Rate[Mozambique],0.775371
+Learning and Death Reduction Rate[Nepal],1.21528
+Learning and Death Reduction Rate[Netherlands],0.305444
+Learning and Death Reduction Rate[NewZealand],0.771589
+Learning and Death Reduction Rate[Nigeria],1.07276
+Learning and Death Reduction Rate[NorthMacedonia],0.157571
+Learning and Death Reduction Rate[Norway],1.09669
+Learning and Death Reduction Rate[Pakistan],1e-06
+Learning and Death Reduction Rate[Panama],0.165521
+Learning and Death Reduction Rate[Paraguay],0.0526039
+Learning and Death Reduction Rate[Peru],0.284262
+Learning and Death Reduction Rate[Philippines],2.79924e-06
+Learning and Death Reduction Rate[Poland],2.29697
+Learning and Death Reduction Rate[Portugal],0.264076
+Learning and Death Reduction Rate[Qatar],1.54685
+Learning and Death Reduction Rate[Romania],0.344846
+Learning and Death Reduction Rate[Russia],1e-06
+Learning and Death Reduction Rate[Rwanda],0.778621
+Learning and Death Reduction Rate[SaudiArabia],1e-06
+Learning and Death Reduction Rate[Senegal],1.40646
+Learning and Death Reduction Rate[Serbia],0.58351
+Learning and Death Reduction Rate[Singapore],2.14539
+Learning and Death Reduction Rate[Slovakia],0.477108
+Learning and Death Reduction Rate[Slovenia],2.25958
+Learning and Death Reduction Rate[SouthAfrica],0.0975949
+Learning and Death Reduction Rate[SouthKorea],0.119581
+Learning and Death Reduction Rate[Spain],0.600727
+Learning and Death Reduction Rate[SriLanka],0.784577
+Learning and Death Reduction Rate[Sweden],1.56055
+Learning and Death Reduction Rate[Switzerland],0.93658
+Learning and Death Reduction Rate[Thailand],1.27924
+Learning and Death Reduction Rate[Togo],0.779393
+Learning and Death Reduction Rate[Tunisia],0.623144
+Learning and Death Reduction Rate[Turkey],0.521268
+Learning and Death Reduction Rate[UAE],0.462226
+Learning and Death Reduction Rate[UK],0.39728
+Learning and Death Reduction Rate[Ukraine],0.247529
+Learning and Death Reduction Rate[Uruguay],1.20341
+Learning and Death Reduction Rate[USA],0.410849
+Learning and Death Reduction Rate[Zambia],0.421225
+Min Contact Fraction[Australia],0.151517
+Min Contact Fraction[Austria],0.0851031
+Min Contact Fraction[Bahrain],0.0890713
+Min Contact Fraction[Bangladesh],0.0783875
+Min Contact Fraction[Belarus],0.208341
+Min Contact Fraction[Belgium],0.023589
+Min Contact Fraction[Bolivia],0.133483
+Min Contact Fraction[Bulgaria],0.168342
+Min Contact Fraction[Canada],0.0791889
+Min Contact Fraction[Chile],0.115937
+Min Contact Fraction[Colombia],0.100627
+Min Contact Fraction[CostaRica],0.0370418
+Min Contact Fraction[Croatia],0.0651884
+Min Contact Fraction[Cuba],0.118795
+Min Contact Fraction[Cyprus],0.10099
+Min Contact Fraction[CzechRepublic],0.038635
+Min Contact Fraction[Denmark],0.176748
+Min Contact Fraction[DominicanRepublic],0.0366894
+Min Contact Fraction[Ecuador],0.0875279
+Min Contact Fraction[ElSalvador],0.0700462
+Min Contact Fraction[Estonia],0.12307
+Min Contact Fraction[Ethiopia],0.104546
+Min Contact Fraction[Finland],0.154099
+Min Contact Fraction[France],0.0505384
+Min Contact Fraction[Germany],0.0131786
+Min Contact Fraction[Ghana],0.194892
+Min Contact Fraction[Greece],0.0562728
+Min Contact Fraction[Hungary],0.0622241
+Min Contact Fraction[Iceland],0.0204585
+Min Contact Fraction[India],0.188384
+Min Contact Fraction[Indonesia],0.0671759
+Min Contact Fraction[Iran],0.104478
+Min Contact Fraction[Iraq],0.0788677
+Min Contact Fraction[Ireland],0.0365429
+Min Contact Fraction[Israel],0.0474995
+Min Contact Fraction[Italy],0.0643219
+Min Contact Fraction[Jamaica],0.0467933
+Min Contact Fraction[Japan],0.0530107
+Min Contact Fraction[Kazakhstan],0.0705502
+Min Contact Fraction[Kenya],0.0832214
+Min Contact Fraction[Kuwait],0.040155
+Min Contact Fraction[Latvia],0.12421
+Min Contact Fraction[Lithuania],0.0867131
+Min Contact Fraction[Luxembourg],0.0736616
+Min Contact Fraction[Madagascar],0.107083
+Min Contact Fraction[Malawi],0.0820706
+Min Contact Fraction[Malaysia],0.0535251
+Min Contact Fraction[Maldives],0.105826
+Min Contact Fraction[Malta],0.0867322
+Min Contact Fraction[Mexico],0.176401
+Min Contact Fraction[Morocco],0.0593844
+Min Contact Fraction[Mozambique],0.0870912
+Min Contact Fraction[Nepal],1.01013e-06
+Min Contact Fraction[Netherlands],0.0875711
+Min Contact Fraction[NewZealand],0.0580311
+Min Contact Fraction[Nigeria],0.160569
+Min Contact Fraction[NorthMacedonia],0.147641
+Min Contact Fraction[Norway],0.092302
+Min Contact Fraction[Pakistan],0.099046
+Min Contact Fraction[Panama],0.0033444
+Min Contact Fraction[Paraguay],0.090494
+Min Contact Fraction[Peru],0.0853233
+Min Contact Fraction[Philippines],0.024459
+Min Contact Fraction[Poland],0.21033
+Min Contact Fraction[Portugal],0.0416303
+Min Contact Fraction[Qatar],0.0893759
+Min Contact Fraction[Romania],0.148979
+Min Contact Fraction[Russia],0.254431
+Min Contact Fraction[Rwanda],1e-06
+Min Contact Fraction[SaudiArabia],0.09668
+Min Contact Fraction[Senegal],0.155967
+Min Contact Fraction[Serbia],0.0804498
+Min Contact Fraction[Singapore],0.23031
+Min Contact Fraction[Slovakia],0.0214601
+Min Contact Fraction[Slovenia],0.00774144
+Min Contact Fraction[SouthAfrica],0.0988275
+Min Contact Fraction[SouthKorea],0.052587
+Min Contact Fraction[Spain],0.0519519
+Min Contact Fraction[SriLanka],0.0886512
+Min Contact Fraction[Sweden],0.144653
+Min Contact Fraction[Switzerland],1e-06
+Min Contact Fraction[Thailand],1e-06
+Min Contact Fraction[Togo],0.0765808
+Min Contact Fraction[Tunisia],0.0411869
+Min Contact Fraction[Turkey],0.0563803
+Min Contact Fraction[UAE],0.13816
+Min Contact Fraction[UK],0.091901
+Min Contact Fraction[Ukraine],0.14836
+Min Contact Fraction[Uruguay],0.108312
+Min Contact Fraction[USA],0.0798606
+Min Contact Fraction[Zambia],0.0833405
+Multiplier Recent Infections to Test[Australia],47.2976
+Multiplier Recent Infections to Test[Austria],1e-06
+Multiplier Recent Infections to Test[Bahrain],61.3957
+Multiplier Recent Infections to Test[Bangladesh],51.1404
+Multiplier Recent Infections to Test[Belarus],26.4864
+Multiplier Recent Infections to Test[Belgium],15.0915
+Multiplier Recent Infections to Test[Bolivia],1e-06
+Multiplier Recent Infections to Test[Bulgaria],29.1055
+Multiplier Recent Infections to Test[Canada],61.6765
+Multiplier Recent Infections to Test[Chile],1.88444
+Multiplier Recent Infections to Test[Colombia],65.0053
+Multiplier Recent Infections to Test[CostaRica],22.6931
+Multiplier Recent Infections to Test[Croatia],27.8668
+Multiplier Recent Infections to Test[Cuba],34.1486
+Multiplier Recent Infections to Test[Cyprus],31.2505
+Multiplier Recent Infections to Test[CzechRepublic],1e-06
+Multiplier Recent Infections to Test[Denmark],24.2737
+Multiplier Recent Infections to Test[DominicanRepublic],74.5156
+Multiplier Recent Infections to Test[Ecuador],25.3059
+Multiplier Recent Infections to Test[ElSalvador],87.5231
+Multiplier Recent Infections to Test[Estonia],23.7427
+Multiplier Recent Infections to Test[Ethiopia],40.7835
+Multiplier Recent Infections to Test[Finland],89.2933
+Multiplier Recent Infections to Test[France],25.6607
+Multiplier Recent Infections to Test[Germany],64.8226
+Multiplier Recent Infections to Test[Ghana],1.27084e-05
+Multiplier Recent Infections to Test[Greece],31.1392
+Multiplier Recent Infections to Test[Hungary],56.1244
+Multiplier Recent Infections to Test[Iceland],49.3678
+Multiplier Recent Infections to Test[India],26.5653
+Multiplier Recent Infections to Test[Indonesia],36.3767
+Multiplier Recent Infections to Test[Iran],45.4314
+Multiplier Recent Infections to Test[Iraq],75.3704
+Multiplier Recent Infections to Test[Ireland],50.5232
+Multiplier Recent Infections to Test[Israel],64.6041
+Multiplier Recent Infections to Test[Italy],31.7775
+Multiplier Recent Infections to Test[Jamaica],0.000358707
+Multiplier Recent Infections to Test[Japan],0.000315097
+Multiplier Recent Infections to Test[Kazakhstan],6.17574
+Multiplier Recent Infections to Test[Kenya],15.5575
+Multiplier Recent Infections to Test[Kuwait],74.8115
+Multiplier Recent Infections to Test[Latvia],51.0888
+Multiplier Recent Infections to Test[Lithuania],3.97574
+Multiplier Recent Infections to Test[Luxembourg],9.89464
+Multiplier Recent Infections to Test[Madagascar],1.90894
+Multiplier Recent Infections to Test[Malawi],40.9212
+Multiplier Recent Infections to Test[Malaysia],38.2946
+Multiplier Recent Infections to Test[Maldives],25.6034
+Multiplier Recent Infections to Test[Malta],69.6067
+Multiplier Recent Infections to Test[Mexico],1e-06
+Multiplier Recent Infections to Test[Morocco],56.6617
+Multiplier Recent Infections to Test[Mozambique],1e-06
+Multiplier Recent Infections to Test[Nepal],63.6579
+Multiplier Recent Infections to Test[Netherlands],3.15654
+Multiplier Recent Infections to Test[NewZealand],28.6486
+Multiplier Recent Infections to Test[Nigeria],45.7839
+Multiplier Recent Infections to Test[NorthMacedonia],2.94472e-05
+Multiplier Recent Infections to Test[Norway],30.019
+Multiplier Recent Infections to Test[Pakistan],81.8354
+Multiplier Recent Infections to Test[Panama],20.5711
+Multiplier Recent Infections to Test[Paraguay],10.3648
+Multiplier Recent Infections to Test[Peru],1e-06
+Multiplier Recent Infections to Test[Philippines],16.2115
+Multiplier Recent Infections to Test[Poland],61.5744
+Multiplier Recent Infections to Test[Portugal],108.835
+Multiplier Recent Infections to Test[Qatar],44.7179
+Multiplier Recent Infections to Test[Romania],1e-06
+Multiplier Recent Infections to Test[Russia],10.1326
+Multiplier Recent Infections to Test[Rwanda],28.9948
+Multiplier Recent Infections to Test[SaudiArabia],7.11173
+Multiplier Recent Infections to Test[Senegal],31.3988
+Multiplier Recent Infections to Test[Serbia],47.6845
+Multiplier Recent Infections to Test[Singapore],61.1512
+Multiplier Recent Infections to Test[Slovakia],26.8375
+Multiplier Recent Infections to Test[Slovenia],39.5903
+Multiplier Recent Infections to Test[SouthAfrica],77.9147
+Multiplier Recent Infections to Test[SouthKorea],44.5107
+Multiplier Recent Infections to Test[Spain],69.4985
+Multiplier Recent Infections to Test[SriLanka],32.6654
+Multiplier Recent Infections to Test[Sweden],1e-06
+Multiplier Recent Infections to Test[Switzerland],16.7188
+Multiplier Recent Infections to Test[Thailand],50.9568
+Multiplier Recent Infections to Test[Togo],53.1608
+Multiplier Recent Infections to Test[Tunisia],3.81956
+Multiplier Recent Infections to Test[Turkey],11.3686
+Multiplier Recent Infections to Test[UAE],60.5104
+Multiplier Recent Infections to Test[UK],43.8351
+Multiplier Recent Infections to Test[Ukraine],1e-06
+Multiplier Recent Infections to Test[Uruguay],30.0895
+Multiplier Recent Infections to Test[USA],22.8024
+Multiplier Recent Infections to Test[Zambia],30.644
+Multiplier Transmission Risk for Asymptomatic[Australia],0.289632
+Multiplier Transmission Risk for Asymptomatic[Austria],0.288867
+Multiplier Transmission Risk for Asymptomatic[Bahrain],0.294158
+Multiplier Transmission Risk for Asymptomatic[Bangladesh],0.29196
+Multiplier Transmission Risk for Asymptomatic[Belarus],0.290451
+Multiplier Transmission Risk for Asymptomatic[Belgium],0.291672
+Multiplier Transmission Risk for Asymptomatic[Bolivia],0.295686
+Multiplier Transmission Risk for Asymptomatic[Bulgaria],0.291794
+Multiplier Transmission Risk for Asymptomatic[Canada],0.290686
+Multiplier Transmission Risk for Asymptomatic[Chile],0.292586
+Multiplier Transmission Risk for Asymptomatic[Colombia],0.289195
+Multiplier Transmission Risk for Asymptomatic[CostaRica],0.29151
+Multiplier Transmission Risk for Asymptomatic[Croatia],0.292823
+Multiplier Transmission Risk for Asymptomatic[Cuba],0.291854
+Multiplier Transmission Risk for Asymptomatic[Cyprus],0.292592
+Multiplier Transmission Risk for Asymptomatic[CzechRepublic],0.292285
+Multiplier Transmission Risk for Asymptomatic[Denmark],0.290341
+Multiplier Transmission Risk for Asymptomatic[DominicanRepublic],0.293807
+Multiplier Transmission Risk for Asymptomatic[Ecuador],0.293219
+Multiplier Transmission Risk for Asymptomatic[ElSalvador],0.274608
+Multiplier Transmission Risk for Asymptomatic[Estonia],0.288258
+Multiplier Transmission Risk for Asymptomatic[Ethiopia],0.292566
+Multiplier Transmission Risk for Asymptomatic[Finland],0.29106
+Multiplier Transmission Risk for Asymptomatic[France],0.290688
+Multiplier Transmission Risk for Asymptomatic[Germany],0.292158
+Multiplier Transmission Risk for Asymptomatic[Ghana],0.290294
+Multiplier Transmission Risk for Asymptomatic[Greece],0.292914
+Multiplier Transmission Risk for Asymptomatic[Hungary],0.295283
+Multiplier Transmission Risk for Asymptomatic[Iceland],0.290855
+Multiplier Transmission Risk for Asymptomatic[India],0.290668
+Multiplier Transmission Risk for Asymptomatic[Indonesia],0.294348
+Multiplier Transmission Risk for Asymptomatic[Iran],0.291688
+Multiplier Transmission Risk for Asymptomatic[Iraq],0.281373
+Multiplier Transmission Risk for Asymptomatic[Ireland],0.289599
+Multiplier Transmission Risk for Asymptomatic[Israel],0.291733
+Multiplier Transmission Risk for Asymptomatic[Italy],0.292566
+Multiplier Transmission Risk for Asymptomatic[Jamaica],0.29518
+Multiplier Transmission Risk for Asymptomatic[Japan],0.291145
+Multiplier Transmission Risk for Asymptomatic[Kazakhstan],0.288898
+Multiplier Transmission Risk for Asymptomatic[Kenya],0.288374
+Multiplier Transmission Risk for Asymptomatic[Kuwait],0.292561
+Multiplier Transmission Risk for Asymptomatic[Latvia],0.29199
+Multiplier Transmission Risk for Asymptomatic[Lithuania],0.290327
+Multiplier Transmission Risk for Asymptomatic[Luxembourg],0.2903
+Multiplier Transmission Risk for Asymptomatic[Madagascar],0.291166
+Multiplier Transmission Risk for Asymptomatic[Malawi],0.290793
+Multiplier Transmission Risk for Asymptomatic[Malaysia],0.291199
+Multiplier Transmission Risk for Asymptomatic[Maldives],0.28836
+Multiplier Transmission Risk for Asymptomatic[Malta],0.296888
+Multiplier Transmission Risk for Asymptomatic[Mexico],0.291246
+Multiplier Transmission Risk for Asymptomatic[Morocco],0.296241
+Multiplier Transmission Risk for Asymptomatic[Mozambique],0.29082
+Multiplier Transmission Risk for Asymptomatic[Nepal],0.293224
+Multiplier Transmission Risk for Asymptomatic[Netherlands],0.29114
+Multiplier Transmission Risk for Asymptomatic[NewZealand],0.290796
+Multiplier Transmission Risk for Asymptomatic[Nigeria],0.290666
+Multiplier Transmission Risk for Asymptomatic[NorthMacedonia],0.294138
+Multiplier Transmission Risk for Asymptomatic[Norway],0.291605
+Multiplier Transmission Risk for Asymptomatic[Pakistan],0.293135
+Multiplier Transmission Risk for Asymptomatic[Panama],0.291451
+Multiplier Transmission Risk for Asymptomatic[Paraguay],0.291168
+Multiplier Transmission Risk for Asymptomatic[Peru],0.291202
+Multiplier Transmission Risk for Asymptomatic[Philippines],0.291348
+Multiplier Transmission Risk for Asymptomatic[Poland],0.290957
+Multiplier Transmission Risk for Asymptomatic[Portugal],0.292638
+Multiplier Transmission Risk for Asymptomatic[Qatar],0.292357
+Multiplier Transmission Risk for Asymptomatic[Romania],0.291477
+Multiplier Transmission Risk for Asymptomatic[Russia],0.295598
+Multiplier Transmission Risk for Asymptomatic[Rwanda],0.293557
+Multiplier Transmission Risk for Asymptomatic[SaudiArabia],0.288719
+Multiplier Transmission Risk for Asymptomatic[Senegal],0.295034
+Multiplier Transmission Risk for Asymptomatic[Serbia],0.294193
+Multiplier Transmission Risk for Asymptomatic[Singapore],0.292858
+Multiplier Transmission Risk for Asymptomatic[Slovakia],0.292259
+Multiplier Transmission Risk for Asymptomatic[Slovenia],0.289106
+Multiplier Transmission Risk for Asymptomatic[SouthAfrica],0.291385
+Multiplier Transmission Risk for Asymptomatic[SouthKorea],0.291104
+Multiplier Transmission Risk for Asymptomatic[Spain],0.293258
+Multiplier Transmission Risk for Asymptomatic[SriLanka],0.293316
+Multiplier Transmission Risk for Asymptomatic[Sweden],0.294607
+Multiplier Transmission Risk for Asymptomatic[Switzerland],0.291273
+Multiplier Transmission Risk for Asymptomatic[Thailand],0.297888
+Multiplier Transmission Risk for Asymptomatic[Togo],0.289782
+Multiplier Transmission Risk for Asymptomatic[Tunisia],0.299555
+Multiplier Transmission Risk for Asymptomatic[Turkey],0.290525
+Multiplier Transmission Risk for Asymptomatic[UAE],0.291469
+Multiplier Transmission Risk for Asymptomatic[UK],0.29093
+Multiplier Transmission Risk for Asymptomatic[Ukraine],0.290362
+Multiplier Transmission Risk for Asymptomatic[Uruguay],0.292369
+Multiplier Transmission Risk for Asymptomatic[USA],0.29147
+Multiplier Transmission Risk for Asymptomatic[Zambia],0.291289
+Patient Zero Arrival Time[Australia],105.99
+Patient Zero Arrival Time[Austria],113.011
+Patient Zero Arrival Time[Bahrain],61.2381
+Patient Zero Arrival Time[Bangladesh],82.7911
+Patient Zero Arrival Time[Belarus],142.086
+Patient Zero Arrival Time[Belgium],107.258
+Patient Zero Arrival Time[Bolivia],119.75
+Patient Zero Arrival Time[Bulgaria],141.504
+Patient Zero Arrival Time[Canada],102.192
+Patient Zero Arrival Time[Chile],77.4382
+Patient Zero Arrival Time[Colombia],50.0059
+Patient Zero Arrival Time[CostaRica],135.649
+Patient Zero Arrival Time[Croatia],138.464
+Patient Zero Arrival Time[Cuba],117.584
+Patient Zero Arrival Time[Cyprus],133.341
+Patient Zero Arrival Time[CzechRepublic],61.7169
+Patient Zero Arrival Time[Denmark],91.2367
+Patient Zero Arrival Time[DominicanRepublic],50
+Patient Zero Arrival Time[Ecuador],86.4966
+Patient Zero Arrival Time[ElSalvador],50
+Patient Zero Arrival Time[Estonia],127.755
+Patient Zero Arrival Time[Ethiopia],53.5081
+Patient Zero Arrival Time[Finland],82.4916
+Patient Zero Arrival Time[France],110.507
+Patient Zero Arrival Time[Germany],94.747
+Patient Zero Arrival Time[Ghana],50.001
+Patient Zero Arrival Time[Greece],53.0129
+Patient Zero Arrival Time[Hungary],146.262
+Patient Zero Arrival Time[Iceland],97.4857
+Patient Zero Arrival Time[India],50.2493
+Patient Zero Arrival Time[Indonesia],80.5209
+Patient Zero Arrival Time[Iran],72.9315
+Patient Zero Arrival Time[Iraq],112.996
+Patient Zero Arrival Time[Ireland],114.953
+Patient Zero Arrival Time[Israel],110.77
+Patient Zero Arrival Time[Italy],91.2202
+Patient Zero Arrival Time[Jamaica],137.73
+Patient Zero Arrival Time[Japan],59.2427
+Patient Zero Arrival Time[Kazakhstan],87.2445
+Patient Zero Arrival Time[Kenya],98.5135
+Patient Zero Arrival Time[Kuwait],125.5
+Patient Zero Arrival Time[Latvia],130.22
+Patient Zero Arrival Time[Lithuania],111.499
+Patient Zero Arrival Time[Luxembourg],94.6081
+Patient Zero Arrival Time[Madagascar],132.222
+Patient Zero Arrival Time[Malawi],140.484
+Patient Zero Arrival Time[Malaysia],96.6735
+Patient Zero Arrival Time[Maldives],156.747
+Patient Zero Arrival Time[Malta],136.401
+Patient Zero Arrival Time[Mexico],112.7
+Patient Zero Arrival Time[Morocco],119.75
+Patient Zero Arrival Time[Mozambique],70.8723
+Patient Zero Arrival Time[Nepal],159.963
+Patient Zero Arrival Time[Netherlands],101.195
+Patient Zero Arrival Time[NewZealand],118.213
+Patient Zero Arrival Time[Nigeria],79.9325
+Patient Zero Arrival Time[NorthMacedonia],137.712
+Patient Zero Arrival Time[Norway],62.9519
+Patient Zero Arrival Time[Pakistan],54.5889
+Patient Zero Arrival Time[Panama],95.2686
+Patient Zero Arrival Time[Paraguay],100.17
+Patient Zero Arrival Time[Peru],120.257
+Patient Zero Arrival Time[Philippines],88.4832
+Patient Zero Arrival Time[Poland],132.744
+Patient Zero Arrival Time[Portugal],121.234
+Patient Zero Arrival Time[Qatar],50.2499
+Patient Zero Arrival Time[Romania],123.499
+Patient Zero Arrival Time[Russia],98.2561
+Patient Zero Arrival Time[Rwanda],81.4529
+Patient Zero Arrival Time[SaudiArabia],50
+Patient Zero Arrival Time[Senegal],61.2482
+Patient Zero Arrival Time[Serbia],140
+Patient Zero Arrival Time[Singapore],92.8572
+Patient Zero Arrival Time[Slovakia],78.2127
+Patient Zero Arrival Time[Slovenia],126.488
+Patient Zero Arrival Time[SouthAfrica],84.0866
+Patient Zero Arrival Time[SouthKorea],59.262
+Patient Zero Arrival Time[Spain],114.462
+Patient Zero Arrival Time[SriLanka],108.528
+Patient Zero Arrival Time[Sweden],125.72
+Patient Zero Arrival Time[Switzerland],121.499
+Patient Zero Arrival Time[Thailand],92.1887
+Patient Zero Arrival Time[Togo],50.0512
+Patient Zero Arrival Time[Tunisia],112.187
+Patient Zero Arrival Time[Turkey],85.4851
+Patient Zero Arrival Time[UAE],105.473
+Patient Zero Arrival Time[UK],113.291
+Patient Zero Arrival Time[Ukraine],123.253
+Patient Zero Arrival Time[Uruguay],93.2465
+Patient Zero Arrival Time[USA],55.4544
+Patient Zero Arrival Time[Zambia],128.764
+Reference COVID Hospitalization Fraction Confirmed[Australia],0.613985
+Reference COVID Hospitalization Fraction Confirmed[Austria],0.405975
+Reference COVID Hospitalization Fraction Confirmed[Bahrain],0.473888
+Reference COVID Hospitalization Fraction Confirmed[Bangladesh],0.617803
+Reference COVID Hospitalization Fraction Confirmed[Belarus],0.777836
+Reference COVID Hospitalization Fraction Confirmed[Belgium],0.4
+Reference COVID Hospitalization Fraction Confirmed[Bolivia],0.8
+Reference COVID Hospitalization Fraction Confirmed[Bulgaria],0.463757
+Reference COVID Hospitalization Fraction Confirmed[Canada],0.603156
+Reference COVID Hospitalization Fraction Confirmed[Chile],0.8
+Reference COVID Hospitalization Fraction Confirmed[Colombia],0.559792
+Reference COVID Hospitalization Fraction Confirmed[CostaRica],0.73904
+Reference COVID Hospitalization Fraction Confirmed[Croatia],0.566522
+Reference COVID Hospitalization Fraction Confirmed[Cuba],0.509745
+Reference COVID Hospitalization Fraction Confirmed[Cyprus],0.638604
+Reference COVID Hospitalization Fraction Confirmed[CzechRepublic],0.8
+Reference COVID Hospitalization Fraction Confirmed[Denmark],0.405519
+Reference COVID Hospitalization Fraction Confirmed[DominicanRepublic],0.625575
+Reference COVID Hospitalization Fraction Confirmed[Ecuador],0.572629
+Reference COVID Hospitalization Fraction Confirmed[ElSalvador],0.757796
+Reference COVID Hospitalization Fraction Confirmed[Estonia],0.568221
+Reference COVID Hospitalization Fraction Confirmed[Ethiopia],0.674063
+Reference COVID Hospitalization Fraction Confirmed[Finland],0.629496
+Reference COVID Hospitalization Fraction Confirmed[France],0.682741
+Reference COVID Hospitalization Fraction Confirmed[Germany],0.717197
+Reference COVID Hospitalization Fraction Confirmed[Ghana],0.625282
+Reference COVID Hospitalization Fraction Confirmed[Greece],0.793233
+Reference COVID Hospitalization Fraction Confirmed[Hungary],0.59706
+Reference COVID Hospitalization Fraction Confirmed[Iceland],0.441351
+Reference COVID Hospitalization Fraction Confirmed[India],0.43261
+Reference COVID Hospitalization Fraction Confirmed[Indonesia],0.733966
+Reference COVID Hospitalization Fraction Confirmed[Iran],0.8
+Reference COVID Hospitalization Fraction Confirmed[Iraq],0.581213
+Reference COVID Hospitalization Fraction Confirmed[Ireland],0.715607
+Reference COVID Hospitalization Fraction Confirmed[Israel],0.691036
+Reference COVID Hospitalization Fraction Confirmed[Italy],0.505177
+Reference COVID Hospitalization Fraction Confirmed[Jamaica],0.467304
+Reference COVID Hospitalization Fraction Confirmed[Japan],0.799442
+Reference COVID Hospitalization Fraction Confirmed[Kazakhstan],0.8
+Reference COVID Hospitalization Fraction Confirmed[Kenya],0.646359
+Reference COVID Hospitalization Fraction Confirmed[Kuwait],0.796649
+Reference COVID Hospitalization Fraction Confirmed[Latvia],0.569872
+Reference COVID Hospitalization Fraction Confirmed[Lithuania],0.798293
+Reference COVID Hospitalization Fraction Confirmed[Luxembourg],0.607166
+Reference COVID Hospitalization Fraction Confirmed[Madagascar],0.673126
+Reference COVID Hospitalization Fraction Confirmed[Malawi],0.636624
+Reference COVID Hospitalization Fraction Confirmed[Malaysia],0.454465
+Reference COVID Hospitalization Fraction Confirmed[Maldives],0.437864
+Reference COVID Hospitalization Fraction Confirmed[Malta],0.721981
+Reference COVID Hospitalization Fraction Confirmed[Mexico],0.620445
+Reference COVID Hospitalization Fraction Confirmed[Morocco],0.8
+Reference COVID Hospitalization Fraction Confirmed[Mozambique],0.8
+Reference COVID Hospitalization Fraction Confirmed[Nepal],0.748862
+Reference COVID Hospitalization Fraction Confirmed[Netherlands],0.490621
+Reference COVID Hospitalization Fraction Confirmed[NewZealand],0.8
+Reference COVID Hospitalization Fraction Confirmed[Nigeria],0.688824
+Reference COVID Hospitalization Fraction Confirmed[NorthMacedonia],0.68529
+Reference COVID Hospitalization Fraction Confirmed[Norway],0.687932
+Reference COVID Hospitalization Fraction Confirmed[Pakistan],0.8
+Reference COVID Hospitalization Fraction Confirmed[Panama],0.8
+Reference COVID Hospitalization Fraction Confirmed[Paraguay],0.636746
+Reference COVID Hospitalization Fraction Confirmed[Peru],0.60861
+Reference COVID Hospitalization Fraction Confirmed[Philippines],0.666333
+Reference COVID Hospitalization Fraction Confirmed[Poland],0.4
+Reference COVID Hospitalization Fraction Confirmed[Portugal],0.8
+Reference COVID Hospitalization Fraction Confirmed[Qatar],0.547447
+Reference COVID Hospitalization Fraction Confirmed[Romania],0.528202
+Reference COVID Hospitalization Fraction Confirmed[Russia],0.531615
+Reference COVID Hospitalization Fraction Confirmed[Rwanda],0.8
+Reference COVID Hospitalization Fraction Confirmed[SaudiArabia],0.52922
+Reference COVID Hospitalization Fraction Confirmed[Senegal],0.470355
+Reference COVID Hospitalization Fraction Confirmed[Serbia],0.581478
+Reference COVID Hospitalization Fraction Confirmed[Singapore],0.8
+Reference COVID Hospitalization Fraction Confirmed[Slovakia],0.793768
+Reference COVID Hospitalization Fraction Confirmed[Slovenia],0.4
+Reference COVID Hospitalization Fraction Confirmed[SouthAfrica],0.716639
+Reference COVID Hospitalization Fraction Confirmed[SouthKorea],0.708199
+Reference COVID Hospitalization Fraction Confirmed[Spain],0.561423
+Reference COVID Hospitalization Fraction Confirmed[SriLanka],0.78539
+Reference COVID Hospitalization Fraction Confirmed[Sweden],0.737513
+Reference COVID Hospitalization Fraction Confirmed[Switzerland],0.4
+Reference COVID Hospitalization Fraction Confirmed[Thailand],0.8
+Reference COVID Hospitalization Fraction Confirmed[Togo],0.733344
+Reference COVID Hospitalization Fraction Confirmed[Tunisia],0.576243
+Reference COVID Hospitalization Fraction Confirmed[Turkey],0.4
+Reference COVID Hospitalization Fraction Confirmed[UAE],0.722691
+Reference COVID Hospitalization Fraction Confirmed[UK],0.47291
+Reference COVID Hospitalization Fraction Confirmed[Ukraine],0.721998
+Reference COVID Hospitalization Fraction Confirmed[Uruguay],0.758628
+Reference COVID Hospitalization Fraction Confirmed[USA],0.4
+Reference COVID Hospitalization Fraction Confirmed[Zambia],0.662486
+Reference Force of Infection[Australia],0.404392
+Reference Force of Infection[Austria],0.457501
+Reference Force of Infection[Bahrain],0.189528
+Reference Force of Infection[Bangladesh],0.41886
+Reference Force of Infection[Belarus],0.539997
+Reference Force of Infection[Belgium],0.367915
+Reference Force of Infection[Bolivia],0.137628
+Reference Force of Infection[Bulgaria],0.811686
+Reference Force of Infection[Canada],0.260165
+Reference Force of Infection[Chile],0.171937
+Reference Force of Infection[Colombia],0.0827605
+Reference Force of Infection[CostaRica],0.391128
+Reference Force of Infection[Croatia],0.788691
+Reference Force of Infection[Cuba],0.522588
+Reference Force of Infection[Cyprus],0.700052
+Reference Force of Infection[CzechRepublic],0.621581
+Reference Force of Infection[Denmark],0.255035
+Reference Force of Infection[DominicanRepublic],0.345265
+Reference Force of Infection[Ecuador],0.112884
+Reference Force of Infection[ElSalvador],0.14804
+Reference Force of Infection[Estonia],0.593087
+Reference Force of Infection[Ethiopia],0.0754419
+Reference Force of Infection[Finland],0.206278
+Reference Force of Infection[France],0.621533
+Reference Force of Infection[Germany],0.34707
+Reference Force of Infection[Ghana],0.196533
+Reference Force of Infection[Greece],0.58802
+Reference Force of Infection[Hungary],0.939754
+Reference Force of Infection[Iceland],0.2312
+Reference Force of Infection[India],0.254739
+Reference Force of Infection[Indonesia],0.240794
+Reference Force of Infection[Iran],0.275826
+Reference Force of Infection[Iraq],0.346141
+Reference Force of Infection[Ireland],0.363584
+Reference Force of Infection[Israel],0.402464
+Reference Force of Infection[Italy],0.475556
+Reference Force of Infection[Jamaica],0.644784
+Reference Force of Infection[Japan],0.241954
+Reference Force of Infection[Kazakhstan],0.16607
+Reference Force of Infection[Kenya],0.102882
+Reference Force of Infection[Kuwait],0.358041
+Reference Force of Infection[Latvia],0.511533
+Reference Force of Infection[Lithuania],0.524428
+Reference Force of Infection[Luxembourg],0.295028
+Reference Force of Infection[Madagascar],0.19628
+Reference Force of Infection[Malawi],0.212798
+Reference Force of Infection[Malaysia],0.323611
+Reference Force of Infection[Maldives],0.440338
+Reference Force of Infection[Malta],0.961189
+Reference Force of Infection[Mexico],0.342316
+Reference Force of Infection[Morocco],0.673281
+Reference Force of Infection[Mozambique],0.144802
+Reference Force of Infection[Nepal],0.213881
+Reference Force of Infection[Netherlands],0.382387
+Reference Force of Infection[NewZealand],0.479088
+Reference Force of Infection[Nigeria],0.283184
+Reference Force of Infection[NorthMacedonia],0.941558
+Reference Force of Infection[Norway],0.170725
+Reference Force of Infection[Pakistan],0.239902
+Reference Force of Infection[Panama],0.298864
+Reference Force of Infection[Paraguay],0.240088
+Reference Force of Infection[Peru],0.267264
+Reference Force of Infection[Philippines],0.405829
+Reference Force of Infection[Poland],0.565954
+Reference Force of Infection[Portugal],0.672791
+Reference Force of Infection[Qatar],0.229462
+Reference Force of Infection[Romania],0.534589
+Reference Force of Infection[Russia],0.246466
+Reference Force of Infection[Rwanda],0.16085
+Reference Force of Infection[SaudiArabia],0.206058
+Reference Force of Infection[Senegal],0.393705
+Reference Force of Infection[Serbia],0.81102
+Reference Force of Infection[Singapore],0.164037
+Reference Force of Infection[Slovakia],0.642813
+Reference Force of Infection[Slovenia],0.5194
+Reference Force of Infection[SouthAfrica],0.163745
+Reference Force of Infection[SouthKorea],0.568011
+Reference Force of Infection[Spain],0.772538
+Reference Force of Infection[SriLanka],0.668727
+Reference Force of Infection[Sweden],0.821094
+Reference Force of Infection[Switzerland],0.575999
+Reference Force of Infection[Thailand],0.647096
+Reference Force of Infection[Togo],0.285185
+Reference Force of Infection[Tunisia],0.517763
+Reference Force of Infection[Turkey],0.309052
+Reference Force of Infection[UAE],0.363398
+Reference Force of Infection[UK],0.472925
+Reference Force of Infection[Ukraine],0.390305
+Reference Force of Infection[Uruguay],0.44234
+Reference Force of Infection[USA],0.271002
+Reference Force of Infection[Zambia],0.170303
+Sensitivity of Fatality Rate to Acuity[Australia],2.11977
+Sensitivity of Fatality Rate to Acuity[Austria],2.12917
+Sensitivity of Fatality Rate to Acuity[Bahrain],2.12646
+Sensitivity of Fatality Rate to Acuity[Bangladesh],2.13484
+Sensitivity of Fatality Rate to Acuity[Belarus],2.128
+Sensitivity of Fatality Rate to Acuity[Belgium],2.13023
+Sensitivity of Fatality Rate to Acuity[Bolivia],2.12764
+Sensitivity of Fatality Rate to Acuity[Bulgaria],2.13207
+Sensitivity of Fatality Rate to Acuity[Canada],2.13073
+Sensitivity of Fatality Rate to Acuity[Chile],2.13054
+Sensitivity of Fatality Rate to Acuity[Colombia],2.12757
+Sensitivity of Fatality Rate to Acuity[CostaRica],2.12816
+Sensitivity of Fatality Rate to Acuity[Croatia],2.12972
+Sensitivity of Fatality Rate to Acuity[Cuba],2.12857
+Sensitivity of Fatality Rate to Acuity[Cyprus],2.12854
+Sensitivity of Fatality Rate to Acuity[CzechRepublic],2.12834
+Sensitivity of Fatality Rate to Acuity[Denmark],2.12845
+Sensitivity of Fatality Rate to Acuity[DominicanRepublic],2.11298
+Sensitivity of Fatality Rate to Acuity[Ecuador],2.12882
+Sensitivity of Fatality Rate to Acuity[ElSalvador],2.12747
+Sensitivity of Fatality Rate to Acuity[Estonia],2.12844
+Sensitivity of Fatality Rate to Acuity[Ethiopia],2.1284
+Sensitivity of Fatality Rate to Acuity[Finland],2.12885
+Sensitivity of Fatality Rate to Acuity[France],2.11811
+Sensitivity of Fatality Rate to Acuity[Germany],2.12929
+Sensitivity of Fatality Rate to Acuity[Ghana],2.12817
+Sensitivity of Fatality Rate to Acuity[Greece],2.12853
+Sensitivity of Fatality Rate to Acuity[Hungary],2.13229
+Sensitivity of Fatality Rate to Acuity[Iceland],2.12718
+Sensitivity of Fatality Rate to Acuity[India],2.12897
+Sensitivity of Fatality Rate to Acuity[Indonesia],2.11667
+Sensitivity of Fatality Rate to Acuity[Iran],2.12845
+Sensitivity of Fatality Rate to Acuity[Iraq],2.11895
+Sensitivity of Fatality Rate to Acuity[Ireland],2.12901
+Sensitivity of Fatality Rate to Acuity[Israel],2.12993
+Sensitivity of Fatality Rate to Acuity[Italy],2.12919
+Sensitivity of Fatality Rate to Acuity[Jamaica],2.12844
+Sensitivity of Fatality Rate to Acuity[Japan],2.12771
+Sensitivity of Fatality Rate to Acuity[Kazakhstan],2.12884
+Sensitivity of Fatality Rate to Acuity[Kenya],2.12939
+Sensitivity of Fatality Rate to Acuity[Kuwait],2.1311
+Sensitivity of Fatality Rate to Acuity[Latvia],2.13018
+Sensitivity of Fatality Rate to Acuity[Lithuania],2.13262
+Sensitivity of Fatality Rate to Acuity[Luxembourg],2.12861
+Sensitivity of Fatality Rate to Acuity[Madagascar],2.1283
+Sensitivity of Fatality Rate to Acuity[Malawi],2.12875
+Sensitivity of Fatality Rate to Acuity[Malaysia],2.12843
+Sensitivity of Fatality Rate to Acuity[Maldives],2.12967
+Sensitivity of Fatality Rate to Acuity[Malta],2.12875
+Sensitivity of Fatality Rate to Acuity[Mexico],2.13078
+Sensitivity of Fatality Rate to Acuity[Morocco],2.12949
+Sensitivity of Fatality Rate to Acuity[Mozambique],2.1287
+Sensitivity of Fatality Rate to Acuity[Nepal],2.12918
+Sensitivity of Fatality Rate to Acuity[Netherlands],2.13133
+Sensitivity of Fatality Rate to Acuity[NewZealand],2.12834
+Sensitivity of Fatality Rate to Acuity[Nigeria],2.12712
+Sensitivity of Fatality Rate to Acuity[NorthMacedonia],2.12948
+Sensitivity of Fatality Rate to Acuity[Norway],2.1287
+Sensitivity of Fatality Rate to Acuity[Pakistan],2.12772
+Sensitivity of Fatality Rate to Acuity[Panama],2.12868
+Sensitivity of Fatality Rate to Acuity[Paraguay],2.13007
+Sensitivity of Fatality Rate to Acuity[Peru],2.12845
+Sensitivity of Fatality Rate to Acuity[Philippines],2.13005
+Sensitivity of Fatality Rate to Acuity[Poland],2.13166
+Sensitivity of Fatality Rate to Acuity[Portugal],2.12678
+Sensitivity of Fatality Rate to Acuity[Qatar],2.12802
+Sensitivity of Fatality Rate to Acuity[Romania],2.13044
+Sensitivity of Fatality Rate to Acuity[Russia],2.12808
+Sensitivity of Fatality Rate to Acuity[Rwanda],2.12921
+Sensitivity of Fatality Rate to Acuity[SaudiArabia],2.1394
+Sensitivity of Fatality Rate to Acuity[Senegal],2.12916
+Sensitivity of Fatality Rate to Acuity[Serbia],2.12832
+Sensitivity of Fatality Rate to Acuity[Singapore],2.12579
+Sensitivity of Fatality Rate to Acuity[Slovakia],2.12855
+Sensitivity of Fatality Rate to Acuity[Slovenia],2.13275
+Sensitivity of Fatality Rate to Acuity[SouthAfrica],2.12682
+Sensitivity of Fatality Rate to Acuity[SouthKorea],2.12785
+Sensitivity of Fatality Rate to Acuity[Spain],2.13167
+Sensitivity of Fatality Rate to Acuity[SriLanka],2.12734
+Sensitivity of Fatality Rate to Acuity[Sweden],2.13184
+Sensitivity of Fatality Rate to Acuity[Switzerland],2.13213
+Sensitivity of Fatality Rate to Acuity[Thailand],2.12662
+Sensitivity of Fatality Rate to Acuity[Togo],2.12986
+Sensitivity of Fatality Rate to Acuity[Tunisia],2.12839
+Sensitivity of Fatality Rate to Acuity[Turkey],2.13398
+Sensitivity of Fatality Rate to Acuity[UAE],2.12954
+Sensitivity of Fatality Rate to Acuity[UK],2.13217
+Sensitivity of Fatality Rate to Acuity[Ukraine],2.12956
+Sensitivity of Fatality Rate to Acuity[Uruguay],2.12841
+Sensitivity of Fatality Rate to Acuity[USA],2.13526
+Sensitivity of Fatality Rate to Acuity[Zambia],2.1292
+Sensitivity of Contact Reduction to Utility[Australia],9.61409
+Sensitivity of Contact Reduction to Utility[Austria],0.01
+Sensitivity of Contact Reduction to Utility[Bahrain],10.4757
+Sensitivity of Contact Reduction to Utility[Bangladesh],0.0100787
+Sensitivity of Contact Reduction to Utility[Belarus],0.0100015
+Sensitivity of Contact Reduction to Utility[Belgium],1.74641
+Sensitivity of Contact Reduction to Utility[Bolivia],16.4456
+Sensitivity of Contact Reduction to Utility[Bulgaria],0.0100835
+Sensitivity of Contact Reduction to Utility[Canada],0.044563
+Sensitivity of Contact Reduction to Utility[Chile],0.476523
+Sensitivity of Contact Reduction to Utility[Colombia],5.86965
+Sensitivity of Contact Reduction to Utility[CostaRica],0.01
+Sensitivity of Contact Reduction to Utility[Croatia],0.960513
+Sensitivity of Contact Reduction to Utility[Cuba],0.126179
+Sensitivity of Contact Reduction to Utility[Cyprus],7.61805
+Sensitivity of Contact Reduction to Utility[CzechRepublic],0.01
+Sensitivity of Contact Reduction to Utility[Denmark],0.154749
+Sensitivity of Contact Reduction to Utility[DominicanRepublic],0.651837
+Sensitivity of Contact Reduction to Utility[Ecuador],10.8794
+Sensitivity of Contact Reduction to Utility[ElSalvador],6.32036
+Sensitivity of Contact Reduction to Utility[Estonia],0.0466155
+Sensitivity of Contact Reduction to Utility[Ethiopia],0.905282
+Sensitivity of Contact Reduction to Utility[Finland],9.07311
+Sensitivity of Contact Reduction to Utility[France],8.98027
+Sensitivity of Contact Reduction to Utility[Germany],0.484994
+Sensitivity of Contact Reduction to Utility[Ghana],10.1242
+Sensitivity of Contact Reduction to Utility[Greece],10.6712
+Sensitivity of Contact Reduction to Utility[Hungary],0.0100009
+Sensitivity of Contact Reduction to Utility[Iceland],5.21509
+Sensitivity of Contact Reduction to Utility[India],0.39971
+Sensitivity of Contact Reduction to Utility[Indonesia],0.629389
+Sensitivity of Contact Reduction to Utility[Iran],0.744668
+Sensitivity of Contact Reduction to Utility[Iraq],22.7516
+Sensitivity of Contact Reduction to Utility[Ireland],0.0100003
+Sensitivity of Contact Reduction to Utility[Israel],1.94349
+Sensitivity of Contact Reduction to Utility[Italy],1.15588
+Sensitivity of Contact Reduction to Utility[Jamaica],0.015819
+Sensitivity of Contact Reduction to Utility[Japan],1.88386
+Sensitivity of Contact Reduction to Utility[Kazakhstan],2.65167
+Sensitivity of Contact Reduction to Utility[Kenya],4.19812
+Sensitivity of Contact Reduction to Utility[Kuwait],26.6868
+Sensitivity of Contact Reduction to Utility[Latvia],0.01
+Sensitivity of Contact Reduction to Utility[Lithuania],0.01
+Sensitivity of Contact Reduction to Utility[Luxembourg],10.7164
+Sensitivity of Contact Reduction to Utility[Madagascar],1.86226
+Sensitivity of Contact Reduction to Utility[Malawi],3.62768
+Sensitivity of Contact Reduction to Utility[Malaysia],0.01
+Sensitivity of Contact Reduction to Utility[Maldives],0.510665
+Sensitivity of Contact Reduction to Utility[Malta],1.1954
+Sensitivity of Contact Reduction to Utility[Mexico],7.00476
+Sensitivity of Contact Reduction to Utility[Morocco],0.0306886
+Sensitivity of Contact Reduction to Utility[Mozambique],1.45111
+Sensitivity of Contact Reduction to Utility[Nepal],2.95779
+Sensitivity of Contact Reduction to Utility[Netherlands],3.41586
+Sensitivity of Contact Reduction to Utility[NewZealand],0.0189182
+Sensitivity of Contact Reduction to Utility[Nigeria],12.819
+Sensitivity of Contact Reduction to Utility[NorthMacedonia],0.0846089
+Sensitivity of Contact Reduction to Utility[Norway],0.601542
+Sensitivity of Contact Reduction to Utility[Pakistan],16.0021
+Sensitivity of Contact Reduction to Utility[Panama],0.634536
+Sensitivity of Contact Reduction to Utility[Paraguay],0.607484
+Sensitivity of Contact Reduction to Utility[Peru],11.2078
+Sensitivity of Contact Reduction to Utility[Philippines],0.239269
+Sensitivity of Contact Reduction to Utility[Poland],0.01
+Sensitivity of Contact Reduction to Utility[Portugal],0.0204549
+Sensitivity of Contact Reduction to Utility[Qatar],4.50804
+Sensitivity of Contact Reduction to Utility[Romania],0.01
+Sensitivity of Contact Reduction to Utility[Russia],0.0535357
+Sensitivity of Contact Reduction to Utility[Rwanda],0.310906
+Sensitivity of Contact Reduction to Utility[SaudiArabia],0.610159
+Sensitivity of Contact Reduction to Utility[Senegal],2.43124
+Sensitivity of Contact Reduction to Utility[Serbia],1.73436
+Sensitivity of Contact Reduction to Utility[Singapore],22.059
+Sensitivity of Contact Reduction to Utility[Slovakia],7.22525
+Sensitivity of Contact Reduction to Utility[Slovenia],0.01
+Sensitivity of Contact Reduction to Utility[SouthAfrica],0.781665
+Sensitivity of Contact Reduction to Utility[SouthKorea],0.01
+Sensitivity of Contact Reduction to Utility[Spain],9.92001
+Sensitivity of Contact Reduction to Utility[SriLanka],1.3388
+Sensitivity of Contact Reduction to Utility[Sweden],0.580564
+Sensitivity of Contact Reduction to Utility[Switzerland],0.01
+Sensitivity of Contact Reduction to Utility[Thailand],0.0109099
+Sensitivity of Contact Reduction to Utility[Togo],1.68098
+Sensitivity of Contact Reduction to Utility[Tunisia],1.36779
+Sensitivity of Contact Reduction to Utility[Turkey],0.01
+Sensitivity of Contact Reduction to Utility[UAE],0.217494
+Sensitivity of Contact Reduction to Utility[UK],0.01
+Sensitivity of Contact Reduction to Utility[Ukraine],0.0495671
+Sensitivity of Contact Reduction to Utility[Uruguay],0.01
+Sensitivity of Contact Reduction to Utility[USA],0.607878
+Sensitivity of Contact Reduction to Utility[Zambia],4.43984
+Strength of Adherence Fatigue[Australia],0.396
+Strength of Adherence Fatigue[Austria],2.82176
+Strength of Adherence Fatigue[Bahrain],1.25646
+Strength of Adherence Fatigue[Bangladesh],0.467018
+Strength of Adherence Fatigue[Belarus],0.989287
+Strength of Adherence Fatigue[Belgium],0.905145
+Strength of Adherence Fatigue[Bolivia],1e-06
+Strength of Adherence Fatigue[Bulgaria],3.9715
+Strength of Adherence Fatigue[Canada],0.0714403
+Strength of Adherence Fatigue[Chile],0.135292
+Strength of Adherence Fatigue[Colombia],0.380682
+Strength of Adherence Fatigue[CostaRica],3.805
+Strength of Adherence Fatigue[Croatia],3.16591
+Strength of Adherence Fatigue[Cuba],1.41146
+Strength of Adherence Fatigue[Cyprus],1.83012
+Strength of Adherence Fatigue[CzechRepublic],1.46361
+Strength of Adherence Fatigue[Denmark],0.962055
+Strength of Adherence Fatigue[DominicanRepublic],0.489985
+Strength of Adherence Fatigue[Ecuador],0.264224
+Strength of Adherence Fatigue[ElSalvador],0.273117
+Strength of Adherence Fatigue[Estonia],1.81284
+Strength of Adherence Fatigue[Ethiopia],1.17148
+Strength of Adherence Fatigue[Finland],0.984729
+Strength of Adherence Fatigue[France],0.803563
+Strength of Adherence Fatigue[Germany],1.18734
+Strength of Adherence Fatigue[Ghana],0.179165
+Strength of Adherence Fatigue[Greece],1.11033
+Strength of Adherence Fatigue[Hungary],3.94735
+Strength of Adherence Fatigue[Iceland],0.747473
+Strength of Adherence Fatigue[India],2.17558
+Strength of Adherence Fatigue[Indonesia],0.296659
+Strength of Adherence Fatigue[Iran],1.79018
+Strength of Adherence Fatigue[Iraq],0.0368764
+Strength of Adherence Fatigue[Ireland],0.000109177
+Strength of Adherence Fatigue[Israel],1.77509
+Strength of Adherence Fatigue[Italy],1.03504
+Strength of Adherence Fatigue[Jamaica],2.19397
+Strength of Adherence Fatigue[Japan],0.512622
+Strength of Adherence Fatigue[Kazakhstan],0.245422
+Strength of Adherence Fatigue[Kenya],0.519505
+Strength of Adherence Fatigue[Kuwait],0.273775
+Strength of Adherence Fatigue[Latvia],2.47877
+Strength of Adherence Fatigue[Lithuania],2.9089
+Strength of Adherence Fatigue[Luxembourg],1.18208
+Strength of Adherence Fatigue[Madagascar],1e-06
+Strength of Adherence Fatigue[Malawi],3.46253e-06
+Strength of Adherence Fatigue[Malaysia],1.28644
+Strength of Adherence Fatigue[Maldives],4.46145e-06
+Strength of Adherence Fatigue[Malta],2.35471
+Strength of Adherence Fatigue[Mexico],1.95551
+Strength of Adherence Fatigue[Morocco],2.04853
+Strength of Adherence Fatigue[Mozambique],0.278882
+Strength of Adherence Fatigue[Nepal],2.00959
+Strength of Adherence Fatigue[Netherlands],1.16032
+Strength of Adherence Fatigue[NewZealand],0.000916949
+Strength of Adherence Fatigue[Nigeria],0.0989373
+Strength of Adherence Fatigue[NorthMacedonia],3.3161
+Strength of Adherence Fatigue[Norway],1.26606
+Strength of Adherence Fatigue[Pakistan],0.245798
+Strength of Adherence Fatigue[Panama],0.51937
+Strength of Adherence Fatigue[Paraguay],0.879332
+Strength of Adherence Fatigue[Peru],2.13663
+Strength of Adherence Fatigue[Philippines],2.07343
+Strength of Adherence Fatigue[Poland],5
+Strength of Adherence Fatigue[Portugal],0.69255
+Strength of Adherence Fatigue[Qatar],1.17515
+Strength of Adherence Fatigue[Romania],3.54558
+Strength of Adherence Fatigue[Russia],0.623241
+Strength of Adherence Fatigue[Rwanda],0.459726
+Strength of Adherence Fatigue[SaudiArabia],1e-06
+Strength of Adherence Fatigue[Senegal],0.655796
+Strength of Adherence Fatigue[Serbia],1.78026
+Strength of Adherence Fatigue[Singapore],1e-06
+Strength of Adherence Fatigue[Slovakia],1.03838
+Strength of Adherence Fatigue[Slovenia],2.62928
+Strength of Adherence Fatigue[SouthAfrica],0.356595
+Strength of Adherence Fatigue[SouthKorea],1.0293
+Strength of Adherence Fatigue[Spain],0.997231
+Strength of Adherence Fatigue[SriLanka],1.21685
+Strength of Adherence Fatigue[Sweden],1.81366
+Strength of Adherence Fatigue[Switzerland],1.77712
+Strength of Adherence Fatigue[Thailand],0.561357
+Strength of Adherence Fatigue[Togo],0.856978
+Strength of Adherence Fatigue[Tunisia],1.43472
+Strength of Adherence Fatigue[Turkey],2.30686
+Strength of Adherence Fatigue[UAE],1.21274
+Strength of Adherence Fatigue[UK],0.939096
+Strength of Adherence Fatigue[Ukraine],3.29642
+Strength of Adherence Fatigue[Uruguay],1.14326
+Strength of Adherence Fatigue[USA],1.55482
+Strength of Adherence Fatigue[Zambia],1.42609e-06
+Time to Downgrade Risk[Australia],99.6384
+Time to Downgrade Risk[Austria],500
+Time to Downgrade Risk[Bahrain],139.925
+Time to Downgrade Risk[Bangladesh],14.7465
+Time to Downgrade Risk[Belarus],14.4104
+Time to Downgrade Risk[Belgium],395.792
+Time to Downgrade Risk[Bolivia],422.575
+Time to Downgrade Risk[Bulgaria],207.403
+Time to Downgrade Risk[Canada],10
+Time to Downgrade Risk[Chile],500
+Time to Downgrade Risk[Colombia],112.469
+Time to Downgrade Risk[CostaRica],500
+Time to Downgrade Risk[Croatia],11.0786
+Time to Downgrade Risk[Cuba],20.108
+Time to Downgrade Risk[Cyprus],59.5794
+Time to Downgrade Risk[CzechRepublic],199.626
+Time to Downgrade Risk[Denmark],25.8689
+Time to Downgrade Risk[DominicanRepublic],121.625
+Time to Downgrade Risk[Ecuador],277.432
+Time to Downgrade Risk[ElSalvador],144.401
+Time to Downgrade Risk[Estonia],13.6675
+Time to Downgrade Risk[Ethiopia],21.2182
+Time to Downgrade Risk[Finland],132.213
+Time to Downgrade Risk[France],94.9429
+Time to Downgrade Risk[Germany],499.843
+Time to Downgrade Risk[Ghana],164.555
+Time to Downgrade Risk[Greece],473.185
+Time to Downgrade Risk[Hungary],500
+Time to Downgrade Risk[Iceland],331.052
+Time to Downgrade Risk[India],143.644
+Time to Downgrade Risk[Indonesia],10.6225
+Time to Downgrade Risk[Iran],353.462
+Time to Downgrade Risk[Iraq],230.214
+Time to Downgrade Risk[Ireland],10
+Time to Downgrade Risk[Israel],500
+Time to Downgrade Risk[Italy],205.088
+Time to Downgrade Risk[Jamaica],500
+Time to Downgrade Risk[Japan],46.7175
+Time to Downgrade Risk[Kazakhstan],500
+Time to Downgrade Risk[Kenya],320.992
+Time to Downgrade Risk[Kuwait],445.669
+Time to Downgrade Risk[Latvia],500
+Time to Downgrade Risk[Lithuania],500
+Time to Downgrade Risk[Luxembourg],500
+Time to Downgrade Risk[Madagascar],500
+Time to Downgrade Risk[Malawi],394.466
+Time to Downgrade Risk[Malaysia],271.066
+Time to Downgrade Risk[Maldives],10
+Time to Downgrade Risk[Malta],231.068
+Time to Downgrade Risk[Mexico],13.7841
+Time to Downgrade Risk[Morocco],500
+Time to Downgrade Risk[Mozambique],147.166
+Time to Downgrade Risk[Nepal],500
+Time to Downgrade Risk[Netherlands],247.963
+Time to Downgrade Risk[NewZealand],33.6874
+Time to Downgrade Risk[Nigeria],208.617
+Time to Downgrade Risk[NorthMacedonia],142.355
+Time to Downgrade Risk[Norway],39.0173
+Time to Downgrade Risk[Pakistan],406.223
+Time to Downgrade Risk[Panama],30.2243
+Time to Downgrade Risk[Paraguay],166.887
+Time to Downgrade Risk[Peru],256.542
+Time to Downgrade Risk[Philippines],132.586
+Time to Downgrade Risk[Poland],139.969
+Time to Downgrade Risk[Portugal],250.908
+Time to Downgrade Risk[Qatar],151.634
+Time to Downgrade Risk[Romania],34.8281
+Time to Downgrade Risk[Russia],223.189
+Time to Downgrade Risk[Rwanda],44.7043
+Time to Downgrade Risk[SaudiArabia],500
+Time to Downgrade Risk[Senegal],22.008
+Time to Downgrade Risk[Serbia],18.4474
+Time to Downgrade Risk[Singapore],500
+Time to Downgrade Risk[Slovakia],371.373
+Time to Downgrade Risk[Slovenia],500
+Time to Downgrade Risk[SouthAfrica],500
+Time to Downgrade Risk[SouthKorea],79.609
+Time to Downgrade Risk[Spain],133.728
+Time to Downgrade Risk[SriLanka],500
+Time to Downgrade Risk[Sweden],218.927
+Time to Downgrade Risk[Switzerland],500
+Time to Downgrade Risk[Thailand],500
+Time to Downgrade Risk[Togo],10.0147
+Time to Downgrade Risk[Tunisia],484.467
+Time to Downgrade Risk[Turkey],500
+Time to Downgrade Risk[UAE],63.5097
+Time to Downgrade Risk[UK],56.5793
+Time to Downgrade Risk[Ukraine],138.705
+Time to Downgrade Risk[Uruguay],424.737
+Time to Downgrade Risk[USA],14.3507
+Time to Downgrade Risk[Zambia],384.234
+Time to Upgrade Risk[Australia],1.18884
+Time to Upgrade Risk[Austria],30.0277
+Time to Upgrade Risk[Bahrain],17.7495
+Time to Upgrade Risk[Bangladesh],74.8621
+Time to Upgrade Risk[Belarus],16.307
+Time to Upgrade Risk[Belgium],23.3243
+Time to Upgrade Risk[Bolivia],26.4669
+Time to Upgrade Risk[Bulgaria],1.88077
+Time to Upgrade Risk[Canada],126.259
+Time to Upgrade Risk[Chile],5.40579
+Time to Upgrade Risk[Colombia],14.6877
+Time to Upgrade Risk[CostaRica],4.76747
+Time to Upgrade Risk[Croatia],100.748
+Time to Upgrade Risk[Cuba],10.1961
+Time to Upgrade Risk[Cyprus],32.0095
+Time to Upgrade Risk[CzechRepublic],8.91985
+Time to Upgrade Risk[Denmark],52.0857
+Time to Upgrade Risk[DominicanRepublic],8.07752
+Time to Upgrade Risk[Ecuador],7.04323
+Time to Upgrade Risk[ElSalvador],34.616
+Time to Upgrade Risk[Estonia],29.1643
+Time to Upgrade Risk[Ethiopia],17.0283
+Time to Upgrade Risk[Finland],200
+Time to Upgrade Risk[France],22.8325
+Time to Upgrade Risk[Germany],28.8906
+Time to Upgrade Risk[Ghana],15.4387
+Time to Upgrade Risk[Greece],10.5582
+Time to Upgrade Risk[Hungary],160.097
+Time to Upgrade Risk[Iceland],15.2102
+Time to Upgrade Risk[India],200
+Time to Upgrade Risk[Indonesia],2.80476
+Time to Upgrade Risk[Iran],19.198
+Time to Upgrade Risk[Iraq],15.6458
+Time to Upgrade Risk[Ireland],200
+Time to Upgrade Risk[Israel],15.2631
+Time to Upgrade Risk[Italy],53.6642
+Time to Upgrade Risk[Jamaica],11.8518
+Time to Upgrade Risk[Japan],32.9803
+Time to Upgrade Risk[Kazakhstan],30.0704
+Time to Upgrade Risk[Kenya],23.0785
+Time to Upgrade Risk[Kuwait],3.78325
+Time to Upgrade Risk[Latvia],5.80542
+Time to Upgrade Risk[Lithuania],68.8595
+Time to Upgrade Risk[Luxembourg],11.674
+Time to Upgrade Risk[Madagascar],25.4081
+Time to Upgrade Risk[Malawi],21.4695
+Time to Upgrade Risk[Malaysia],4.01277
+Time to Upgrade Risk[Maldives],31.7809
+Time to Upgrade Risk[Malta],51.6626
+Time to Upgrade Risk[Mexico],7.94277
+Time to Upgrade Risk[Morocco],8.84362
+Time to Upgrade Risk[Mozambique],23.6214
+Time to Upgrade Risk[Nepal],7.12594
+Time to Upgrade Risk[Netherlands],62.0319
+Time to Upgrade Risk[NewZealand],19.1008
+Time to Upgrade Risk[Nigeria],24.3102
+Time to Upgrade Risk[NorthMacedonia],42.8266
+Time to Upgrade Risk[Norway],106.377
+Time to Upgrade Risk[Pakistan],200
+Time to Upgrade Risk[Panama],1.35984
+Time to Upgrade Risk[Paraguay],24.6491
+Time to Upgrade Risk[Peru],6.25062
+Time to Upgrade Risk[Philippines],1.44716
+Time to Upgrade Risk[Poland],137.594
+Time to Upgrade Risk[Portugal],4.86432
+Time to Upgrade Risk[Qatar],27.4039
+Time to Upgrade Risk[Romania],20.804
+Time to Upgrade Risk[Russia],1.62871
+Time to Upgrade Risk[Rwanda],2.32459
+Time to Upgrade Risk[SaudiArabia],132.948
+Time to Upgrade Risk[Senegal],4.49755
+Time to Upgrade Risk[Serbia],6.8754
+Time to Upgrade Risk[Singapore],53.9872
+Time to Upgrade Risk[Slovakia],12.5979
+Time to Upgrade Risk[Slovenia],11.7619
+Time to Upgrade Risk[SouthAfrica],24.3957
+Time to Upgrade Risk[SouthKorea],3.12976
+Time to Upgrade Risk[Spain],68.3852
+Time to Upgrade Risk[SriLanka],8.91369
+Time to Upgrade Risk[Sweden],10.0227
+Time to Upgrade Risk[Switzerland],37.0522
+Time to Upgrade Risk[Thailand],10.1417
+Time to Upgrade Risk[Togo],7.65745
+Time to Upgrade Risk[Tunisia],12.8763
+Time to Upgrade Risk[Turkey],18.0431
+Time to Upgrade Risk[UAE],1.34188
+Time to Upgrade Risk[UK],104.83
+Time to Upgrade Risk[Ukraine],2.6743
+Time to Upgrade Risk[Uruguay],17.3098
+Time to Upgrade Risk[USA],46.3956
+Time to Upgrade Risk[Zambia],23.091
+Total Asymptomatic Fraction[Australia],0.50029
+Total Asymptomatic Fraction[Austria],0.526641
+Total Asymptomatic Fraction[Bahrain],0.49474
+Total Asymptomatic Fraction[Bangladesh],0.534404
+Total Asymptomatic Fraction[Belarus],0.505787
+Total Asymptomatic Fraction[Belgium],0.504979
+Total Asymptomatic Fraction[Bolivia],0.499658
+Total Asymptomatic Fraction[Bulgaria],0.482569
+Total Asymptomatic Fraction[Canada],0.496685
+Total Asymptomatic Fraction[Chile],0.515716
+Total Asymptomatic Fraction[Colombia],0.503429
+Total Asymptomatic Fraction[CostaRica],0.508046
+Total Asymptomatic Fraction[Croatia],0.497275
+Total Asymptomatic Fraction[Cuba],0.506317
+Total Asymptomatic Fraction[Cyprus],0.527057
+Total Asymptomatic Fraction[CzechRepublic],0.502073
+Total Asymptomatic Fraction[Denmark],0.50667
+Total Asymptomatic Fraction[DominicanRepublic],0.507003
+Total Asymptomatic Fraction[Ecuador],0.50186
+Total Asymptomatic Fraction[ElSalvador],0.488993
+Total Asymptomatic Fraction[Estonia],0.508263
+Total Asymptomatic Fraction[Ethiopia],0.507747
+Total Asymptomatic Fraction[Finland],0.509563
+Total Asymptomatic Fraction[France],0.496849
+Total Asymptomatic Fraction[Germany],0.506291
+Total Asymptomatic Fraction[Ghana],0.503383
+Total Asymptomatic Fraction[Greece],0.503839
+Total Asymptomatic Fraction[Hungary],0.508305
+Total Asymptomatic Fraction[Iceland],0.50879
+Total Asymptomatic Fraction[India],0.510827
+Total Asymptomatic Fraction[Indonesia],0.512348
+Total Asymptomatic Fraction[Iran],0.50587
+Total Asymptomatic Fraction[Iraq],0.534863
+Total Asymptomatic Fraction[Ireland],0.499198
+Total Asymptomatic Fraction[Israel],0.507333
+Total Asymptomatic Fraction[Italy],0.505339
+Total Asymptomatic Fraction[Jamaica],0.504172
+Total Asymptomatic Fraction[Japan],0.50823
+Total Asymptomatic Fraction[Kazakhstan],0.509737
+Total Asymptomatic Fraction[Kenya],0.499531
+Total Asymptomatic Fraction[Kuwait],0.471502
+Total Asymptomatic Fraction[Latvia],0.517225
+Total Asymptomatic Fraction[Lithuania],0.510383
+Total Asymptomatic Fraction[Luxembourg],0.505134
+Total Asymptomatic Fraction[Madagascar],0.507562
+Total Asymptomatic Fraction[Malawi],0.507295
+Total Asymptomatic Fraction[Malaysia],0.51775
+Total Asymptomatic Fraction[Maldives],0.506018
+Total Asymptomatic Fraction[Malta],0.502922
+Total Asymptomatic Fraction[Mexico],0.50444
+Total Asymptomatic Fraction[Morocco],0.497015
+Total Asymptomatic Fraction[Mozambique],0.516314
+Total Asymptomatic Fraction[Nepal],0.514252
+Total Asymptomatic Fraction[Netherlands],0.50331
+Total Asymptomatic Fraction[NewZealand],0.501603
+Total Asymptomatic Fraction[Nigeria],0.513686
+Total Asymptomatic Fraction[NorthMacedonia],0.501707
+Total Asymptomatic Fraction[Norway],0.507967
+Total Asymptomatic Fraction[Pakistan],0.504227
+Total Asymptomatic Fraction[Panama],0.505274
+Total Asymptomatic Fraction[Paraguay],0.505054
+Total Asymptomatic Fraction[Peru],0.504895
+Total Asymptomatic Fraction[Philippines],0.504387
+Total Asymptomatic Fraction[Poland],0.501817
+Total Asymptomatic Fraction[Portugal],0.503331
+Total Asymptomatic Fraction[Qatar],0.508768
+Total Asymptomatic Fraction[Romania],0.514169
+Total Asymptomatic Fraction[Russia],0.50915
+Total Asymptomatic Fraction[Rwanda],0.502308
+Total Asymptomatic Fraction[SaudiArabia],0.50196
+Total Asymptomatic Fraction[Senegal],0.501803
+Total Asymptomatic Fraction[Serbia],0.501796
+Total Asymptomatic Fraction[Singapore],0.51835
+Total Asymptomatic Fraction[Slovakia],0.504971
+Total Asymptomatic Fraction[Slovenia],0.481125
+Total Asymptomatic Fraction[SouthAfrica],0.507745
+Total Asymptomatic Fraction[SouthKorea],0.499683
+Total Asymptomatic Fraction[Spain],0.506334
+Total Asymptomatic Fraction[SriLanka],0.504492
+Total Asymptomatic Fraction[Sweden],0.557063
+Total Asymptomatic Fraction[Switzerland],0.492416
+Total Asymptomatic Fraction[Thailand],0.496928
+Total Asymptomatic Fraction[Togo],0.508915
+Total Asymptomatic Fraction[Tunisia],0.498738
+Total Asymptomatic Fraction[Turkey],0.493924
+Total Asymptomatic Fraction[UAE],0.510654
+Total Asymptomatic Fraction[UK],0.500099
+Total Asymptomatic Fraction[Ukraine],0.516976
+Total Asymptomatic Fraction[Uruguay],0.502759
+Total Asymptomatic Fraction[USA],0.486509
+Total Asymptomatic Fraction[Zambia],0.506981
+Weight on Reported Probability of Infection[Australia],0.99866
+Weight on Reported Probability of Infection[Austria],0.624591
+Weight on Reported Probability of Infection[Bahrain],0.444791
+Weight on Reported Probability of Infection[Bangladesh],1.04065e-06
+Weight on Reported Probability of Infection[Belarus],0.397498
+Weight on Reported Probability of Infection[Belgium],0.334581
+Weight on Reported Probability of Infection[Bolivia],0.415935
+Weight on Reported Probability of Infection[Bulgaria],0.456223
+Weight on Reported Probability of Infection[Canada],0.469997
+Weight on Reported Probability of Infection[Chile],0.407411
+Weight on Reported Probability of Infection[Colombia],0.494723
+Weight on Reported Probability of Infection[CostaRica],1e-06
+Weight on Reported Probability of Infection[Croatia],0.262657
+Weight on Reported Probability of Infection[Cuba],0.89566
+Weight on Reported Probability of Infection[Cyprus],0.590605
+Weight on Reported Probability of Infection[CzechRepublic],0.0957643
+Weight on Reported Probability of Infection[Denmark],0.379223
+Weight on Reported Probability of Infection[DominicanRepublic],1e-06
+Weight on Reported Probability of Infection[Ecuador],0.980978
+Weight on Reported Probability of Infection[ElSalvador],0.408593
+Weight on Reported Probability of Infection[Estonia],0.502729
+Weight on Reported Probability of Infection[Ethiopia],0.494536
+Weight on Reported Probability of Infection[Finland],0.625194
+Weight on Reported Probability of Infection[France],0.865555
+Weight on Reported Probability of Infection[Germany],0.11527
+Weight on Reported Probability of Infection[Ghana],0.410587
+Weight on Reported Probability of Infection[Greece],0.117191
+Weight on Reported Probability of Infection[Hungary],0.533098
+Weight on Reported Probability of Infection[Iceland],0.676373
+Weight on Reported Probability of Infection[India],0.520359
+Weight on Reported Probability of Infection[Indonesia],0.234632
+Weight on Reported Probability of Infection[Iran],1.51619e-06
+Weight on Reported Probability of Infection[Iraq],0.407191
+Weight on Reported Probability of Infection[Ireland],0.431967
+Weight on Reported Probability of Infection[Israel],0.333115
+Weight on Reported Probability of Infection[Italy],0.230234
+Weight on Reported Probability of Infection[Jamaica],1.32561e-06
+Weight on Reported Probability of Infection[Japan],0.675149
+Weight on Reported Probability of Infection[Kazakhstan],0.444337
+Weight on Reported Probability of Infection[Kenya],0.560953
+Weight on Reported Probability of Infection[Kuwait],0.982224
+Weight on Reported Probability of Infection[Latvia],0.485114
+Weight on Reported Probability of Infection[Lithuania],1e-06
+Weight on Reported Probability of Infection[Luxembourg],0.645601
+Weight on Reported Probability of Infection[Madagascar],0.440607
+Weight on Reported Probability of Infection[Malawi],0.397161
+Weight on Reported Probability of Infection[Malaysia],1e-06
+Weight on Reported Probability of Infection[Maldives],0.402235
+Weight on Reported Probability of Infection[Malta],0.55221
+Weight on Reported Probability of Infection[Mexico],0.159814
+Weight on Reported Probability of Infection[Morocco],1e-06
+Weight on Reported Probability of Infection[Mozambique],0.441837
+Weight on Reported Probability of Infection[Nepal],0.614041
+Weight on Reported Probability of Infection[Netherlands],0.466061
+Weight on Reported Probability of Infection[NewZealand],0.819265
+Weight on Reported Probability of Infection[Nigeria],0.361058
+Weight on Reported Probability of Infection[NorthMacedonia],0.470382
+Weight on Reported Probability of Infection[Norway],0.479891
+Weight on Reported Probability of Infection[Pakistan],0.65955
+Weight on Reported Probability of Infection[Panama],1e-06
+Weight on Reported Probability of Infection[Paraguay],0.437596
+Weight on Reported Probability of Infection[Peru],0.371873
+Weight on Reported Probability of Infection[Philippines],0.902268
+Weight on Reported Probability of Infection[Poland],0.620745
+Weight on Reported Probability of Infection[Portugal],0.545698
+Weight on Reported Probability of Infection[Qatar],0.439164
+Weight on Reported Probability of Infection[Romania],0.479289
+Weight on Reported Probability of Infection[Russia],0.128493
+Weight on Reported Probability of Infection[Rwanda],0.580218
+Weight on Reported Probability of Infection[SaudiArabia],0.470761
+Weight on Reported Probability of Infection[Senegal],1.08962e-06
+Weight on Reported Probability of Infection[Serbia],0.57015
+Weight on Reported Probability of Infection[Singapore],0.411054
+Weight on Reported Probability of Infection[Slovakia],1e-06
+Weight on Reported Probability of Infection[Slovenia],0.96909
+Weight on Reported Probability of Infection[SouthAfrica],0.485762
+Weight on Reported Probability of Infection[SouthKorea],0.92551
+Weight on Reported Probability of Infection[Spain],0.765562
+Weight on Reported Probability of Infection[SriLanka],1e-06
+Weight on Reported Probability of Infection[Sweden],0.320331
+Weight on Reported Probability of Infection[Switzerland],0.4304
+Weight on Reported Probability of Infection[Thailand],0.40845
+Weight on Reported Probability of Infection[Togo],0.344377
+Weight on Reported Probability of Infection[Tunisia],0.124033
+Weight on Reported Probability of Infection[Turkey],1
+Weight on Reported Probability of Infection[UAE],0.356477
+Weight on Reported Probability of Infection[UK],0.694038
+Weight on Reported Probability of Infection[Ukraine],0.342216
+Weight on Reported Probability of Infection[Uruguay],0.221672
+Weight on Reported Probability of Infection[USA],0.678527
+Weight on Reported Probability of Infection[Zambia],0.410415
